@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && password_verify($password, $user['password'])) {
             $_SESSION['user_id'] = $user['id'];
             
-            header('Location: /dashboard');
+            require_once __DIR__ . '/../lib/config.php';
+header('Location: ' . $urlPrefix . '/dashboard');
             exit();
         } else {
             $error = 'Invalid email or password.';
@@ -44,7 +45,8 @@ $pageTitle = "Login";
     </style>
 </head>
 <body>
-    <form method="POST" action="/login">
+    <?php require_once __DIR__ . '/../lib/config.php'; ?>
+    <form method="POST" action="<?= htmlspecialchars($urlPrefix) ?>/login">
         <h2>Login</h2>
         <?php if ($error): ?>
             <p class="error"><?= htmlspecialchars($error) ?></p>

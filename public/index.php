@@ -9,9 +9,8 @@ session_start();
 // For example, if your login URL is:
 // http://localhost/sia-project/public/login
 // ...then set this variable to '/sia-project/public'
-$urlPrefix = '/sia/public';
+require_once __DIR__ . '/../lib/config.php';
 // ===================================================================
-
 
 // --- No need to edit below this line ---
 

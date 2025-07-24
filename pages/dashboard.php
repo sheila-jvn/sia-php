@@ -1,7 +1,8 @@
 <?php
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: /login');
+    require_once __DIR__ . '/../lib/config.php';
+header('Location: ' . $urlPrefix . '/login');
     exit();
 }
 
@@ -21,6 +22,7 @@ $pageTitle = "Dashboard";
     <h1>Welcome to your Dashboard!</h1>
     <p>This is a protected page. You can only see it because you are logged in.</p>
     <p>Your User ID is: <?= htmlspecialchars($_SESSION['user_id']) ?></p>
-    <a href="/logout">Logout</a>
+    <?php require_once __DIR__ . '/../lib/config.php'; ?>
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/logout">Logout</a>
 </body>
 </html>

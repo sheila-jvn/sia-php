@@ -8,5 +8,6 @@ $_SESSION = [];
 
 session_destroy();
 
-header('Location: /login');
+require_once __DIR__ . '/../lib/config.php';
+header('Location: ' . $urlPrefix . '/login');
 exit();
