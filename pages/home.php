@@ -12,4 +12,5 @@ ob_start();
 </main>
 <?php
 $pageContent = ob_get_clean();
+$layout = 'base';
 require __DIR__ . '/_layout.php';
