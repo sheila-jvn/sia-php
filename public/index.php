@@ -46,6 +46,10 @@ switch ($route) {
         require __DIR__ . '/../pages/logout.php';
         break;
 
+    case '/students':
+        require __DIR__ . '/../pages/students.php';
+        break;
+
     default:
         http_response_code(404);
         echo '<h1>404 Page Not Found</h1>';

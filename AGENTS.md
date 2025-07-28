@@ -31,3 +31,7 @@
 - Escape output (`htmlspecialchars`), use prepared DB statements.
 - Start session at top of entry scripts.
 - No closing `?>` in pure PHP files.
+
+## UI & Frontend
+
+- **UI Framework:** Bootstrap 5 is used for all user interface components and layout. Refer to the [Bootstrap 5 documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/) for usage and customization guidelines.

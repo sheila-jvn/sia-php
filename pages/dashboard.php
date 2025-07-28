@@ -15,4 +15,4 @@ ob_start();
 </main>
 <?php
 $pageContent = ob_get_clean();
-require __DIR__ . '/layout.php';
+require __DIR__ . '/_layout.php';
