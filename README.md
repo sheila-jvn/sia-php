@@ -15,19 +15,17 @@ This is a lightweight, dependency-free PHP application that demonstrates a basic
 
 Follow these steps to get the project running on your local machine using XAMPP.
 
-### 1\. Database Setup
+### 1. Database Setup
 
 1.  Make sure you have a MySQL server running from your XAMPP Control Panel.
 2.  Create a new database named `my_app_db`. You can do this using phpMyAdmin.
 3.  Import the `database_setup.sql` file to create the `users` table and insert a sample user.
 
-<!-- end list -->
-
 - **Sample User Credentials:**
   - **Email:** `test@example.com`
   - **Password:** `password123`
 
-### 2\. Configure Database Connection
+### 2. Configure Database Connection
 
 The database connection settings are located in `lib/database.php`. If your database credentials are different from the defaults below, please update the file accordingly. The default XAMPP setup usually has a `root` user with no password.
 
@@ -41,7 +39,7 @@ return [
 ];
 ```
 
-### 3\. Configure the Application URL
+### 3. Configure the Application URL
 
 This is the most important step for making the app work in a subdirectory.
 
@@ -54,7 +52,7 @@ This is the most important step for making the app work in a subdirectory.
     $urlPrefix = '/sia-project/public';
     ```
 
-### 4\. Run the Project
+### 4. Run the Project
 
 You can now access the application by navigating to your local server URL in your web browser, making sure to include `/public/` at the end of the path.
 
@@ -62,11 +60,29 @@ You can now access the application by navigating to your local server URL in you
 
 ---
 
+## Running Without XAMPP (Using PHP Built-in Server)
+
+You can run this project without XAMPP by using PHP's built-in development server. This is useful for quick local testing.
+
+1. Open a terminal and navigate to the project root directory.
+2. Run the following command:
+
+   ```
+   php -S localhost:8000 -t public
+   ```
+
+3. Visit [http://localhost:8000](http://localhost:8000) in your browser.
+
+- Make sure your database (e.g., MySQL) is running and configured as described above.
+- All routing and assets will work as expected via the `public/` directory.
+
+---
+
 ### Troubleshooting
 
 If you click on links like "Login" and get a "Not Found" error from Apache (not the application's 404 page), it means `mod_rewrite` may not be configured correctly in XAMPP.
 
-1.  In the XAMPP Control Panel, go to Apache `Config` -\> `httpd.conf`.
+1.  In the XAMPP Control Panel, go to Apache `Config` -> `httpd.conf`.
 2.  Make sure the line `LoadModule rewrite_module modules/mod_rewrite.so` does **not** have a `#` at the beginning.
 3.  In the same file, find the `<Directory "C:/xampp/htdocs">` section and ensure it says `AllowOverride All`.
 4.  **Restart Apache** after making any changes.
