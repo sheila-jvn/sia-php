@@ -1,12 +1,5 @@
 <?php
-$config = [
-    'host' => '127.0.0.1',
-    'dbname' => 'sia_php',
-    'user' => 'root',
-    'password' => '',
-    'charset' => 'utf8mb4'
-];
-
+require_once __DIR__ . '/config.php';
 
 /**
  * Establishes a database connection using PDO.
@@ -15,11 +8,12 @@ $config = [
  * @return PDO The PDO database connection object.
  */
 function getDbConnection() {
+    global $config;
     static $pdo;
 
     if (!$pdo) {
         try {       
-            $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset={$config['charset']}";
+            $dsn = "mysql:host={$config['host']};dbname={$config['dbname']}";
 
             $options = [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
