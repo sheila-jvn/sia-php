@@ -1,7 +1,7 @@
 <?php
 $config = [
     'host' => '127.0.0.1',
-    'dbname' => 'my_app_db',
+    'dbname' => 'sia_php',
     'user' => 'root',
     'password' => '',
     'charset' => 'utf8mb4'
