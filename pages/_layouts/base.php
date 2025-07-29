@@ -81,6 +81,13 @@
         .text-decoration-none:hover {
             text-decoration: underline !important;
         }
+        /* Sidebar active link override to match primary button color */
+        .nav-pills .nav-link.active,
+        .nav-pills .show > .nav-link {
+            background-color: var(--primary-blue) !important;
+            color: #fff !important;
+            border-color: var(--primary-blue) !important;
+        }
     </style>
 </head>
 
