@@ -34,13 +34,13 @@ ob_start();
             <input type="text" name="search" class="form-control me-2" placeholder="Cari data siswa..." value="<?= htmlspecialchars($searchQuery) ?>">
             <button class="btn btn-primary" type="submit">Cari</button>
             <?php if ($searchQuery): ?>
-                <a href="students" class="btn btn-secondary ms-2">Reset</a>
+                <a href="students" class="btn btn-outline-secondary ms-2">Reset</a>
             <?php endif; ?>
         </form>
     </div>
     <div>
 <a href="<?= htmlspecialchars($urlPrefix) ?>/students/create" class="btn btn-primary me-2"> <i class="bi bi-plus"></i> Tambah Data</a>
-         <a href="export_students.php<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-info">
+         <a href="export_students.php<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
              <i class="bi bi-file-earmark-arrow-up"></i> Export Data</a>    </div>
 </div>
 
@@ -70,10 +70,10 @@ ob_start();
                         <td><?= $siswa['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
                         <td><?= htmlspecialchars($siswa['alamat']) ?></td>
                         <td>
-<a href="students-detail?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-info me-1" title="Detail">
+<a href="students-detail?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-secondary me-1" title="Detail">
                                  <i class="bi bi-eye"></i>
                              </a>
-                             <a href="edit_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-warning me-1" title="Edit">
+                             <a href="edit_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">
                                  <i class="bi bi-pencil"></i>
                              </a>
                              <a href="delete_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
