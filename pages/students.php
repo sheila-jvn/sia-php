@@ -73,10 +73,10 @@ ob_start();
 <a href="students/details?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-secondary me-1" title="Detail">
                                  <i class="bi bi-eye"></i>
                              </a>
-                             <a href="edit_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">
+                             <a href="students/edit?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">
                                  <i class="bi bi-pencil"></i>
                              </a>
-                             <a href="delete_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                             <a href="students/delete?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-danger" title="Hapus">
                                  <i class="bi bi-trash"></i>
                              </a>                        </td>
                     </tr>

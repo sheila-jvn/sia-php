@@ -39,10 +39,15 @@ ob_start(); // Start output buffering
             <i class="bi bi-arrow-left"></i> Kembali ke Daftar Siswa
         </a>
         <?php if ($student): // Only show edit button if student data is found ?>
-            <a href="edit_student.php?id=<?= htmlspecialchars($student['id']) ?>" class="btn btn-outline-primary">
+            <a href="students/edit?id=<?= htmlspecialchars($student['id']) ?>" class="btn btn-outline-primary">
                 <i class="bi bi-pencil"></i> Edit Data
             </a>
         <?php endif; ?>
+            <?php if ($student): ?>
+                <a href="students/delete?id=<?= htmlspecialchars($student['id']) ?>" class="btn btn-danger ms-2">
+                    <i class="bi bi-trash"></i> Hapus Data
+                </a>
+            <?php endif; ?>
     </div>
 </div>
 

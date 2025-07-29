@@ -58,8 +58,16 @@ switch ($route) {
         require __DIR__ . '/../pages/students-details.php';
         break;
 
+    case '/students/edit':
+        require __DIR__ . '/../pages/students-edit.php';
+        break;
+
     case '/teachers':
         require __DIR__ . '/../pages/teachers.php';
+        break;
+
+    case '/students/delete':
+        require __DIR__ . '/../pages/students-delete.php';
         break;
 
     default:
