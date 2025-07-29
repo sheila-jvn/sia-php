@@ -56,86 +56,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ob_start();
 ?>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-    :root {
-        --primary-blue: #2c5282;
-        --light-blue: #ebf8ff;
-        --text-color: #4a5568;
-        --border-color: #cbd5e0;
-        --bg-color: #f7fafc;
-        --success-green: #48bb78;
-        --danger-red: #f56565;
-    }
-
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-    }
-
-    .form-control:focus {
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 0.25rem rgba(44, 82, 130, 0.25);
-    }
-
-    .btn-primary {
-        background-color: var(--primary-blue);
-        border-color: var(--primary-blue);
-        color: #fff;
-        border-radius: 0.5rem;
-        transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #2a4365;
-        border-color: #2a4365;
-    }
-
-    .btn-secondary {
-        background-color: #a0aec0;
-        border-color: #a0aec0;
-        color: #fff;
-        border-radius: 0.5rem;
-        transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-secondary:hover {
-        background-color: #718096;
-        border-color: #718096;
-    }
-
-    .card {
-        border-color: var(--border-color);
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for cards */
-        border-radius: 0.75rem;
-    }
-
-    .form-label {
-        font-weight: 600;
-        color: var(--text-color);
-    }
-
-    .alert-success {
-        background-color: var(--success-green);
-        color: white;
-        border-color: var(--success-green);
-    }
-
-    .alert-danger {
-        background-color: var(--danger-red);
-        color: white;
-        border-color: var(--danger-red);
-    }
-    .form-label.required::after {
-        content: " *";
-        color: var(--danger-red);
-    }
-</style>
-
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 mb-0">Tambah Data Siswa</h1>
     <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Kembali ke Daftar Siswa
+        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Siswa
     </a>
 </div>
 
@@ -150,15 +74,15 @@ ob_start();
     <form method="POST" action="">
         <div class="row g-3">
             <div class="col-md-6">
-                <label for="nis" class="form-label required">NIS</label>
+                <label for="nis" class="form-label">NIS <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="nis" name="nis" required value="<?= htmlspecialchars($_POST['nis'] ?? '') ?>">
             </div>
             <div class="col-md-6">
-                <label for="nisn" class="form-label required">NISN</label>
+                <label for="nisn" class="form-label">NISN <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="nisn" name="nisn" required value="<?= htmlspecialchars($_POST['nisn'] ?? '') ?>">
             </div>
             <div class="col-md-12">
-                <label for="nama" class="form-label required">Nama</label>
+                <label for="nama" class="form-label">Nama <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="nama" name="nama" required value="<?= htmlspecialchars($_POST['nama'] ?? '') ?>">
             </div>
             <div class="col-md-6">
@@ -166,11 +90,11 @@ ob_start();
                 <input type="text" class="form-control" id="no_kk" name="no_kk" value="<?= htmlspecialchars($_POST['no_kk'] ?? '') ?>">
             </div>
             <div class="col-md-6">
-                <label for="tanggal_lahir" class="form-label required">Tanggal Lahir</label>
+                <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
                 <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required value="<?= htmlspecialchars($_POST['tanggal_lahir'] ?? '') ?>">
             </div>
             <div class="col-md-6">
-                <label for="jenis_kelamin" class="form-label required">Jenis Kelamin</label>
+                <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
                 <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
                     <option value="" disabled selected>Pilih Jenis Kelamin</option>
                     <option value="1" <?= (isset($_POST['jenis_kelamin']) && $_POST['jenis_kelamin'] == '1') ? 'selected' : '' ?>>Laki-laki</option>
@@ -178,7 +102,7 @@ ob_start();
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="alamat" class="form-label required">Alamat</label>
+                <label for="alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
                 <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?= htmlspecialchars($_POST['alamat'] ?? '') ?></textarea>
             </div>
             <div class="col-md-6">
@@ -200,8 +124,8 @@ ob_start();
         </div>
 
         <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary me-2"><i class="fas fa-save"></i> Simpan Data</button>
-            <button type="reset" class="btn btn-secondary"><i class="fas fa-redo"></i> Reset Form</button>
+            <button type="submit" class="btn btn-primary me-2"><i class="bi bi-save"></i> Simpan Data</button>
+            <button type="reset" class="btn btn-secondary"><i class="bi bi-arrow-repeat"></i> Reset Form</button>
         </div>
     </form>
 </div>
