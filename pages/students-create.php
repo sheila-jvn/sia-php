@@ -6,7 +6,6 @@ require_once __DIR__ . '/../lib/database.php';
 
 $pdo = getDbConnection();
 
-$successMessage = '';
 $errorMessage = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,12 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errorMessage = "Harap lengkapi semua kolom wajib (NIS, NISN, Nama, Tanggal Lahir, Jenis Kelamin, Alamat).";
     } else {
         try {
-            // Prepare SQL statement for insertion
             $sql = "INSERT INTO siswa (nis, nisn, nama, no_kk, tanggal_lahir, jenis_kelamin, nama_ayah, nama_ibu, nik_ayah, nik_ibu, alamat)
                     VALUES (:nis, :nisn, :nama, :no_kk, :tanggal_lahir, :jenis_kelamin, :nama_ayah, :nama_ibu, :nik_ayah, :nik_ibu, :alamat)";
             $stmt = $pdo->prepare($sql);
-
-            // Bind parameters
             $stmt->bindParam(':nis', $nis);
             $stmt->bindParam(':nisn', $nisn);
             $stmt->bindParam(':nama', $nama);
@@ -45,10 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':nik_ibu', $nik_ibu);
             $stmt->bindParam(':alamat', $alamat);
 
-            // Execute the statement
             if ($stmt->execute()) {
-                $successMessage = "Data siswa berhasil ditambahkan!";
-                
+                header('Location: ' . htmlspecialchars($urlPrefix) . '/students');
+                exit;
             } else {
                 $errorMessage = "Gagal menambahkan data siswa. Silakan coba lagi.";
             }
@@ -145,13 +140,6 @@ ob_start();
 </div>
 
 <div class="card p-4">
-    <?php if ($successMessage): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($successMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
-
     <?php if ($errorMessage): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <?= htmlspecialchars($errorMessage) ?>
