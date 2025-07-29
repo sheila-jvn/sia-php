@@ -50,6 +50,18 @@ switch ($route) {
         require __DIR__ . '/../pages/students.php';
         break;
 
+    case '/students-create':
+        require __DIR__ . '/../pages/students-create.php';
+        break;
+
+    case '/students-detail':
+        require __DIR__ . '/../pages/students-detail.php';
+        break;
+
+    case '/teachers':
+        require __DIR__ . '/../pages/teachers.php';
+        break;
+
     default:
         http_response_code(404);
         echo '<h1>404 Page Not Found</h1>';

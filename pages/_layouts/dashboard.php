@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../lib/config.php';
-
+require_once __DIR__ . '../../../lib/config.php';
+ 
 $dashboardContent = $pageContent;
 
 ob_start();
@@ -17,6 +17,9 @@ ob_start();
             </li>
             <li>
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="nav-link <?= $currentPage === 'students' ? 'active' : 'link-dark' ?>">Students</a>
+            </li>
+            <li>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers" class="nav-link <?= $currentPage === 'teachers' ? 'active' : 'link-dark' ?>">Teachers</a>
             </li>
             <li>
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/logout" class="nav-link link-dark">Logout</a>

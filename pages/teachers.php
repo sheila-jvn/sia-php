@@ -1,17 +1,17 @@
 <?php
-$pageTitle = "Daftar Siswa";
-$currentPage = 'students';
+$pageTitle = "Data Guru";
+$currentPage = 'teachers';
 
 require_once __DIR__ . '/../lib/database.php';
 
 $pdo = getDbConnection();
 
 $searchQuery = $_GET['search'] ?? '';
-$sql = 'SELECT * FROM siswa';
+$sql = 'SELECT * FROM guru';
 $params = [];
 
 if ($searchQuery) {
-    $sql .= ' WHERE nama LIKE :search OR nis LIKE :search OR nisn LIKE :search OR alamat LIKE :search';
+    $sql .= ' WHERE nama LIKE :search OR nip LIKE :search OR id LIKE :search OR no_telpon LIKE :search';
     $params[':search'] = '%' . $searchQuery . '%';
 }
 
@@ -19,7 +19,7 @@ $sql .= ' ORDER BY nama';
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
-$students = $stmt->fetchAll();
+$teachers = $stmt->fetchAll();
 
 ob_start();
 ?>
@@ -130,7 +130,7 @@ ob_start();
     }
 </style>
 
-<h1 class="mb-4">Data Siswa</h1>
+<h1 class="mb-4">Data Guru</h1>
 
 <div class="d-flex justify-content-between mb-3">
     <div class="col-md-4">
@@ -140,7 +140,7 @@ ob_start();
         </form>
     </div>
     <div>
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/students-create" class="btn btn-primary me-2"> <i class="fas fa-plus"></i> Tambah Data
+        <a href="add_student.php" class="btn btn-primary me-2"> <i class="fas fa-plus"></i> Tambah Data
         </a>
         <a href="export_students.php" class="btn btn-info">
             <i class="fas fa-file-export"></i> Export Data
@@ -153,34 +153,32 @@ ob_start();
         <thead class="table-custom-dark-blue">
             <tr>
                 <th>ID</th>
-                <th>NIS</th>
-                <th>NISN</th>
+                <th>NIP</th>
                 <th>Nama</th>
                 <th>Tanggal Lahir</th>
                 <th>Jenis Kelamin</th>
-                <th>Alamat</th>
+                <th>No. Telepon</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <?php if (count($students) > 0): ?>
-                <?php foreach ($students as $siswa): ?>
+            <?php if (count($teachers) > 0): ?>
+                <?php foreach ($teachers as $guru): ?>
                     <tr>
-                        <td><?= htmlspecialchars($siswa['id']) ?></td>
-                        <td><?= htmlspecialchars($siswa['nis']) ?></td>
-                        <td><?= htmlspecialchars($siswa['nisn']) ?></td>
-                        <td><?= htmlspecialchars($siswa['nama']) ?></td>
-                        <td><?= htmlspecialchars($siswa['tanggal_lahir']) ?></td>
-                        <td><?= $siswa['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
-                        <td><?= htmlspecialchars($siswa['alamat']) ?></td>
+                        <td><?= htmlspecialchars($guru['id']) ?></td>
+                        <td><?= htmlspecialchars($guru['nip']) ?></td>
+                        <td><?= htmlspecialchars($guru['nama']) ?></td>
+                        <td><?= htmlspecialchars($guru['tanggal_lahir']) ?></td>
+                        <td><?= $guru['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
+                        <td><?= htmlspecialchars($guru['no_telpon']) ?></td>
                         <td>
-                            <a href="students-detail?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-info me-1" title="Detail">
+                            <a href="detail_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-info me-1" title="Detail">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="edit_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-warning me-1" title="Edit">
+                            <a href="edit_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-warning me-1" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a href="delete_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                            <a href="delete_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -188,7 +186,7 @@ ob_start();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" class="text-center">Tidak ada data siswa ditemukan.</td>
+                    <td colspan="8" class="text-center">Tidak ada data guru ditemukan.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
