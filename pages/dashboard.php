@@ -1,6 +1,6 @@
 <?php
+require_once __DIR__ . '/../lib/config.php';
 if (!isset($_SESSION['user_id'])) {
-    require_once __DIR__ . '/../lib/config.php';
     header('Location: ' . $urlPrefix . '/login');
     exit();
 }

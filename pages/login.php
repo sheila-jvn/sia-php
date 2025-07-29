@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../lib/config.php';
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once __DIR__ . '/../lib/database.php';
@@ -17,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && $password === $user['password']) {
             session_start(); // Make sure session is started before setting session variables
             $_SESSION['user_id'] = $user['id'];
-            require_once __DIR__ . '/../lib/config.php';
             header('Location: ' . $urlPrefix . '/dashboard');
             exit();
         } else {

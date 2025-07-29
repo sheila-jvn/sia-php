@@ -2,6 +2,8 @@
 
 ## Build, Lint, and Test
 
+- If you need to verify the result of a code, you can use the Playwright tools to do manual integration tests.
+
 - **Lint all PHP files:**  
   `find . -name '*.php' -exec php -l {} +`
 - **Lint a single file:**  
@@ -35,3 +37,14 @@
 ## UI & Frontend
 
 - **UI Framework:** Bootstrap 5 is used for all user interface components and layout. Refer to the [Bootstrap 5 documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/) for usage and customization guidelines.
+
+## Centralized Config Loading
+
+- The application now loads `lib/config.php` automatically for all pages using layouts by requiring it at the top of `pages/_layout.php`.
+- This ensures `$urlPrefix` and other config variables are always available in layouts and sidebar links, without manual includes on every page.
+- Only pages that need config before layout (e.g., for redirects) should require it manually at the top.
+
+**Test credentials:**
+
+- Username: `admin`
+- Password: `admin`
