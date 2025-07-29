@@ -39,6 +39,7 @@
 
 - **UI Framework:** Bootstrap 5 is used for all user interface components and layout. Refer to the [Bootstrap 5 documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/) for usage and customization guidelines.
 - **Bootstrap Native:** All UI should use Bootstrap classes and [Bootstrap Icons](https://icons.getbootstrap.com/) for consistency. Minimize custom CSS and avoid non-Bootstrap icon libraries. Only add custom styles if absolutely necessary for functionality or clarity.
+- **UI Principles:** Use logical button colors that match user expectations—primary for main actions, secondary for neutral actions, success for positive outcomes, warning for caution, and danger for destructive actions.
 
 ## Centralized Config Loading
 
