@@ -1,5 +1,5 @@
 <?php
-global $urlPrefix;
+global $urlPrefix, $currentPage;
 $dashboardContent = $pageContent;
 
 ob_start();
