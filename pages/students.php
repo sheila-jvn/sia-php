@@ -11,8 +11,11 @@ $sql = 'SELECT * FROM siswa';
 $params = [];
 
 if ($searchQuery) {
-    $sql .= ' WHERE nama LIKE :search OR nis LIKE :search OR nisn LIKE :search OR alamat LIKE :search';
-    $params[':search'] = '%' . $searchQuery . '%';
+    $sql .= ' WHERE nama LIKE :search_nama OR nis LIKE :search_nis OR nisn LIKE :search_nisn OR alamat LIKE :search_alamat';
+    $params[':search_nama'] = '%' . $searchQuery . '%';
+    $params[':search_nis'] = '%' . $searchQuery . '%';
+    $params[':search_nisn'] = '%' . $searchQuery . '%';
+    $params[':search_alamat'] = '%' . $searchQuery . '%';
 }
 
 $sql .= ' ORDER BY nama';
@@ -137,12 +140,15 @@ ob_start();
         <form action="" method="GET" class="d-flex">
             <input type="text" name="search" class="form-control me-2" placeholder="Cari data siswa..." value="<?= htmlspecialchars($searchQuery) ?>">
             <button class="btn btn-primary" type="submit">Cari</button>
+            <?php if ($searchQuery): ?>
+                <a href="students" class="btn btn-secondary ms-2">Reset</a>
+            <?php endif; ?>
         </form>
     </div>
     <div>
         <a href="<?= htmlspecialchars($urlPrefix) ?>/students-create" class="btn btn-primary me-2"> <i class="fas fa-plus"></i> Tambah Data
         </a>
-        <a href="export_students.php" class="btn btn-info">
+        <a href="export_students.php<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-info">
             <i class="fas fa-file-export"></i> Export Data
         </a>
     </div>

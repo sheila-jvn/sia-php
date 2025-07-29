@@ -3,7 +3,7 @@
 ## Build, Lint, and Test
 
 - If you need to verify the result of a code, you can use the Playwright tools to do manual integration tests.
-  - **Assume the server is already running at** `localhost:8000/$urlPrefix`. If it is not running, request the user to start the server before proceeding with integration tests.
+  - **Assume the server is already running at** `localhost:8000/$urlPrefix`. If it is not running, request the user to start the server before proceeding with integration tests. (`$urlPrefix` most likely going to be `/sia/public`, but check config.php if it seems to be wrong)
 
 - **Lint all PHP files:**  
   `find . -name '*.php' -exec php -l {} +`
