@@ -11,8 +11,10 @@ $sql = 'SELECT * FROM guru';
 $params = [];
 
 if ($searchQuery) {
-    $sql .= ' WHERE nama LIKE :search OR nip LIKE :search OR id LIKE :search OR no_telpon LIKE :search';
-    $params[':search'] = '%' . $searchQuery . '%';
+    $sql .= ' WHERE nama LIKE :search_nama OR nip LIKE :search_nip OR no_telpon LIKE :search_no_telpon';
+    $params[':search_nama'] = '%' . $searchQuery . '%';
+    $params[':search_nip'] = '%' . $searchQuery . '%';
+    $params[':search_no_telpon'] = '%' . $searchQuery . '%';
 }
 
 $sql .= ' ORDER BY nama';
@@ -29,16 +31,17 @@ ob_start();
 <div class="d-flex justify-content-between mb-3">
     <div class="col-md-4">
         <form action="" method="GET" class="d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Cari data siswa..." value="<?= htmlspecialchars($searchQuery) ?>">
+            <input type="text" name="search" class="form-control me-2" placeholder="Cari data guru..." value="<?= htmlspecialchars($searchQuery) ?>">
             <button class="btn btn-primary" type="submit">Cari</button>
+            <?php if ($searchQuery): ?>
+                <a href="teachers" class="btn btn-outline-secondary ms-2">Reset</a>
+            <?php endif; ?>
         </form>
     </div>
     <div>
-        <a href="add_student.php" class="btn btn-primary me-2"> <i class="bi bi-plus"></i> Tambah Data
-        </a>
-        <a href="export_students.php" class="btn btn-success">
-            <i class="bi bi-file-earmark-arrow-up"></i> Export Data
-        </a>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers/create" class="btn btn-primary me-2"> <i class="bi bi-plus"></i> Tambah Data</a>
+        <a href="teachers/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
+             <i class="bi bi-file-earmark-arrow-up"></i> Export Data</a>
     </div>
 </div>
 
@@ -66,13 +69,13 @@ ob_start();
                         <td><?= $guru['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
                         <td><?= htmlspecialchars($guru['no_telpon']) ?></td>
                         <td>
-                            <a href="detail_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-secondary me-1" title="Detail">
+                            <a href="teachers/details?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-secondary me-1" title="Detail">
                                 <i class="bi bi-eye"></i>
                             </a>
-                            <a href="edit_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">
+                            <a href="teachers/edit?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <a href="delete_student.php?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                            <a href="teachers/delete?id=<?= htmlspecialchars($guru['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </td>
