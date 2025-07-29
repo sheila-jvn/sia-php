@@ -38,6 +38,7 @@
 ## UI & Frontend
 
 - **UI Framework:** Bootstrap 5 is used for all user interface components and layout. Refer to the [Bootstrap 5 documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/) for usage and customization guidelines.
+- **Bootstrap Native:** All UI should use Bootstrap classes and [Bootstrap Icons](https://icons.getbootstrap.com/) for consistency. Minimize custom CSS and avoid non-Bootstrap icon libraries. Only add custom styles if absolutely necessary for functionality or clarity.
 
 ## Centralized Config Loading
 
