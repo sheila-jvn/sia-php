@@ -70,7 +70,7 @@ ob_start();
                         <td><?= $siswa['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
                         <td><?= htmlspecialchars($siswa['alamat']) ?></td>
                         <td>
-<a href="students-detail?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-secondary me-1" title="Detail">
+<a href="students/details?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-secondary me-1" title="Detail">
                                  <i class="bi bi-eye"></i>
                              </a>
                              <a href="edit_student.php?id=<?= htmlspecialchars($siswa['id']) ?>" class="btn btn-outline-primary me-1" title="Edit">

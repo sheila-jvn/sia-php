@@ -54,8 +54,8 @@ switch ($route) {
         require __DIR__ . '/../pages/students-create.php';
         break;
 
-    case '/students-detail':
-        require __DIR__ . '/../pages/students-detail.php';
+    case '/students/details':
+        require __DIR__ . '/../pages/students-details.php';
         break;
 
     case '/teachers':
