@@ -50,7 +50,7 @@ switch ($route) {
         require __DIR__ . '/../pages/students.php';
         break;
 
-    case '/students-create':
+    case '/students/create':
         require __DIR__ . '/../pages/students-create.php';
         break;
 

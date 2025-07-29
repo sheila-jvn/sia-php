@@ -146,7 +146,7 @@ ob_start();
         </form>
     </div>
     <div>
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/students-create" class="btn btn-primary me-2"> <i class="fas fa-plus"></i> Tambah Data
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/students/create" class="btn btn-primary me-2"> <i class="fas fa-plus"></i> Tambah Data
         </a>
         <a href="export_students.php<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-info">
             <i class="fas fa-file-export"></i> Export Data
