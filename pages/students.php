@@ -40,7 +40,7 @@ ob_start();
     </div>
     <div>
 <a href="<?= htmlspecialchars($urlPrefix) ?>/students/create" class="btn btn-primary me-2"> <i class="bi bi-plus"></i> Tambah Data</a>
-         <a href="export_students.php<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
+         <a href="students/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
              <i class="bi bi-file-earmark-arrow-up"></i> Export Data</a>    </div>
 </div>
 

@@ -66,6 +66,10 @@ switch ($route) {
         require __DIR__ . '/../pages/teachers.php';
         break;
 
+    case '/students/export':
+        require __DIR__ . '/../pages/students-export.php';
+        break;
+
     case '/students/delete':
         require __DIR__ . '/../pages/students-delete.php';
         break;
