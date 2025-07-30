@@ -1,5 +1,8 @@
 # AGENTS.md
 
+**Database Structure:**
+Refer to `sia_php.sql` in the project root for the full database schema, table structures, and sample data.
+
 ## Build, Lint, and Test
 
 - If you need to verify the result of a code, you can use the Playwright tools to do manual integration tests.
