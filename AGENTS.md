@@ -41,9 +41,13 @@ Refer to `sia_php.sql` in the project root for the full database schema, table s
 ## UI & Frontend
 
 - **UI Framework:** Tailwind CSS v4 is used for all user interface components and layout. The Tailwind configuration (theme/colors) is defined in `pages/_layouts/base.php`. Refer to the [Tailwind CSS documentation](https://tailwindcss.com/docs) for usage and customization guidelines.
-- Use the custom theme color classes defined in Tailwind config (see `pages/_layouts/base.php`), such as `bg-primary-600`, `text-primary-700`, `bg-accent-500`, `bg-secondary-100`, `text-error-600`, etc.
+- Use the custom theme color classes defined in Tailwind config (see `pages/_layouts/base.php`), such as `bg-primary-600`, `text-primary-700`, `bg-accent-500`, `bg-secondary-100`, etc.
+- **Status colors:** For alerts, warnings, and status indicators, always use the `status-` prefix as defined in the theme, e.g.:
+  - `bg-status-error-100`, `text-status-error-700`, `border-status-error-200`
+  - `bg-status-warning-100`, `text-status-warning-700`, etc.
+  - Do **not** use `bg-error-100`, `text-warning-700`, etc. without the `status-` prefix.
 - **Icons:** Use [Iconify](https://iconify.design/docs/) for all icons. Avoid other icon libraries unless absolutely necessary for functionality or clarity.
-    
+
 ### Iconify Usage Example
 
 To use an icon with Iconify, add the `<iconify-icon>` tag with the desired icon name and optional size attributes:
@@ -59,6 +63,8 @@ To use an icon with Iconify, add the `<iconify-icon>` tag with the desired icon 
 ```
 
 See the [Iconify documentation](https://iconify.design/docs/) for more options and icon sets.
+
+> **Note:** When migrating or creating new UI, always check the theme in `base.php` for the correct color class names and use the `status-` prefix for status colors.
 
 ## Centralized Config Loading
 

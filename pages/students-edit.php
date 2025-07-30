@@ -90,77 +90,81 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
 
 ob_start();
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Edit Data Siswa</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Siswa
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <h1 class="text-2xl font-bold text-primary-700">Edit Data Siswa</h1>
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+        <iconify-icon icon="cil:arrow-left"></iconify-icon> Kembali ke Daftar Siswa
     </a>
 </div>
 
-<div class="card p-4">
+<div class="bg-white rounded-lg shadow p-6">
     <?php if ($errorMessage): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($errorMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="flex items-center gap-2 mb-4 p-4 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200">
+            <iconify-icon icon="cil:warning"></iconify-icon>
+            <span><?= htmlspecialchars($errorMessage) ?></span>
         </div>
     <?php endif; ?>
 
     <?php if ($student): ?>
-    <form method="POST" action="">
+    <form method="POST" action="" class="space-y-6">
         <input type="hidden" name="id" value="<?= htmlspecialchars($student['id']) ?>">
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label for="nis" class="form-label">NIS <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="nis" name="nis" required value="<?= htmlspecialchars($student['nis'] ?? '') ?>">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="nis" class="block font-medium text-sm mb-1">NIS <span class="text-status-error-600">*</span></label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nis" name="nis" required value="<?= htmlspecialchars($student['nis'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="nisn" class="form-label">NISN <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="nisn" name="nisn" required value="<?= htmlspecialchars($student['nisn'] ?? '') ?>">
+            <div>
+                <label for="nisn" class="block font-medium text-sm mb-1">NISN <span class="text-status-error-600">*</span></label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nisn" name="nisn" required value="<?= htmlspecialchars($student['nisn'] ?? '') ?>">
             </div>
-            <div class="col-md-12">
-                <label for="nama" class="form-label">Nama <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="nama" name="nama" required value="<?= htmlspecialchars($student['nama'] ?? '') ?>">
+            <div class="md:col-span-2">
+                <label for="nama" class="block font-medium text-sm mb-1">Nama <span class="text-status-error-600">*</span></label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nama" name="nama" required value="<?= htmlspecialchars($student['nama'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="no_kk" class="form-label">Nomor Kartu Keluarga</label>
-                <input type="text" class="form-control" id="no_kk" name="no_kk" value="<?= htmlspecialchars($student['no_kk'] ?? '') ?>">
+            <div>
+                <label for="no_kk" class="block font-medium text-sm mb-1">Nomor Kartu Keluarga</label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="no_kk" name="no_kk" value="<?= htmlspecialchars($student['no_kk'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="tanggal_lahir" class="form-label">Tanggal Lahir <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required value="<?= htmlspecialchars($student['tanggal_lahir'] ?? '') ?>">
+            <div>
+                <label for="tanggal_lahir" class="block font-medium text-sm mb-1">Tanggal Lahir <span class="text-status-error-600">*</span></label>
+                <input type="date" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="tanggal_lahir" name="tanggal_lahir" required value="<?= htmlspecialchars($student['tanggal_lahir'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="jenis_kelamin" class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
-                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
+            <div>
+                <label for="jenis_kelamin" class="block font-medium text-sm mb-1">Jenis Kelamin <span class="text-status-error-600">*</span></label>
+                <select class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="jenis_kelamin" name="jenis_kelamin" required>
                     <option value="" disabled>Pilih Jenis Kelamin</option>
                     <option value="1" <?= (isset($student['jenis_kelamin']) && $student['jenis_kelamin'] == '1') ? 'selected' : '' ?>>Laki-laki</option>
                     <option value="0" <?= (isset($student['jenis_kelamin']) && $student['jenis_kelamin'] == '0') ? 'selected' : '' ?>>Perempuan</option>
                 </select>
             </div>
-            <div class="col-md-6">
-                <label for="alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
-                <textarea class="form-control" id="alamat" name="alamat" rows="3" required><?= htmlspecialchars($student['alamat'] ?? '') ?></textarea>
+            <div>
+                <label for="alamat" class="block font-medium text-sm mb-1">Alamat <span class="text-status-error-600">*</span></label>
+                <textarea class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="alamat" name="alamat" rows="3" required><?= htmlspecialchars($student['alamat'] ?? '') ?></textarea>
             </div>
-            <div class="col-md-6">
-                <label for="nama_ayah" class="form-label">Nama Ayah</label>
-                <input type="text" class="form-control" id="nama_ayah" name="nama_ayah" value="<?= htmlspecialchars($student['nama_ayah'] ?? '') ?>">
+            <div>
+                <label for="nama_ayah" class="block font-medium text-sm mb-1">Nama Ayah</label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nama_ayah" name="nama_ayah" value="<?= htmlspecialchars($student['nama_ayah'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="nik_ayah" class="form-label">NIK Ayah</label>
-                <input type="text" class="form-control" id="nik_ayah" name="nik_ayah" value="<?= htmlspecialchars($student['nik_ayah'] ?? '') ?>">
+            <div>
+                <label for="nik_ayah" class="block font-medium text-sm mb-1">NIK Ayah</label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nik_ayah" name="nik_ayah" value="<?= htmlspecialchars($student['nik_ayah'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="nama_ibu" class="form-label">Nama Ibu</label>
-                <input type="text" class="form-control" id="nama_ibu" name="nama_ibu" value="<?= htmlspecialchars($student['nama_ibu'] ?? '') ?>">
+            <div>
+                <label for="nama_ibu" class="block font-medium text-sm mb-1">Nama Ibu</label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nama_ibu" name="nama_ibu" value="<?= htmlspecialchars($student['nama_ibu'] ?? '') ?>">
             </div>
-            <div class="col-md-6">
-                <label for="nik_ibu" class="form-label">NIK Ibu</label>
-                <input type="text" class="form-control" id="nik_ibu" name="nik_ibu" value="<?= htmlspecialchars($student['nik_ibu'] ?? '') ?>">
+            <div>
+                <label for="nik_ibu" class="block font-medium text-sm mb-1">NIK Ibu</label>
+                <input type="text" class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" id="nik_ibu" name="nik_ibu" value="<?= htmlspecialchars($student['nik_ibu'] ?? '') ?>">
             </div>
         </div>
-        <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary me-2"><i class="bi bi-save"></i> Simpan Perubahan</button>
-            <a href="<?= htmlspecialchars($urlPrefix) ?>/students/details?id=<?= htmlspecialchars($student['id']) ?>" class="btn btn-outline-secondary"><i class="bi bi-x"></i> Batal</a>
+        <div class="flex justify-end gap-2 mt-6">
+            <button type="submit" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                <iconify-icon icon="cil:save"></iconify-icon> Simpan Perubahan
+            </button>
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/students/details?id=<?= htmlspecialchars($student['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                <iconify-icon icon="cil:x"></iconify-icon> Batal
+            </a>
         </div>
     </form>
     <?php endif; ?>
