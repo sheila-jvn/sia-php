@@ -54,94 +54,108 @@ $nilaiList = $stmt->fetchAll();
 
 ob_start();
 ?>
-<h1 class="mb-4">Data Nilai</h1>
+<h1 class="mb-6 text-2xl font-bold text-primary-700">Data Nilai</h1>
 
-<div class="d-flex justify-content-between mb-3">
-    <div class="col-md-4">
-        <form action="" method="GET" class="d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Cari data nilai..." value="<?= htmlspecialchars($searchQuery) ?>">
-            <button class="btn btn-primary" type="submit">Cari</button>
-            <?php if ($searchQuery): ?>
-                <a href="nilai" class="btn btn-outline-secondary ms-2">Reset</a>
-            <?php endif; ?>
-        </form>
-    </div>
-    <div>
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/create" class="btn btn-primary me-2">
-            <i class="bi bi-plus"></i> Tambah Nilai
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <form action="" method="GET" class="flex flex-1 gap-2">
+        <input type="text" name="search" class="flex-1 rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" placeholder="Cari data nilai..." value="<?= htmlspecialchars($searchQuery) ?>">
+        <button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition" type="submit">
+            <iconify-icon icon="cil:search" class="text-lg"></iconify-icon>
+            Cari
+        </button>
+        <?php if ($searchQuery): ?>
+            <a href="nilai" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">Reset</a>
+        <?php endif; ?>
+    </form>
+    <div class="flex gap-2">
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/create" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+            <iconify-icon icon="cil:plus" class="text-lg"></iconify-icon>
+            Tambah Nilai
         </a>
-        <a href="nilai/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
-            <i class="bi bi-file-earmark-arrow-up"></i> Export Data
+        <a href="nilai/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+            <iconify-icon icon="cil:file-export" class="text-lg"></iconify-icon>
+            Export Data
         </a>
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover align-middle">
-        <thead class="table-primary">
+<div class="overflow-x-auto rounded-lg shadow border border-secondary-200 bg-white">
+    <table class="min-w-full text-sm text-left">
+        <thead class="bg-primary-100 text-primary-700">
             <tr>
-                <th>ID</th>
-                <th>Siswa</th>
-                <th>Mata Pelajaran</th>
-                <th>Kelas</th>
-                <th>Tahun Ajaran</th>
-                <th>Jenis Nilai</th>
-                <th>Nilai</th>
-                <th>Tanggal</th>
-                <th>Keterangan</th>
-                <th>Action</th>
+                <th class="px-4 py-2 font-semibold">ID</th>
+                <th class="px-4 py-2 font-semibold">Siswa</th>
+                <th class="px-4 py-2 font-semibold">Mata Pelajaran</th>
+                <th class="px-4 py-2 font-semibold">Kelas</th>
+                <th class="px-4 py-2 font-semibold">Tahun Ajaran</th>
+                <th class="px-4 py-2 font-semibold">Jenis Nilai</th>
+                <th class="px-4 py-2 font-semibold">Nilai</th>
+                <th class="px-4 py-2 font-semibold">Tanggal</th>
+                <th class="px-4 py-2 font-semibold">Keterangan</th>
+                <th class="px-4 py-2 font-semibold">Action</th>
             </tr>
         </thead>
         <tbody>
             <?php if (count($nilaiList) > 0): ?>
                 <?php foreach ($nilaiList as $nilai): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($nilai['id']) ?></td>
-                        <td>
-                            <div class="fw-bold"><?= htmlspecialchars($nilai['nama_siswa']) ?></div>
-                            <small class="text-muted">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></small>
+                    <?php
+                    $nilaiNum = (float)$nilai['nilai'];
+                    $nilaiColor = 'text-status-error-600';
+                    if ($nilaiNum >= 80) {
+                        $nilaiColor = 'text-status-success-700';
+                    } elseif ($nilaiNum >= 70) {
+                        $nilaiColor = 'text-status-warning-700';
+                    }
+                    ?>
+                    <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($nilai['id']) ?></td>
+                        <td class="px-4 py-2">
+                            <div class="font-semibold text-primary-700"><?= htmlspecialchars($nilai['nama_siswa']) ?></div>
+                            <div class="text-xs text-gray-500">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></div>
                         </td>
-                        <td><?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?></td>
-                        <td><?= htmlspecialchars($nilai['nama_kelas']) ?></td>
-                        <td><?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?></td>
-                        <td>
-                            <span class="badge bg-info"><?= htmlspecialchars($nilai['jenis_nilai']) ?></span>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?></td>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($nilai['nama_kelas']) ?></td>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?></td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <span class="inline-block rounded-full px-3 py-1 text-xs font-semibold bg-status-info-100 text-status-info-700">
+                                <?= htmlspecialchars($nilai['jenis_nilai']) ?>
+                            </span>
                         </td>
-                        <td>
-                            <span class="fw-bold fs-5 
-                                <?php 
-                                $nilaiNum = (float)$nilai['nilai'];
-                                if ($nilaiNum >= 80) echo 'text-success';
-                                elseif ($nilaiNum >= 70) echo 'text-warning';
-                                else echo 'text-danger';
-                                ?>">
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <span class="font-bold text-lg <?= $nilaiColor ?>">
                                 <?= htmlspecialchars($nilai['nilai']) ?>
                             </span>
                         </td>
-                        <td><?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?></td>
-                        <td>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?></td>
+                        <td class="px-4 py-2">
                             <?php if ($nilai['keterangan']): ?>
                                 <?= htmlspecialchars($nilai['keterangan']) ?>
                             <?php else: ?>
-                                <em class="text-muted">-</em>
+                                <em class="text-gray-400">-</em>
                             <?php endif; ?>
                         </td>
-                        <td>
-                            <a href="nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>" class="btn btn-sm btn-secondary me-1" title="Detail">
-                                <i class="bi bi-eye"></i>
+                        <td class="px-4 py-2 whitespace-nowrap flex gap-1 justify-center">
+                            <a href="nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
+                               title="Detail">
+                                <iconify-icon icon="mdi:eye-outline"></iconify-icon>
                             </a>
-                            <a href="nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>" class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                            <a href="nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
+                               title="Edit">
+                                <iconify-icon icon="mdi:pencil-outline"></iconify-icon>
                             </a>
-                            <a href="nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>" class="btn btn-sm btn-danger" title="Hapus">
-                                <i class="bi bi-trash"></i>
+                            <a href="nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition"
+                               title="Hapus">
+                                <iconify-icon icon="mdi:trash-can-outline"></iconify-icon>
                             </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="10" class="text-center">Tidak ada data nilai ditemukan.</td>
+                    <td colspan="10" class="text-center py-8 text-secondary-500">Tidak ada data nilai ditemukan.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

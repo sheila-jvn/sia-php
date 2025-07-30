@@ -50,100 +50,96 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 ob_start();
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Detail Data Nilai</h1>
-    <div>
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="btn btn-secondary me-2">
-            <i class="bi bi-arrow-left"></i> Kembali ke Daftar Nilai
+<div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+    <h1 class="text-2xl font-bold text-primary-700">Detail Data Nilai</h1>
+    <div class="flex flex-row gap-2">
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
+            <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+            Kembali ke Daftar Nilai
         </a>
         <?php if ($nilai): ?>
-            <a href="../nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>" class="btn btn-outline-primary me-2">
-                <i class="bi bi-pencil"></i> Edit Data
+            <a href="../nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
+                <iconify-icon icon="mdi:pencil-outline" class="mr-2" width="20"></iconify-icon>
+                Edit Data
             </a>
-            <a href="../nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Hapus Data
+            <a href="../nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center rounded-full bg-status-error-100 text-status-error-700 hover:bg-status-error-200 transition px-4 py-2 text-sm font-medium shadow-sm">
+                <iconify-icon icon="mdi:trash-can-outline" class="mr-2" width="20"></iconify-icon>
+                Hapus Data
             </a>
         <?php endif; ?>
     </div>
 </div>
 
 <?php if ($errorMessage): ?>
-    <div class="alert alert-danger" role="alert">
-        <?= htmlspecialchars($errorMessage) ?>
+    <div class="flex items-center gap-3 mb-6 p-4 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200">
+        <iconify-icon icon="mdi:alert-circle" width="22" class="shrink-0"></iconify-icon>
+        <div class="flex-1"> <?= htmlspecialchars($errorMessage) ?> </div>
     </div>
 <?php elseif ($nilai): ?>
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title mb-0">
-                <i class="bi bi-clipboard-data"></i> Informasi Nilai
+    <div class="bg-white rounded-xl shadow">
+        <div class="border-b px-6 py-4">
+            <h5 class="text-lg font-semibold flex items-center gap-2 mb-0">
+                <iconify-icon icon="mdi:clipboard-text-outline" width="22"></iconify-icon>
+                Informasi Nilai
             </h5>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">ID Nilai</label>
-                        <div class="form-control bg-light"><?= htmlspecialchars($nilai['id']) ?></div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">ID Nilai</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['id']) ?> </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Nama Siswa</label>
-                        <div class="form-control bg-light">
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Nama Siswa</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700">
                             <?= htmlspecialchars($nilai['nama_siswa']) ?>
                             <?php if ($nilai['nis_siswa']): ?>
-                                <small class="text-muted d-block">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></small>
+                                <span class="block text-xs text-gray-500 mt-1">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Mata Pelajaran</label>
-                        <div class="form-control bg-light"><?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?></div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Mata Pelajaran</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?> </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Kelas</label>
-                        <div class="form-control bg-light"><?= htmlspecialchars($nilai['nama_kelas']) ?></div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Kelas</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_kelas']) ?> </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Tahun Ajaran</label>
-                        <div class="form-control bg-light"><?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?></div>
+                <div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Tahun Ajaran</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?> </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Jenis Nilai</label>
-                        <div class="form-control bg-light">
-                            <span class="badge bg-info"><?= htmlspecialchars($nilai['jenis_nilai']) ?></span>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Jenis Nilai</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+                            <span class="inline-block rounded px-2 py-1 text-xs font-semibold bg-accent-100 text-accent-700"> <?= htmlspecialchars($nilai['jenis_nilai']) ?> </span>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Nilai</label>
-                        <div class="form-control bg-light">
-                            <span class="fw-bold fs-4 
-                                <?php 
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Nilai</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
+                            <?php 
                                 $nilaiNum = (float)$nilai['nilai'];
-                                if ($nilaiNum >= 80) echo 'text-success';
-                                elseif ($nilaiNum >= 70) echo 'text-warning';
-                                else echo 'text-danger';
-                                ?>">
-                                <?= htmlspecialchars($nilai['nilai']) ?>
-                            </span>
+                                $nilaiColor = $nilaiNum >= 80 ? 'text-status-success-700' : ($nilaiNum >= 70 ? 'text-status-warning-700' : 'text-status-error-700');
+                            ?>
+                            <span class="font-bold text-2xl <?= $nilaiColor ?>"> <?= htmlspecialchars($nilai['nilai']) ?> </span>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-primary">Tanggal Penilaian</label>
-                        <div class="form-control bg-light"><?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?></div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-primary-700 mb-1">Tanggal Penilaian</label>
+                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?> </div>
                     </div>
                 </div>
             </div>
-            
             <?php if ($nilai['keterangan']): ?>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-primary">Keterangan</label>
-                            <div class="form-control bg-light" style="min-height: 80px;">
-                                <?= nl2br(htmlspecialchars($nilai['keterangan'])) ?>
-                            </div>
-                        </div>
+                <div class="mt-6">
+                    <label class="block font-semibold text-primary-700 mb-1">Keterangan</label>
+                    <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700 min-h-[80px]">
+                        <?= nl2br(htmlspecialchars($nilai['keterangan'])) ?>
                     </div>
                 </div>
             <?php endif; ?>

@@ -32,12 +32,12 @@ if (!$id || !is_numeric($id)) {
                 JOIN tahun_ajaran ta ON n.id_tahun_ajaran = ta.id
                 JOIN nilai_jenis nj ON n.id_jenis_nilai = nj.id
                 WHERE n.id = :id";
-        
+
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $nilai = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$nilai) {
             $errorMessage = "Data nilai dengan ID " . htmlspecialchars($id) . " tidak ditemukan.";
         }
@@ -63,89 +63,98 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $nilai) {
 
 ob_start();
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Hapus Data Nilai</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Nilai
-    </a>
-</div>
+    <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
+        <h1 class="text-2xl font-bold text-primary-700">Hapus Data Nilai</h1>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
+           class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
+            <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+            Kembali ke Daftar Nilai
+        </a>
+    </div>
 
-<div class="card p-4">
-    <?php if ($errorMessage): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($errorMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php if ($nilai): ?>
-            <div class="d-flex justify-content-end mt-3">
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar Nilai
-                </a>
+    <div class="bg-white rounded-xl shadow p-6">
+        <?php if ($errorMessage): ?>
+            <div class="flex items-center gap-3 mb-6 p-4 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200">
+                <iconify-icon icon="mdi:alert-circle" width="22" class="shrink-0"></iconify-icon>
+                <div class="flex-1"> <?= htmlspecialchars($errorMessage) ?> </div>
             </div>
-        <?php endif; ?>
-    <?php elseif ($nilai): ?>
-        <form method="POST" action="">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($nilai['id']) ?>">
-            <div class="mb-4">
-                <h5>Apakah Anda yakin ingin menghapus data nilai berikut?</h5>
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><strong>Siswa:</strong> <?= htmlspecialchars($nilai['nama_siswa']) ?></p>
-                                <p><strong>NIS:</strong> <?= htmlspecialchars($nilai['nis_siswa']) ?></p>
-                                <p><strong>Mata Pelajaran:</strong> <?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?></p>
-                                <p><strong>Kelas:</strong> <?= htmlspecialchars($nilai['nama_kelas']) ?></p>
+            <?php if ($nilai): ?>
+                <div class="flex justify-end mt-3">
+                    <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
+                       class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
+                        <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+                        Kembali ke Daftar Nilai
+                    </a>
+                </div>
+            <?php endif; ?>
+        <?php elseif ($nilai): ?>
+            <form method="POST" action="" class="space-y-6">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($nilai['id']) ?>">
+                <div class="mb-4">
+                    <h5 class="text-lg font-semibold">Apakah Anda yakin ingin menghapus data nilai berikut?</h5>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 mt-3 p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p>
+                                    <span class="font-semibold">Siswa:</span> <?= htmlspecialchars($nilai['nama_siswa']) ?>
+                                </p>
+                                <p><span class="font-semibold">NIS:</span> <?= htmlspecialchars($nilai['nis_siswa']) ?>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Mata Pelajaran:</span> <?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Kelas:</span> <?= htmlspecialchars($nilai['nama_kelas']) ?>
+                                </p>
                             </div>
-                            <div class="col-md-6">
-                                <p><strong>Tahun Ajaran:</strong> <?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?></p>
-                                <p><strong>Jenis Nilai:</strong> 
-                                    <span class="badge bg-info"><?= htmlspecialchars($nilai['jenis_nilai']) ?></span>
+                            <div>
+                                <p>
+                                    <span class="font-semibold">Tahun Ajaran:</span> <?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?>
                                 </p>
-                                <p><strong>Nilai:</strong> 
-                                    <span class="fw-bold fs-5 
-                                        <?php 
-                                        $nilaiNum = (float)$nilai['nilai'];
-                                        if ($nilaiNum >= 80) echo 'text-success';
-                                        elseif ($nilaiNum >= 70) echo 'text-warning';
-                                        else echo 'text-danger';
-                                        ?>">
-                                        <?= htmlspecialchars($nilai['nilai']) ?>
-                                    </span>
+                                <p><span class="font-semibold">Jenis Nilai:</span> <span
+                                            class="inline-block rounded px-2 py-1 text-xs font-semibold bg-accent-100 text-accent-700"> <?= htmlspecialchars($nilai['jenis_nilai']) ?> </span>
                                 </p>
-                                <p><strong>Tanggal Penilaian:</strong> <?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?></p>
+                                <p><span class="font-semibold">Nilai:</span> <?php $nilaiNum = (float)$nilai['nilai'];
+                                    $nilaiColor = $nilaiNum >= 80 ? 'text-status-success-700' : ($nilaiNum >= 70 ? 'text-status-warning-700' : 'text-status-error-700'); ?>
+                                    <span class="font-bold text-lg <?= $nilaiColor ?>"> <?= htmlspecialchars($nilai['nilai']) ?> </span>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Tanggal Penilaian:</span> <?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?>
+                                </p>
                             </div>
                         </div>
                         <?php if ($nilai['keterangan']): ?>
-                            <div class="row">
-                                <div class="col-12">
-                                    <p><strong>Keterangan:</strong> <?= htmlspecialchars($nilai['keterangan']) ?></p>
-                                </div>
+                            <div class="mt-4">
+                                <p>
+                                    <span class="font-semibold">Keterangan:</span> <?= htmlspecialchars($nilai['keterangan']) ?>
+                                </p>
                             </div>
                         <?php endif; ?>
                     </div>
-                </div>
-                
-                <div class="alert alert-warning d-flex align-items-center mt-3" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>
-                        <strong>Peringatan!</strong><br>
-                        Data nilai yang dihapus tidak dapat dikembalikan. Pastikan Anda benar-benar ingin menghapus data ini.
+                    <div class="flex items-center gap-3 mt-4 p-4 rounded-lg bg-status-warning-100 text-status-warning-700 border border-status-warning-200">
+                        <iconify-icon icon="mdi:alert" width="22" class="shrink-0"></iconify-icon>
+                        <div>
+                            <span class="font-semibold">Peringatan!</span><br>
+                            Data nilai yang dihapus tidak dapat dikembalikan. Pastikan Anda benar-benar ingin menghapus
+                            data ini.
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-danger me-2">
-                    <i class="bi bi-trash"></i> Ya, Hapus Nilai
-                </button>
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="btn btn-outline-secondary">
-                    <i class="bi bi-x"></i> Batal
-                </a>
-            </div>
-        </form>
-    <?php endif; ?>
-</div>
+                <div class="flex flex-row justify-end gap-2">
+                    <button type="submit"
+                            class="inline-flex items-center justify-center rounded-lg bg-status-error-600 hover:bg-status-error-700 text-white font-semibold px-5 py-2 shadow transition">
+                        <iconify-icon icon="mdi:trash-can-outline" width="20" class="mr-2"></iconify-icon>
+                        Ya, Hapus Nilai
+                    </button>
+                    <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
+                       class="inline-flex items-center justify-center rounded-lg bg-secondary-100 hover:bg-secondary-200 text-secondary-700 font-semibold px-5 py-2 shadow transition">
+                        <iconify-icon icon="mdi:close" width="20" class="mr-2"></iconify-icon>
+                        Batal
+                    </a>
+                </div>
+            </form>
+        <?php endif; ?>
+    </div>
 <?php
 $pageContent = ob_get_clean();
 $layout = 'dashboard';
