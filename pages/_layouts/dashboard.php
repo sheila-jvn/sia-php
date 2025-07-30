@@ -15,10 +15,19 @@ ob_start();
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/dashboard" class="nav-link <?= $currentPage === 'dashboard' ? 'active' : 'link-dark' ?>">Dashboard</a>
             </li>
             <li>
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="nav-link <?= $currentPage === 'students' ? 'active' : 'link-dark' ?>">Students</a>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="nav-link <?= $currentPage === 'students' ? 'active' : 'link-dark' ?>">Siswa</a>
             </li>
             <li>
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers" class="nav-link <?= $currentPage === 'teachers' ? 'active' : 'link-dark' ?>">Teachers</a>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers" class="nav-link <?= $currentPage === 'teachers' ? 'active' : 'link-dark' ?>">Guru</a>
+            </li>
+            <li>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="nav-link <?= $currentPage === 'absensi' ? 'active' : 'link-dark' ?>">Absensi</a>
+            </li>
+            <li>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/classes" class="nav-link <?= $currentPage === 'classes' ? 'active' : 'link-dark' ?>">Kelas</a>
+            </li>
+            <li>
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="nav-link <?= $currentPage === 'nilai' ? 'active' : 'link-dark' ?>">Nilai</a>
             </li>
             <li>
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/logout" class="nav-link link-dark">Logout</a>

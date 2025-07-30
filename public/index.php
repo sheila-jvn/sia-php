@@ -94,6 +94,79 @@ switch ($route) {
         require __DIR__ . '/../pages/students-delete.php';
         break;
 
+    case '/nilai':
+        require __DIR__ . '/../pages/nilai.php';
+        break;
+
+    case '/nilai/create':
+        require __DIR__ . '/../pages/nilai-create.php';
+        break;
+
+    case '/nilai/details':
+        require __DIR__ . '/../pages/nilai-details.php';
+        break;
+
+    case '/nilai/edit':
+        require __DIR__ . '/../pages/nilai-edit.php';
+        break;
+
+    case '/nilai/delete':
+        require __DIR__ . '/../pages/nilai-delete.php';
+        break;
+    
+    case '/nilai/export':
+        require __DIR__ . '/../pages/nilai-export.php';
+        break;
+
+    case '/classes':
+        require __DIR__ . '/../pages/classes.php';
+        break;
+
+    case '/classes/create':
+        require __DIR__ . '/../pages/classes-create.php';
+        break;
+
+    case '/classes/details':
+        require __DIR__ . '/../pages/classes-details.php';
+        break;
+
+    case '/classes/edit':
+        require __DIR__ . '/../pages/classes-edit.php';
+        break;
+
+    case '/classes/delete':
+        require __DIR__ . '/../pages/classes-delete.php';
+        break;
+    
+    case '/classes/export':
+        require __DIR__ . '/../pages/classes-export.php';
+        break;
+    
+    case '/absensi':
+        require __DIR__ . '/../pages/absensi.php';
+        break;
+
+    case '/absensi/create':
+        require __DIR__ . '/../pages/absensi-create.php';
+        break;
+
+    case '/absensi/details':
+        require __DIR__ . '/../pages/absensi-details.php';
+        break;
+
+    case '/absensi/edit':
+        require __DIR__ . '/../pages/absensi-edit.php';
+        break;
+
+    case '/absensi/delete':
+        require __DIR__ . '/../pages/absensi-delete.php';
+        break;
+    
+    case '/absensi/export':
+        require __DIR__ . '/../pages/absensi-export.php';
+        break;
+
+
     default:
         http_response_code(404);
         echo '<h1>404 Page Not Found</h1>';
