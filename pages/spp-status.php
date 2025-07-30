@@ -201,12 +201,11 @@ ob_start();
                                         <?php endif; ?>
                                         
                                         <?php if (!empty($data['payments'])): ?>
-                                            <button class="inline-flex items-center px-3 py-1 text-xs border border-accent-300 text-accent-700 rounded-lg hover:bg-accent-50 transition-colors" 
-                                                    onclick="printReceipt('<?= $month ?>')">
-                                                <iconify-icon icon="solar:printer-linear" class="mr-1"></iconify-icon>
-                                                Print
-                                            </button>
-                                        <?php endif; ?>
+<a class="inline-flex items-center px-3 py-1 text-xs border border-accent-300 text-accent-700 rounded-lg hover:bg-accent-50 transition-colors" 
+    href="spp-print-receipt.php?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" target="_blank">
+    <iconify-icon icon="solar:printer-linear" class="mr-1"></iconify-icon>
+    Print
+</a>                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>

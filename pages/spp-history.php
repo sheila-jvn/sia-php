@@ -169,11 +169,11 @@ ob_start();
         <div class="px-6 py-4 border-b border-secondary-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 class="text-xl font-semibold text-secondary-800">Riwayat Pembayaran</h2>
             <?php if (!empty($payments)): ?>
-                <button onclick="exportData()" 
-                        class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
-                    <iconify-icon icon="solar:download-linear" class="mr-2"></iconify-icon>
-                    Export Excel
-                </button>
+                <a href="spp-history-export.php?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
+    class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
+    <iconify-icon icon="solar:download-linear" class="mr-2"></iconify-icon>
+    Export Excel
+</a>
             <?php endif; ?>
         </div>
         <div class="p-6">

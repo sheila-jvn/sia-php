@@ -85,11 +85,10 @@ ob_start();
             </div>
             <div class="p-6">
                 <p class="text-secondary-600 mb-4">Export ringkasan pembayaran SPP per siswa per bulan</p>
-                <button onclick="exportSummary()" 
-                        class="w-full inline-flex items-center justify-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
-                    <iconify-icon icon="solar:file-smile-linear" class="mr-2 text-lg"></iconify-icon>
-                    Download Summary CSV
-                </button>
+                <a href="spp-export-summary.php" class="w-full inline-flex items-center justify-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
+    <iconify-icon icon="solar:file-smile-linear" class="mr-2 text-lg"></iconify-icon>
+    Download Summary CSV
+</a>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-secondary-200">
@@ -98,11 +97,10 @@ ob_start();
             </div>
             <div class="p-6">
                 <p class="text-secondary-600 mb-4">Export semua transaksi pembayaran SPP secara detail</p>
-                <button onclick="exportDetail()" 
-                        class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                    <iconify-icon icon="solar:file-text-linear" class="mr-2 text-lg"></iconify-icon>
-                    Download Detail CSV
-                </button>
+                <a href="spp-export-detail.php" class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+    <iconify-icon icon="solar:file-text-linear" class="mr-2 text-lg"></iconify-icon>
+    Download Detail CSV
+</a>
             </div>
         </div>
     </div>
@@ -124,16 +122,16 @@ ob_start();
                     <iconify-icon icon="solar:history-linear" class="text-3xl text-accent-600 mb-2"></iconify-icon>
                     <span class="text-sm font-medium text-secondary-700">Riwayat Cicilan</span>
                 </a>
-                <button onclick="printMonthlyReport()" 
-                        class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-success-50 hover:border-status-success-300 transition-colors text-center">
-                    <iconify-icon icon="solar:printer-linear" class="text-3xl text-status-success-600 mb-2"></iconify-icon>
-                    <span class="text-sm font-medium text-secondary-700">Laporan Bulanan</span>
-                </button>
-                <button onclick="printYearlyReport()" 
-                        class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-warning-50 hover:border-status-warning-300 transition-colors text-center">
-                    <iconify-icon icon="solar:document-text-linear" class="text-3xl text-status-warning-600 mb-2"></iconify-icon>
-                    <span class="text-sm font-medium text-secondary-700">Laporan Tahunan</span>
-                </button>
+                <a href="spp-print-monthly.php?month=<?= urlencode((new DateTime())->format('F')) ?>&year=<?= date('Y') ?>" target="_blank"
+    class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-success-50 hover:border-status-success-300 transition-colors text-center">
+    <iconify-icon icon="solar:printer-linear" class="text-3xl text-status-success-600 mb-2"></iconify-icon>
+    <span class="text-sm font-medium text-secondary-700">Laporan Bulanan</span>
+</a>
+                <a href="spp-print-yearly.php?year=<?= date('Y') ?>" target="_blank"
+    class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-warning-50 hover:border-status-warning-300 transition-colors text-center">
+    <iconify-icon icon="solar:document-text-linear" class="text-3xl text-status-warning-600 mb-2"></iconify-icon>
+    <span class="text-sm font-medium text-secondary-700">Laporan Tahunan</span>
+</a>
             </div>
         </div>
     </div>
