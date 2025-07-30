@@ -59,7 +59,10 @@ if (!$errorMessage) {
         $stmtTingkat = $pdo->query("SELECT id, nama FROM tingkat ORDER BY nama");
         $tingkat = $stmtTingkat->fetchAll();
         
-        $stmtGuru = $pdo->query("SELECT id, nama FROM guru ORDER BY nama");
+        // Only show teachers not assigned as homeroom teacher, or the current one
+        $stmtGuru = $pdo->prepare("SELECT id, nama FROM guru WHERE id NOT IN (SELECT id_guru_wali FROM kelas WHERE id_guru_wali IS NOT NULL AND id != :currentClassId) ORDER BY nama");
+        $stmtGuru->bindParam(':currentClassId', $id, PDO::PARAM_INT);
+        $stmtGuru->execute();
         $guru = $stmtGuru->fetchAll();
     } catch (PDOException $e) {
         $errorMessage = "Error loading dropdown data: " . $e->getMessage();
@@ -71,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
     $id_tahun_ajaran = $_POST['id_tahun_ajaran'] ?? '';
     $id_tingkat = $_POST['id_tingkat'] ?? '';
     $id_guru_wali = $_POST['id_guru_wali'] ?? '';
+    if ($id_guru_wali === '') {
+        $id_guru_wali = null;
+    }
 
     if (empty($nama) || empty($id_tahun_ajaran) || empty($id_tingkat)) {
         $errorMessage = "Harap lengkapi semua kolom wajib (Nama Kelas, Tahun Ajaran, Tingkat).";

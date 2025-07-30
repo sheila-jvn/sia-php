@@ -15,7 +15,7 @@ try {
     $stmtTingkat = $pdo->query("SELECT id, nama FROM tingkat ORDER BY nama");
     $tingkat = $stmtTingkat->fetchAll();
     
-    $stmtGuru = $pdo->query("SELECT id, nama FROM guru ORDER BY nama");
+    $stmtGuru = $pdo->query("SELECT id, nama FROM guru WHERE id NOT IN (SELECT id_guru_wali FROM kelas WHERE id_guru_wali IS NOT NULL) ORDER BY nama");
     $guru = $stmtGuru->fetchAll();
 } catch (PDOException $e) {
     $errorMessage = "Error loading data: " . $e->getMessage();
@@ -25,6 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_tahun_ajaran = $_POST['id_tahun_ajaran'] ?? '';
     $id_tingkat = $_POST['id_tingkat'] ?? '';
     $id_guru_wali = $_POST['id_guru_wali'] ?? '';
+    if ($id_guru_wali === '') {
+        $id_guru_wali = null;
+    }
     $nama = $_POST['nama'] ?? '';
 
     if (empty($id_tahun_ajaran) || empty($id_tingkat) || empty($nama)) {

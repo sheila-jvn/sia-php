@@ -41,13 +41,22 @@ if (!$id || !is_numeric($id)) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
     try {
-        $checkStmt = $pdo->prepare("SELECT COUNT(*) as count FROM siswa WHERE id_kelas = :id");
-        $checkStmt->bindParam(':id', $id, PDO::PARAM_INT);
-        $checkStmt->execute();
-        $studentCount = $checkStmt->fetch(PDO::FETCH_ASSOC)['count'];
-        
-        if ($studentCount > 0) {
-            $errorMessage = "Tidak dapat menghapus kelas ini karena masih ada " . $studentCount . " siswa yang terdaftar di kelas ini. Silakan pindahkan siswa terlebih dahulu.";
+        // Check for related kehadiran (attendance) records
+        $checkKehadiran = $pdo->prepare("SELECT COUNT(*) as count FROM kehadiran WHERE id_kelas = :id");
+        $checkKehadiran->bindParam(':id', $id, PDO::PARAM_INT);
+        $checkKehadiran->execute();
+        $kehadiranCount = $checkKehadiran->fetch(PDO::FETCH_ASSOC)['count'];
+
+        // Check for related nilai (grades) records
+        $checkNilai = $pdo->prepare("SELECT COUNT(*) as count FROM nilai WHERE id_kelas = :id");
+        $checkNilai->bindParam(':id', $id, PDO::PARAM_INT);
+        $checkNilai->execute();
+        $nilaiCount = $checkNilai->fetch(PDO::FETCH_ASSOC)['count'];
+
+        if ($kehadiranCount > 0) {
+            $errorMessage = "Tidak dapat menghapus kelas ini karena masih ada $kehadiranCount data kehadiran (absensi) terkait kelas ini. Silakan hapus data kehadiran terlebih dahulu.";
+        } elseif ($nilaiCount > 0) {
+            $errorMessage = "Tidak dapat menghapus kelas ini karena masih ada $nilaiCount data nilai terkait kelas ini. Silakan hapus data nilai terlebih dahulu.";
         } else {
             $stmt = $pdo->prepare("DELETE FROM kelas WHERE id = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
