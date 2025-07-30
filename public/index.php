@@ -166,6 +166,25 @@ switch ($route) {
         require __DIR__ . '/../pages/absensi-export.php';
         break;
 
+    case '/spp-students':
+        require __DIR__ . '/../pages/spp-students.php';
+        break;
+
+    case '/spp-status':
+        require __DIR__ . '/../pages/spp-status.php';
+        break;
+
+    case '/spp-pay':
+        require __DIR__ . '/../pages/spp-pay.php';
+        break;
+
+    case '/spp-history':
+        require __DIR__ . '/../pages/spp-history.php';
+        break;
+
+    case '/spp-reports':
+        require __DIR__ . '/../pages/spp-reports.php';
+        break;
 
     default:
         http_response_code(404);
