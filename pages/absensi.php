@@ -48,93 +48,104 @@ $absensiList = $stmt->fetchAll();
 
 ob_start();
 ?>
-<h1 class="mb-4">Data Absensi</h1>
+<h1 class="mb-6 text-2xl font-bold text-primary-700">Data Absensi</h1>
 
-<div class="d-flex justify-content-between mb-3">
-    <div class="col-md-4">
-        <form action="" method="GET" class="d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Cari data absensi..." value="<?= htmlspecialchars($searchQuery) ?>">
-            <button class="btn btn-primary" type="submit">Cari</button>
-            <?php if ($searchQuery): ?>
-                <a href="absensi" class="btn btn-outline-secondary ms-2">Reset</a>
-            <?php endif; ?>
-        </form>
-    </div>
-    <div>
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi/create" class="btn btn-primary me-2">
-            <i class="bi bi-plus"></i> Tambah Absensi
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <form action="" method="GET" class="flex flex-1 gap-2">
+        <input type="text" name="search" class="flex-1 rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm" placeholder="Cari data absensi..." value="<?= htmlspecialchars($searchQuery) ?>">
+        <button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition" type="submit">
+            <iconify-icon icon="cil:search" class="text-lg"></iconify-icon>
+            Cari
+        </button>
+        <?php if ($searchQuery): ?>
+            <a href="absensi" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">Reset</a>
+        <?php endif; ?>
+    </form>
+    <div class="flex gap-2">
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi/create" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+            <iconify-icon icon="cil:plus" class="text-lg"></iconify-icon>
+            Tambah Absensi
         </a>
-        <a href="absensi/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="btn btn-success">
-            <i class="bi bi-file-earmark-arrow-up"></i> Export Data
+        <a href="absensi/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+            <iconify-icon icon="cil:file-export" class="text-lg"></iconify-icon>
+            Export Data
         </a>
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover align-middle">
-        <thead class="table-primary">
+<div class="overflow-x-auto rounded-lg shadow border border-secondary-200 bg-white">
+    <table class="min-w-full text-sm text-left">
+        <thead class="bg-primary-100 text-primary-700">
             <tr>
-                <th>ID</th>
-                <th>Siswa</th>
-                <th>Kelas</th>
-                <th>Tahun Ajaran</th>
-                <th>Status Kehadiran</th>
-                <th>Tanggal</th>
-                <th>Keterangan</th>
-                <th>Action</th>
+                <th class="px-4 py-2 font-semibold">ID</th>
+                <th class="px-4 py-2 font-semibold">Siswa</th>
+                <th class="px-4 py-2 font-semibold">Kelas</th>
+                <th class="px-4 py-2 font-semibold">Tahun Ajaran</th>
+                <th class="px-4 py-2 font-semibold">Status Kehadiran</th>
+                <th class="px-4 py-2 font-semibold">Tanggal</th>
+                <th class="px-4 py-2 font-semibold">Keterangan</th>
+                <th class="px-4 py-2 font-semibold">Action</th>
             </tr>
         </thead>
         <tbody>
             <?php if (count($absensiList) > 0): ?>
                 <?php foreach ($absensiList as $absensi): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($absensi['id']) ?></td>
-                        <td>
-                            <div class="fw-bold"><?= htmlspecialchars($absensi['nama_siswa']) ?></div>
-                            <small class="text-muted">NIS: <?= htmlspecialchars($absensi['nis_siswa']) ?></small>
+                    <?php
+                    $status = strtolower($absensi['status_kehadiran']);
+                    $badgeClass = 'bg-secondary-100 text-secondary-700';
+                    if (strpos($status, 'hadir') !== false) {
+                        $badgeClass = 'bg-status-success-100 text-status-success-700';
+                    } elseif (strpos($status, 'tidak hadir') !== false || strpos($status, 'alpha') !== false) {
+                        $badgeClass = 'bg-status-error-100 text-status-error-700';
+                    } elseif (strpos($status, 'izin') !== false) {
+                        $badgeClass = 'bg-status-warning-100 text-status-warning-700';
+                    } elseif (strpos($status, 'sakit') !== false) {
+                        $badgeClass = 'bg-status-info-100 text-status-info-700';
+                    }
+                    ?>
+                    <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($absensi['id']) ?></td>
+                        <td class="px-4 py-2">
+                            <div class="font-semibold text-primary-700"><?= htmlspecialchars($absensi['nama_siswa']) ?></div>
+                            <div class="text-xs text-gray-500">NIS: <?= htmlspecialchars($absensi['nis_siswa']) ?></div>
                         </td>
-                        <td><?= htmlspecialchars($absensi['nama_kelas']) ?></td>
-                        <td><?= htmlspecialchars($absensi['nama_tahun_ajaran']) ?></td>
-                        <td>
-                            <?php 
-                            $status = strtolower($absensi['status_kehadiran']);
-                            $badgeClass = 'bg-secondary';
-                            if (strpos($status, 'hadir') !== false) {
-                                $badgeClass = 'bg-success';
-                            } elseif (strpos($status, 'tidak hadir') !== false || strpos($status, 'alpha') !== false) {
-                                $badgeClass = 'bg-danger';
-                            } elseif (strpos($status, 'izin') !== false) {
-                                $badgeClass = 'bg-warning';
-                            } elseif (strpos($status, 'sakit') !== false) {
-                                $badgeClass = 'bg-info';
-                            }
-                            ?>
-                            <span class="badge <?= $badgeClass ?>"><?= htmlspecialchars($absensi['status_kehadiran']) ?></span>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($absensi['nama_kelas']) ?></td>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($absensi['nama_tahun_ajaran']) ?></td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <span class="inline-block rounded-full px-3 py-1 text-xs font-semibold <?= $badgeClass ?>">
+                                <?= htmlspecialchars($absensi['status_kehadiran']) ?>
+                            </span>
                         </td>
-                        <td><?= date('d/m/Y', strtotime($absensi['tanggal'])) ?></td>
-                        <td>
+                        <td class="px-4 py-2 whitespace-nowrap"><?= date('d/m/Y', strtotime($absensi['tanggal'])) ?></td>
+                        <td class="px-4 py-2">
                             <?php if ($absensi['keterangan']): ?>
                                 <?= htmlspecialchars($absensi['keterangan']) ?>
                             <?php else: ?>
-                                <em class="text-muted">-</em>
+                                <em class="text-gray-400">-</em>
                             <?php endif; ?>
                         </td>
-                        <td>
-                            <a href="absensi/details?id=<?= htmlspecialchars($absensi['id']) ?>" class="btn btn-sm btn-secondary me-1" title="Detail">
-                                <i class="bi bi-eye"></i>
+                        <td class="px-4 py-2 whitespace-nowrap flex gap-1 justify-center">
+                            <a href="absensi/details?id=<?= htmlspecialchars($absensi['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
+                               title="Detail">
+                                <iconify-icon icon="mdi:eye-outline"></iconify-icon>
                             </a>
-                            <a href="absensi/edit?id=<?= htmlspecialchars($absensi['id']) ?>" class="btn btn-sm btn-outline-primary me-1" title="Edit">
-                                <i class="bi bi-pencil"></i>
+                            <a href="absensi/edit?id=<?= htmlspecialchars($absensi['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
+                               title="Edit">
+                                <iconify-icon icon="mdi:pencil-outline"></iconify-icon>
                             </a>
-                            <a href="absensi/delete?id=<?= htmlspecialchars($absensi['id']) ?>" class="btn btn-sm btn-danger" title="Hapus">
-                                <i class="bi bi-trash"></i>
+                            <a href="absensi/delete?id=<?= htmlspecialchars($absensi['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition"
+                               title="Hapus">
+                                <iconify-icon icon="mdi:trash-can-outline"></iconify-icon>
                             </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" class="text-center">Tidak ada data absensi ditemukan.</td>
+                    <td colspan="8" class="text-center py-8 text-secondary-500">Tidak ada data absensi ditemukan.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

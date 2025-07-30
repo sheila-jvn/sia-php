@@ -83,96 +83,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ob_start();
 ?>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Tambah Data Absensi</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Absensi
+<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    <h1 class="text-2xl font-bold text-primary-700">Tambah Data Absensi</h1>
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+        <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+        Kembali ke Daftar Absensi
     </a>
 </div>
 
-<div class="card p-4">
+<div class="bg-white rounded-lg shadow p-6 border border-gray-200">
     <?php if ($errorMessage): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($errorMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="flex items-center gap-2 mb-4 bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg">
+            <iconify-icon icon="cil:warning" width="22"></iconify-icon>
+            <span><?= htmlspecialchars($errorMessage) ?></span>
         </div>
     <?php endif; ?>
 
-    <form method="POST" action="">
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label for="id_siswa" class="form-label">Siswa <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_siswa" name="id_siswa" required>
+    <form method="POST" action="" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="id_siswa" class="block font-medium text-sm mb-1">Siswa <span class="text-status-error-700">*</span></label>
+                <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="id_siswa" name="id_siswa" required>
                     <option value="" disabled selected>Pilih Siswa</option>
                     <?php foreach ($siswa as $s): ?>
-                        <option value="<?= $s['id'] ?>" 
-                                <?= (isset($_POST['id_siswa']) && $_POST['id_siswa'] == $s['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($s['nama']) ?>
-                        </option>
+                        <option value="<?= $s['id'] ?>" <?= (isset($_POST['id_siswa']) && $_POST['id_siswa'] == $s['id']) ? 'selected' : '' ?>><?= htmlspecialchars($s['nama']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <div class="col-md-6">
-                <label for="id_kelas" class="form-label">Kelas <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_kelas" name="id_kelas" required>
+            <div>
+                <label for="id_kelas" class="block font-medium text-sm mb-1">Kelas <span class="text-status-error-700">*</span></label>
+                <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="id_kelas" name="id_kelas" required>
                     <option value="" disabled selected>Pilih Kelas</option>
                     <?php foreach ($kelas as $k): ?>
-                        <option value="<?= $k['id'] ?>" 
-                                <?= (isset($_POST['id_kelas']) && $_POST['id_kelas'] == $k['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($k['nama']) ?>
-                        </option>
+                        <option value="<?= $k['id'] ?>" <?= (isset($_POST['id_kelas']) && $_POST['id_kelas'] == $k['id']) ? 'selected' : '' ?>><?= htmlspecialchars($k['nama']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <div class="col-md-6">
-                <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_tahun_ajaran" name="id_tahun_ajaran" required>
+            <div>
+                <label for="id_tahun_ajaran" class="block font-medium text-sm mb-1">Tahun Ajaran <span class="text-status-error-700">*</span></label>
+                <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="id_tahun_ajaran" name="id_tahun_ajaran" required>
                     <option value="" disabled selected>Pilih Tahun Ajaran</option>
                     <?php foreach ($tahunAjaran as $ta): ?>
-                        <option value="<?= $ta['id'] ?>" 
-                                <?= (isset($_POST['id_tahun_ajaran']) && $_POST['id_tahun_ajaran'] == $ta['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($ta['nama']) ?>
-                        </option>
+                        <option value="<?= $ta['id'] ?>" <?= (isset($_POST['id_tahun_ajaran']) && $_POST['id_tahun_ajaran'] == $ta['id']) ? 'selected' : '' ?>><?= htmlspecialchars($ta['nama']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <div class="col-md-6">
-                <label for="id_status" class="form-label">Status Kehadiran <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_status" name="id_status" required>
+            <div>
+                <label for="id_status" class="block font-medium text-sm mb-1">Status Kehadiran <span class="text-status-error-700">*</span></label>
+                <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="id_status" name="id_status" required>
                     <option value="" disabled selected>Pilih Status Kehadiran</option>
                     <?php foreach ($statusKehadiran as $st): ?>
-                        <option value="<?= $st['id'] ?>" 
-                                <?= (isset($_POST['id_status']) && $_POST['id_status'] == $st['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($st['nama']) ?>
-                        </option>
+                        <option value="<?= $st['id'] ?>" <?= (isset($_POST['id_status']) && $_POST['id_status'] == $st['id']) ? 'selected' : '' ?>><?= htmlspecialchars($st['nama']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            
-            <div class="col-md-12">
-                <label for="tanggal" class="form-label">Tanggal <span class="text-danger">*</span></label>
-                <input type="date" class="form-control" id="tanggal" name="tanggal" required 
-                       value="<?= htmlspecialchars($_POST['tanggal'] ?? date('Y-m-d')) ?>">
-                <div class="form-text">Pilih tanggal kehadiran siswa</div>
+            <div class="col-span-1 md:col-span-2">
+                <label for="tanggal" class="block font-medium text-sm mb-1">Tanggal <span class="text-status-error-700">*</span></label>
+                <input type="date" class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="tanggal" name="tanggal" required value="<?= htmlspecialchars($_POST['tanggal'] ?? date('Y-m-d')) ?>">
+                <div class="text-xs text-gray-500 mt-1">Pilih tanggal kehadiran siswa</div>
             </div>
-            
-            <div class="col-md-12">
-                <label for="keterangan" class="form-label">Keterangan</label>
-                <textarea class="form-control" id="keterangan" name="keterangan" rows="3" 
-                          placeholder="Keterangan tambahan (opsional)"><?= htmlspecialchars($_POST['keterangan'] ?? '') ?></textarea>
-                <div class="form-text">Contoh: Sakit demam, Izin keperluan keluarga, dll.</div>
+            <div class="col-span-1 md:col-span-2">
+                <label for="keterangan" class="block font-medium text-sm mb-1">Keterangan</label>
+                <textarea class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" id="keterangan" name="keterangan" rows="3" placeholder="Keterangan tambahan (opsional)"><?= htmlspecialchars($_POST['keterangan'] ?? '') ?></textarea>
+                <div class="text-xs text-gray-500 mt-1">Contoh: Sakit demam, Izin keperluan keluarga, dll.</div>
             </div>
         </div>
-
-        <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary me-2">
-                <i class="bi bi-save"></i> Simpan Data
+        <div class="flex flex-wrap justify-end gap-2 pt-2">
+            <button type="submit" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
+                <iconify-icon icon="cil:save" width="20"></iconify-icon>
+                Simpan Data
             </button>
-            <button type="reset" class="btn btn-secondary">
-                <i class="bi bi-arrow-repeat"></i> Reset Form
+            <button type="reset" class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+                <iconify-icon icon="cil:reload" width="20"></iconify-icon>
+                Reset Form
             </button>
         </div>
     </form>
