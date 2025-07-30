@@ -37,170 +37,160 @@ $recentPayments = $stmt->fetchAll();
 ob_start();
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Laporan & Export SPP</h2>
-                <a href="spp-students" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali
+<div class="max-w-7xl mx-auto p-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 gap-4">
+        <h1 class="text-3xl font-bold text-primary-800">Laporan & Export SPP</h1>
+        <a href="spp-students" 
+           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
+            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+            Kembali
+        </a>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg shadow-md">
+            <div class="p-6 text-center">
+                <div class="text-3xl font-bold"><?= number_format($totalStudents, 0, ',', '.') ?></div>
+                <p class="text-primary-100 mt-2">Total Siswa</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-status-success-500 to-status-success-600 text-white rounded-lg shadow-md">
+            <div class="p-6 text-center">
+                <div class="text-lg font-semibold"><?= number_format($thisMonth['total'] ?? 0, 0, ',', '.') ?> Transaksi</div>
+                <div class="text-xl font-bold">Rp <?= number_format($thisMonth['amount'] ?? 0, 0, ',', '.') ?></div>
+                <p class="text-status-success-100 mt-2">Bulan Ini</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-accent-500 to-accent-600 text-white rounded-lg shadow-md">
+            <div class="p-6 text-center">
+                <div class="text-lg font-semibold"><?= number_format($thisYear['total'] ?? 0, 0, ',', '.') ?> Transaksi</div>
+                <div class="text-xl font-bold">Rp <?= number_format($thisYear['amount'] ?? 0, 0, ',', '.') ?></div>
+                <p class="text-accent-100 mt-2">Tahun Ini</p>
+            </div>
+        </div>
+        <div class="bg-gradient-to-r from-status-warning-500 to-status-warning-600 text-white rounded-lg shadow-md">
+            <div class="p-6 text-center">
+                <div class="text-3xl font-bold">-</div>
+                <p class="text-status-warning-100 mt-2">Belum Lunas</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+            <div class="px-6 py-4 border-b border-secondary-200">
+                <h2 class="text-xl font-semibold text-secondary-800">Export Data Summary</h2>
+            </div>
+            <div class="p-6">
+                <p class="text-secondary-600 mb-4">Export ringkasan pembayaran SPP per siswa per bulan</p>
+                <button onclick="exportSummary()" 
+                        class="w-full inline-flex items-center justify-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
+                    <iconify-icon icon="solar:file-smile-linear" class="mr-2 text-lg"></iconify-icon>
+                    Download Summary CSV
+                </button>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+            <div class="px-6 py-4 border-b border-secondary-200">
+                <h2 class="text-xl font-semibold text-secondary-800">Export Data Detail</h2>
+            </div>
+            <div class="p-6">
+                <p class="text-secondary-600 mb-4">Export semua transaksi pembayaran SPP secara detail</p>
+                <button onclick="exportDetail()" 
+                        class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    <iconify-icon icon="solar:file-text-linear" class="mr-2 text-lg"></iconify-icon>
+                    Download Detail CSV
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-800">Aksi Cepat</h2>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="spp-students" 
+                   class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-primary-50 hover:border-primary-300 transition-colors text-center">
+                    <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-3xl text-primary-600 mb-2"></iconify-icon>
+                    <span class="text-sm font-medium text-secondary-700">Daftar Siswa</span>
                 </a>
+                <a href="spp-history" 
+                   class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-accent-50 hover:border-accent-300 transition-colors text-center">
+                    <iconify-icon icon="solar:history-linear" class="text-3xl text-accent-600 mb-2"></iconify-icon>
+                    <span class="text-sm font-medium text-secondary-700">Riwayat Cicilan</span>
+                </a>
+                <button onclick="printMonthlyReport()" 
+                        class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-success-50 hover:border-status-success-300 transition-colors text-center">
+                    <iconify-icon icon="solar:printer-linear" class="text-3xl text-status-success-600 mb-2"></iconify-icon>
+                    <span class="text-sm font-medium text-secondary-700">Laporan Bulanan</span>
+                </button>
+                <button onclick="printYearlyReport()" 
+                        class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-warning-50 hover:border-status-warning-300 transition-colors text-center">
+                    <iconify-icon icon="solar:document-text-linear" class="text-3xl text-status-warning-600 mb-2"></iconify-icon>
+                    <span class="text-sm font-medium text-secondary-700">Laporan Tahunan</span>
+                </button>
             </div>
+        </div>
+    </div>
 
-            <!-- Statistics Cards -->
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="card bg-primary text-white">
-                        <div class="card-body text-center">
-                            <h3><?= number_format($totalStudents, 0, ',', '.') ?></h3>
-                            <p class="mb-0">Total Siswa</p>
-                        </div>
+    <!-- Recent Payments -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-800">Pembayaran Terbaru</h2>
+        </div>
+        <div class="p-6">
+            <?php if (empty($recentPayments)): ?>
+                <div class="bg-accent-100 border border-accent-200 text-accent-700 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <iconify-icon icon="solar:info-circle-bold" class="mr-2 text-lg"></iconify-icon>
+                        Belum ada data pembayaran.
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-success text-white">
-                        <div class="card-body text-center">
-                            <h5><?= number_format($thisMonth['total'] ?? 0, 0, ',', '.') ?> Transaksi</h5>
-                            <h6>Rp <?= number_format($thisMonth['amount'] ?? 0, 0, ',', '.') ?></h6>
-                            <p class="mb-0">Bulan Ini</p>
-                        </div>
-                    </div>
+            <?php else: ?>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-secondary-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Tanggal</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">NIS</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Nama Siswa</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Tahun Ajaran</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Bulan</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Jumlah</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-secondary-200">
+                            <?php foreach ($recentPayments as $payment): ?>
+                                <tr class="hover:bg-secondary-50">
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['bulan']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-right font-medium text-secondary-900">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <code class="bg-secondary-100 text-secondary-800 px-2 py-1 rounded text-xs">
+                                            #<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?>
+                                        </code>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-info text-white">
-                        <div class="card-body text-center">
-                            <h5><?= number_format($thisYear['total'] ?? 0, 0, ',', '.') ?> Transaksi</h5>
-                            <h6>Rp <?= number_format($thisYear['amount'] ?? 0, 0, ',', '.') ?></h6>
-                            <p class="mb-0">Tahun Ini</p>
-                        </div>
-                    </div>
+                <div class="text-center mt-6">
+                    <a href="spp-history" 
+                       class="inline-flex items-center px-4 py-2 border border-primary-300 text-primary-700 rounded-lg hover:bg-primary-50 transition-colors">
+                        Lihat Semua Riwayat
+                    </a>
                 </div>
-                <div class="col-md-3">
-                    <div class="card bg-warning text-dark">
-                        <div class="card-body text-center">
-                            <h3>-</h3>
-                            <p class="mb-0">Belum Lunas</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Export Section -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Export Data Summary</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Export ringkasan pembayaran SPP per siswa per bulan</p>
-                            <div class="d-grid gap-2">
-                                <button onclick="exportSummary()" class="btn btn-success">
-                                    <i class="bi bi-file-earmark-spreadsheet"></i> Download Summary CSV
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Export Data Detail</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Export semua transaksi pembayaran SPP secara detail</p>
-                            <div class="d-grid gap-2">
-                                <button onclick="exportDetail()" class="btn btn-primary">
-                                    <i class="bi bi-file-earmark-text"></i> Download Detail CSV
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Aksi Cepat</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <a href="spp-students" class="btn btn-outline-primary w-100 mb-2">
-                                <i class="bi bi-people"></i><br>
-                                Daftar Siswa
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="spp-history" class="btn btn-outline-info w-100 mb-2">
-                                <i class="bi bi-clock-history"></i><br>
-                                Riwayat Cicilan
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <button onclick="printMonthlyReport()" class="btn btn-outline-success w-100 mb-2">
-                                <i class="bi bi-printer"></i><br>
-                                Laporan Bulanan
-                            </button>
-                        </div>
-                        <div class="col-md-3">
-                            <button onclick="printYearlyReport()" class="btn btn-outline-warning w-100 mb-2">
-                                <i class="bi bi-file-text"></i><br>
-                                Laporan Tahunan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Payments -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Pembayaran Terbaru</h5>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($recentPayments)): ?>
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle"></i> Belum ada data pembayaran.
-                        </div>
-                    <?php else: ?>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>NIS</th>
-                                        <th>Nama Siswa</th>
-                                        <th>Tahun Ajaran</th>
-                                        <th>Bulan</th>
-                                        <th>Jumlah</th>
-                                        <th>ID</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($recentPayments as $payment): ?>
-                                        <tr>
-                                            <td><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
-                                            <td><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
-                                            <td><?= htmlspecialchars($payment['nama_siswa']) ?></td>
-                                            <td><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
-                                            <td><?= htmlspecialchars($payment['bulan']) ?></td>
-                                            <td class="text-end">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></td>
-                                            <td><code>#<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?></code></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-center mt-3">
-                            <a href="spp-history" class="btn btn-outline-primary">
-                                Lihat Semua Riwayat
-                            </a>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

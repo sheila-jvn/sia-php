@@ -88,161 +88,155 @@ foreach ($months as $month) {
 ob_start();
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2>Status Pembayaran SPP</h2>
-                    <h5 class="text-muted"><?= htmlspecialchars($student['nama']) ?> (NIS: <?= htmlspecialchars($student['nis'] ?? '-') ?>)</h5>
-                </div>
-                <a href="spp-students" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali
-                </a>
-            </div>
+<div class="max-w-7xl mx-auto p-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-primary-800 mb-2">Status Pembayaran SPP</h1>
+            <h2 class="text-xl text-secondary-600"><?= htmlspecialchars($student['nama']) ?> (NIS: <?= htmlspecialchars($student['nis'] ?? '-') ?>)</h2>
+        </div>
+        <a href="spp-students" 
+           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
+            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+            Kembali
+        </a>
+    </div>
 
-            <!-- Academic Year Selection -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <form method="GET" class="row align-items-end">
-                        <input type="hidden" name="id" value="<?= $studentId ?>">
-                        <div class="col-md-4">
-                            <label for="year" class="form-label">Tahun Ajaran</label>
-                            <select name="year" id="year" class="form-select" onchange="this.form.submit()">
-                                <?php foreach ($allYears as $y): ?>
-                                    <option value="<?= $y['id'] ?>" <?= $y['id'] == $yearId ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($y['nama']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </form>
+    <!-- Academic Year Selection -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
+        <div class="p-6">
+            <form method="GET" class="flex flex-col md:flex-row md:items-end gap-4">
+                <input type="hidden" name="id" value="<?= $studentId ?>">
+                <div class="flex-1 max-w-md">
+                    <label for="year" class="block text-sm font-medium text-secondary-700 mb-2">Tahun Ajaran</label>
+                    <select name="year" id="year" 
+                            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                            onchange="this.form.submit()">
+                        <?php foreach ($allYears as $y): ?>
+                            <option value="<?= $y['id'] ?>" <?= $y['id'] == $yearId ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($y['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-            </div>
+            </form>
+        </div>
+    </div>
 
-            <!-- Monthly Payment Status -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Status Pembayaran SPP - <?= htmlspecialchars($year['nama']) ?></h5>
-                    <small class="text-muted">SPP per bulan: Rp <?= number_format($sppAmount, 0, ',', '.') ?></small>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Bulan</th>
-                                    <th>Riwayat Cicilan</th>
-                                    <th>Total Dibayar</th>
-                                    <th>Sisa</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($months as $month): 
-                                    $data = $monthlyData[$month];
-                                ?>
-                                    <tr>
-                                        <td><strong><?= htmlspecialchars($month) ?></strong></td>
-                                        <td>
-                                            <?php if (empty($data['payments'])): ?>
-                                                <span class="text-muted">Belum ada pembayaran</span>
-                                            <?php else: ?>
-                                                <div class="small">
-                                                    <?php foreach ($data['payments'] as $payment): ?>
-                                                        <div>
-                                                            <?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?>: 
-                                                            <strong>Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></strong>
-                                                        </div>
-                                                    <?php endforeach; ?>
+    <!-- Monthly Payment Status -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-800">Status Pembayaran SPP - <?= htmlspecialchars($year['nama']) ?></h2>
+            <p class="text-sm text-secondary-600 mt-1">SPP per bulan: Rp <?= number_format($sppAmount, 0, ',', '.') ?></p>
+        </div>
+        <div class="p-6">
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-secondary-800 text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Bulan</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Riwayat Cicilan</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Dibayar</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Sisa</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-secondary-200">
+                        <?php foreach ($months as $month): 
+                            $data = $monthlyData[$month];
+                        ?>
+                            <tr class="hover:bg-secondary-50">
+                                <td class="px-4 py-3 text-sm font-medium text-secondary-900"><?= htmlspecialchars($month) ?></td>
+                                <td class="px-4 py-3">
+                                    <?php if (empty($data['payments'])): ?>
+                                        <span class="text-sm text-secondary-500">Belum ada pembayaran</span>
+                                    <?php else: ?>
+                                        <div class="space-y-1">
+                                            <?php foreach ($data['payments'] as $payment): ?>
+                                                <div class="text-xs text-secondary-700">
+                                                    <?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?>: 
+                                                    <span class="font-medium">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></span>
                                                 </div>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <strong>Rp <?= number_format($data['total_paid'], 0, ',', '.') ?></strong>
-                                        </td>
-                                        <td>
-                                            <?php if ($data['outstanding'] > 0): ?>
-                                                <span class="text-danger">
-                                                    Rp <?= number_format($data['outstanding'], 0, ',', '.') ?>
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="text-success">-</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($data['status'] === 'Lunas'): ?>
-                                                <span class="badge bg-success">Lunas</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-warning text-dark">Belum Lunas</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php if ($data['outstanding'] > 0): ?>
-                                                <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" 
-                                                   class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-plus-circle"></i> Bayar Cicil
-                                                </a>
-                                            <?php else: ?>
-                                                <button class="btn btn-outline-secondary btn-sm" disabled>
-                                                    <i class="bi bi-check-circle"></i> Lunas
-                                                </button>
-                                            <?php endif; ?>
-                                            
-                                            <?php if (!empty($data['payments'])): ?>
-                                                <button class="btn btn-outline-info btn-sm ms-1" 
-                                                        onclick="printReceipt('<?= $month ?>')">
-                                                    <i class="bi bi-printer"></i> Print
-                                                </button>
-                                            <?php endif; ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Summary -->
-                    <?php 
-                    $totalPaidAllMonths = array_sum(array_column($monthlyData, 'total_paid'));
-                    $totalOutstandingAllMonths = array_sum(array_column($monthlyData, 'outstanding'));
-                    $lunasBulan = count(array_filter($monthlyData, function($data) { return $data['status'] === 'Lunas'; }));
-                    ?>
-                    <div class="row mt-4">
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Total Dibayar</h5>
-                                    <h4 class="text-success">Rp <?= number_format($totalPaidAllMonths, 0, ',', '.') ?></h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Total Sisa</h5>
-                                    <h4 class="text-danger">Rp <?= number_format($totalOutstandingAllMonths, 0, ',', '.') ?></h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Bulan Lunas</h5>
-                                    <h4 class="text-info"><?= $lunasBulan ?> / 12</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card bg-light">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Progress</h5>
-                                    <h4 class="text-primary"><?= number_format(($lunasBulan / 12) * 100, 1) ?>%</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="px-4 py-3 text-sm font-medium text-secondary-900">
+                                    Rp <?= number_format($data['total_paid'], 0, ',', '.') ?>
+                                </td>
+                                <td class="px-4 py-3 text-sm">
+                                    <?php if ($data['outstanding'] > 0): ?>
+                                        <span class="text-status-error-600 font-medium">
+                                            Rp <?= number_format($data['outstanding'], 0, ',', '.') ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="text-status-success-600 font-medium">-</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <?php if ($data['status'] === 'Lunas'): ?>
+                                        <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-status-success-100 text-status-success-700">
+                                            Lunas
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-status-warning-100 text-status-warning-700">
+                                            Belum Lunas
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex flex-col sm:flex-row gap-2">
+                                        <?php if ($data['outstanding'] > 0): ?>
+                                            <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" 
+                                               class="inline-flex items-center px-3 py-1 text-xs bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                                                <iconify-icon icon="solar:add-circle-linear" class="mr-1"></iconify-icon>
+                                                Bayar Cicil
+                                            </a>
+                                        <?php else: ?>
+                                            <button class="inline-flex items-center px-3 py-1 text-xs border border-secondary-300 text-secondary-500 rounded-lg cursor-not-allowed" 
+                                                    disabled>
+                                                <iconify-icon icon="solar:check-circle-bold" class="mr-1"></iconify-icon>
+                                                Lunas
+                                            </button>
+                                        <?php endif; ?>
+                                        
+                                        <?php if (!empty($data['payments'])): ?>
+                                            <button class="inline-flex items-center px-3 py-1 text-xs border border-accent-300 text-accent-700 rounded-lg hover:bg-accent-50 transition-colors" 
+                                                    onclick="printReceipt('<?= $month ?>')">
+                                                <iconify-icon icon="solar:printer-linear" class="mr-1"></iconify-icon>
+                                                Print
+                                            </button>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Summary -->
+            <?php 
+            $totalPaidAllMonths = array_sum(array_column($monthlyData, 'total_paid'));
+            $totalOutstandingAllMonths = array_sum(array_column($monthlyData, 'outstanding'));
+            $lunasBulan = count(array_filter($monthlyData, function($data) { return $data['status'] === 'Lunas'; }));
+            ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                <div class="bg-secondary-50 rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-semibold text-secondary-700 mb-2">Total Dibayar</h3>
+                    <div class="text-2xl font-bold text-status-success-600">Rp <?= number_format($totalPaidAllMonths, 0, ',', '.') ?></div>
+                </div>
+                <div class="bg-secondary-50 rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-semibold text-secondary-700 mb-2">Total Sisa</h3>
+                    <div class="text-2xl font-bold text-status-error-600">Rp <?= number_format($totalOutstandingAllMonths, 0, ',', '.') ?></div>
+                </div>
+                <div class="bg-secondary-50 rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-semibold text-secondary-700 mb-2">Bulan Lunas</h3>
+                    <div class="text-2xl font-bold text-accent-600"><?= $lunasBulan ?> / 12</div>
+                </div>
+                <div class="bg-secondary-50 rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-semibold text-secondary-700 mb-2">Progress</h3>
+                    <div class="text-2xl font-bold text-primary-600"><?= number_format(($lunasBulan / 12) * 100, 1) ?>%</div>
                 </div>
             </div>
         </div>

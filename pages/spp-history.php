@@ -69,151 +69,159 @@ $totalAmount = array_sum(array_column($payments, 'jumlah_bayar'));
 ob_start();
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Riwayat Cicilan SPP</h2>
-                <a href="spp-students" class="btn btn-primary">
-                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar Siswa
-                </a>
-            </div>
+<div class="max-w-7xl mx-auto p-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 gap-4">
+        <h1 class="text-3xl font-bold text-primary-800">Riwayat Cicilan SPP</h1>
+        <a href="spp-students" 
+           class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+            Kembali ke Daftar Siswa
+        </a>
+    </div>
 
-            <!-- Filter Card -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Filter Riwayat</h5>
+    <!-- Filter Card -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-800">Filter Riwayat</h2>
+        </div>
+        <div class="p-6">
+            <form method="GET" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <div class="md:col-span-2">
+                    <label for="student" class="block text-sm font-medium text-secondary-700 mb-2">Siswa</label>
+                    <select name="student" id="student" 
+                            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Semua Siswa</option>
+                        <?php foreach ($allStudents as $student): ?>
+                            <option value="<?= $student['id'] ?>" <?= $student['id'] == $filterStudent ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($student['nis'] . ' - ' . $student['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                <div class="card-body">
-                    <form method="GET" class="row g-3">
-                        <div class="col-md-3">
-                            <label for="student" class="form-label">Siswa</label>
-                            <select name="student" id="student" class="form-select">
-                                <option value="">Semua Siswa</option>
-                                <?php foreach ($allStudents as $student): ?>
-                                    <option value="<?= $student['id'] ?>" <?= $student['id'] == $filterStudent ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($student['nis'] . ' - ' . $student['nama']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label for="year" class="form-label">Tahun Ajaran</label>
-                            <select name="year" id="year" class="form-select">
-                                <option value="">Semua Tahun</option>
-                                <?php foreach ($allYears as $year): ?>
-                                    <option value="<?= $year['id'] ?>" <?= $year['id'] == $filterYear ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($year['nama']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <label for="month" class="form-label">Bulan</label>
-                            <select name="month" id="month" class="form-select">
-                                <option value="">Semua Bulan</option>
-                                <?php foreach ($months as $month): ?>
-                                    <option value="<?= htmlspecialchars($month) ?>" <?= $month === $filterMonth ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($month) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-search"></i> Filter
-                            </button>
-                        </div>
-                        
-                        <?php if ($filterStudent || $filterYear || $filterMonth): ?>
-                            <div class="col-md-12">
-                                <a href="spp-history" class="btn btn-outline-secondary btn-sm">
-                                    <i class="bi bi-x-circle"></i> Reset Filter
-                                </a>
-                            </div>
-                        <?php endif; ?>
-                    </form>
+                
+                <div>
+                    <label for="year" class="block text-sm font-medium text-secondary-700 mb-2">Tahun Ajaran</label>
+                    <select name="year" id="year" 
+                            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Semua Tahun</option>
+                        <?php foreach ($allYears as $year): ?>
+                            <option value="<?= $year['id'] ?>" <?= $year['id'] == $filterYear ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($year['nama']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-            </div>
+                
+                <div>
+                    <label for="month" class="block text-sm font-medium text-secondary-700 mb-2">Bulan</label>
+                    <select name="month" id="month" 
+                            class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Semua Bulan</option>
+                        <?php foreach ($months as $month): ?>
+                            <option value="<?= htmlspecialchars($month) ?>" <?= $month === $filterMonth ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($month) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                
+                <div class="flex items-end">
+                    <button type="submit" 
+                            class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                        <iconify-icon icon="solar:magnifer-linear" class="mr-2"></iconify-icon>
+                        Filter
+                    </button>
+                </div>
+                
+                <?php if ($filterStudent || $filterYear || $filterMonth): ?>
+                    <div class="col-span-full">
+                        <a href="spp-history" 
+                           class="inline-flex items-center px-3 py-2 border border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-50 transition-colors text-sm">
+                            <iconify-icon icon="solar:close-circle-linear" class="mr-2"></iconify-icon>
+                            Reset Filter
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </form>
+        </div>
+    </div>
 
-            <!-- Summary Cards -->
-            <div class="row mb-4">
-                <div class="col-md-6">
-                    <div class="card bg-light">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Total Transaksi</h5>
-                            <h3 class="text-primary"><?= number_format($totalPayments, 0, ',', '.') ?></h3>
-                            <small class="text-muted">cicilan pembayaran</small>
-                        </div>
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+            <div class="p-6 text-center">
+                <h3 class="text-lg font-semibold text-secondary-700 mb-2">Total Transaksi</h3>
+                <div class="text-3xl font-bold text-primary-600"><?= number_format($totalPayments, 0, ',', '.') ?></div>
+                <p class="text-sm text-secondary-500 mt-2">cicilan pembayaran</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+            <div class="p-6 text-center">
+                <h3 class="text-lg font-semibold text-secondary-700 mb-2">Total Pembayaran</h3>
+                <div class="text-3xl font-bold text-status-success-600">Rp <?= number_format($totalAmount, 0, ',', '.') ?></div>
+                <p class="text-sm text-secondary-500 mt-2">total nilai pembayaran</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment History Table -->
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+        <div class="px-6 py-4 border-b border-secondary-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <h2 class="text-xl font-semibold text-secondary-800">Riwayat Pembayaran</h2>
+            <?php if (!empty($payments)): ?>
+                <button onclick="exportData()" 
+                        class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
+                    <iconify-icon icon="solar:download-linear" class="mr-2"></iconify-icon>
+                    Export Excel
+                </button>
+            <?php endif; ?>
+        </div>
+        <div class="p-6">
+            <?php if (empty($payments)): ?>
+                <div class="bg-accent-100 border border-accent-200 text-accent-700 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <iconify-icon icon="solar:info-circle-bold" class="mr-2 text-lg"></iconify-icon>
+                        Tidak ada data pembayaran ditemukan dengan filter yang dipilih.
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card bg-light">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Total Pembayaran</h5>
-                            <h3 class="text-success">Rp <?= number_format($totalAmount, 0, ',', '.') ?></h3>
-                            <small class="text-muted">total nilai pembayaran</small>
-                        </div>
-                    </div>
+            <?php else: ?>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-secondary-800 text-white">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Tanggal Bayar</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">NIS</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Siswa</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Tahun Ajaran</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Bulan</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Jumlah Bayar</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">ID Transaksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-secondary-200">
+                            <?php foreach ($payments as $index => $payment): ?>
+                                <tr class="hover:bg-secondary-50">
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= $index + 1 ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['bulan']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-right font-medium text-secondary-900">
+                                        Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm">
+                                        <code class="bg-secondary-100 text-secondary-800 px-2 py-1 rounded text-xs">
+                                            #<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?>
+                                        </code>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-
-            <!-- Payment History Table -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Riwayat Pembayaran</h5>
-                    <?php if (!empty($payments)): ?>
-                        <button onclick="exportData()" class="btn btn-success btn-sm">
-                            <i class="bi bi-download"></i> Export Excel
-                        </button>
-                    <?php endif; ?>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($payments)): ?>
-                        <div class="alert alert-info">
-                            <i class="bi bi-info-circle"></i> Tidak ada data pembayaran ditemukan dengan filter yang dipilih.
-                        </div>
-                    <?php else: ?>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal Bayar</th>
-                                        <th>NIS</th>
-                                        <th>Nama Siswa</th>
-                                        <th>Tahun Ajaran</th>
-                                        <th>Bulan</th>
-                                        <th>Jumlah Bayar</th>
-                                        <th>ID Transaksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($payments as $index => $payment): ?>
-                                        <tr>
-                                            <td><?= $index + 1 ?></td>
-                                            <td><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
-                                            <td><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
-                                            <td><?= htmlspecialchars($payment['nama_siswa']) ?></td>
-                                            <td><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
-                                            <td><?= htmlspecialchars($payment['bulan']) ?></td>
-                                            <td class="text-end">
-                                                <strong>Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></strong>
-                                            </td>
-                                            <td>
-                                                <code>#<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?></code>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

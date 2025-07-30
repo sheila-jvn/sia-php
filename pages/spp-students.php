@@ -25,52 +25,54 @@ $currentYear = $stmt->fetch();
 ob_start();
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Pembayaran SPP - Daftar Siswa</h2>
-            </div>
+<div class="max-w-7xl mx-auto p-6">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-primary-800">Pembayaran SPP - Daftar Siswa</h1>
+    </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Daftar Siswa</h5>
-                    <?php if ($currentYear): ?>
-                        <small class="text-muted">Tahun Ajaran: <?= htmlspecialchars($currentYear['nama']) ?></small>
-                    <?php endif; ?>
+    <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+        <div class="px-6 py-4 border-b border-secondary-200">
+            <h2 class="text-xl font-semibold text-secondary-800">Daftar Siswa</h2>
+            <?php if ($currentYear): ?>
+                <p class="text-sm text-secondary-600 mt-1">Tahun Ajaran: <?= htmlspecialchars($currentYear['nama']) ?></p>
+            <?php endif; ?>
+        </div>
+        <div class="p-6">
+            <?php if (empty($students)): ?>
+                <div class="bg-accent-100 border border-accent-200 text-accent-700 px-4 py-3 rounded-lg">
+                    <div class="flex items-center">
+                        <iconify-icon icon="solar:info-circle-bold" class="mr-2 text-lg"></iconify-icon>
+                        Belum ada data siswa.
+                    </div>
                 </div>
-                <div class="card-body">
-                    <?php if (empty($students)): ?>
-                        <div class="alert alert-info">
-                            Belum ada data siswa.
-                        </div>
-                    <?php else: ?>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>NIS</th>
-                                        <th>Nama Siswa</th>
-<th>Aksi</th>                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($students as $student): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($student['nis'] ?? '-') ?></td>
-                                            <td><?= htmlspecialchars($student['nama']) ?></td>
-<td>                                                <a href="spp-status?id=<?= $student['id'] ?><?= $currentYear ? '&year=' . $currentYear['id'] : '' ?>" 
-                                                   class="btn btn-primary btn-sm">
-                                                    <i class="bi bi-cash-stack"></i> Lihat Pembayaran
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php endif; ?>
+            <?php else: ?>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-secondary-800 text-white">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">NIS</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Siswa</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-secondary-200">
+                            <?php foreach ($students as $student): ?>
+                                <tr class="hover:bg-secondary-50">
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($student['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($student['nama']) ?></td>
+                                    <td class="px-4 py-3">
+                                        <a href="spp-status?id=<?= $student['id'] ?><?= $currentYear ? '&year=' . $currentYear['id'] : '' ?>" 
+                                           class="inline-flex items-center px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm">
+                                            <iconify-icon icon="solar:cash-out-linear" class="mr-2"></iconify-icon>
+                                            Lihat Pembayaran
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

@@ -145,173 +145,186 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ob_start();
 ?>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h2>Bayar SPP</h2>
-                    <h5 class="text-muted"><?= htmlspecialchars($student['nama']) ?> (NIS: <?= htmlspecialchars($student['nis'] ?? '-') ?>)</h5>
-                    <small class="text-muted">Tahun Ajaran: <?= htmlspecialchars($year['nama']) ?></small>
-                </div>
-                <a href="spp-status?id=<?= $studentId ?>&year=<?= $yearId ?>" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali
-                </a>
+<div class="max-w-7xl mx-auto p-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-6 gap-4">
+        <div>
+            <h1 class="text-3xl font-bold text-primary-800 mb-2">Bayar SPP</h1>
+            <h2 class="text-xl text-secondary-600 mb-1"><?= htmlspecialchars($student['nama']) ?> (NIS: <?= htmlspecialchars($student['nis'] ?? '-') ?>)</h2>
+            <p class="text-sm text-secondary-500">Tahun Ajaran: <?= htmlspecialchars($year['nama']) ?></p>
+        </div>
+        <a href="spp-status?id=<?= $studentId ?>&year=<?= $yearId ?>" 
+           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
+            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+            Kembali
+        </a>
+    </div>
+
+    <?php if ($error): ?>
+        <div class="bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg mb-6">
+            <div class="flex items-center">
+                <iconify-icon icon="solar:danger-triangle-bold" class="mr-2 text-lg"></iconify-icon>
+                <?= htmlspecialchars($error) ?>
             </div>
+        </div>
+    <?php endif; ?>
 
-            <?php if ($error): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= htmlspecialchars($error) ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($success): ?>
-                <div class="alert alert-success" role="alert">
-                    <?= htmlspecialchars($success) ?>
-                    
-                    <?php if (isset($showAllocation)): ?>
-                        <hr>
-                        <h6>Detail Alokasi Pembayaran:</h6>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-bordered mt-2">
-                                <thead>
-                                    <tr>
-                                        <th>Bulan</th>
-                                        <th>Jumlah Dibayar</th>
-                                        <th>Total Setelah Bayar</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($showAllocation as $alloc): ?>
-                                        <tr>
-                                            <td><?= htmlspecialchars($alloc['month']) ?></td>
-                                            <td>Rp <?= number_format($alloc['amount'], 0, ',', '.') ?></td>
-                                            <td>Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
-                                            <td>
-                                                <span class="badge bg-<?= $alloc['status'] === 'Lunas' ? 'success' : 'warning' ?>">
-                                                    <?= $alloc['status'] ?>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!$success): ?>
-                <!-- Payment Form -->
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Form Pembayaran SPP</h5>
-                        <small class="text-muted">SPP per bulan: Rp <?= number_format($sppAmount, 0, ',', '.') ?></small>
-                    </div>
-                    <div class="card-body">
-                        <?php if (empty($allocation)): ?>
-                            <!-- Initial Form -->
-                            <form method="POST" class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="start_month" class="form-label">Mulai dari Bulan</label>
-                                    <select name="start_month" id="start_month" class="form-select" required>
-                                        <option value="">Pilih Bulan</option>
-                                        <?php foreach ($months as $month): ?>
-                                            <option value="<?= htmlspecialchars($month) ?>" 
-                                                    <?= $month === $selectedMonth ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($month) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <div class="form-text">Pembayaran akan dialokasikan mulai dari bulan ini</div>
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="amount" class="form-label">Jumlah Pembayaran</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Rp</span>
-                                        <input type="number" name="amount" id="amount" class="form-control" 
-                                                required>
-                                    </div>
-                                    <div class="form-text">
-                                        Dapat lebih dari Rp <?= number_format($sppAmount, 0, ',', '.') ?> untuk pembayaran beberapa bulan sekaligus
-                                    </div>
-                                </div>
-                                
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-calculator"></i> Hitung Alokasi
-                                    </button>
-                                </div>
-                            </form>
-                        <?php else: ?>
-                            <!-- Allocation Preview -->
-                            <div class="alert alert-info">
-                                <h6><i class="bi bi-info-circle"></i> Preview Alokasi Pembayaran</h6>
-                                <p>Berikut adalah alokasi pembayaran yang akan dilakukan:</p>
-                            </div>
-                            
-                            <div class="table-responsive mb-3">
-                                <table class="table table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Bulan</th>
-                                            <th>Sudah Dibayar</th>
-                                            <th>Jumlah Cicilan</th>
-                                            <th>Total Setelah Bayar</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($allocation as $alloc): ?>
-                                            <tr>
-                                                <td><strong><?= htmlspecialchars($alloc['month']) ?></strong></td>
-                                                <td>Rp <?= number_format($alloc['already_paid'], 0, ',', '.') ?></td>
-                                                <td>
-                                                    <span class="text-success">
-                                                        + Rp <?= number_format($alloc['amount'], 0, ',', '.') ?>
-                                                    </span>
-                                                </td>
-                                                <td><strong>Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></strong></td>
-                                                <td>
-                                                    <span class="badge bg-<?= $alloc['status'] === 'Lunas' ? 'success' : 'warning' ?>">
-                                                        <?= $alloc['status'] ?>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                    <tfoot class="table-light">
-                                        <tr>
-                                            <th colspan="2">Total Pembayaran:</th>
-                                            <th colspan="3">
-                                                Rp <?= number_format(array_sum(array_column($allocation, 'amount')), 0, ',', '.') ?>
-                                            </th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            
-                            <form method="POST" class="d-flex gap-2">
-                                <input type="hidden" name="start_month" value="<?= htmlspecialchars($_POST['start_month']) ?>">
-                                <input type="hidden" name="amount" value="<?= htmlspecialchars($_POST['amount']) ?>">
-                                <input type="hidden" name="confirm" value="yes">
-                                
-                                <button type="submit" class="btn btn-success">
-                                    <i class="bi bi-check-circle"></i> Konfirmasi Pembayaran
-                                </button>
-                                <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?><?= $selectedMonth ? '&month=' . urlencode($selectedMonth) : '' ?>" 
-                                   class="btn btn-outline-secondary">
-                                    <i class="bi bi-arrow-counterclockwise"></i> Ubah Jumlah
-                                </a>
-                            </form>
-                        <?php endif; ?>
-                    </div>
+    <?php if ($success): ?>
+        <div class="bg-status-success-100 border border-status-success-200 text-status-success-700 px-4 py-3 rounded-lg mb-6">
+            <div class="flex items-center mb-3">
+                <iconify-icon icon="solar:check-circle-bold" class="mr-2 text-lg"></iconify-icon>
+                <?= htmlspecialchars($success) ?>
+            </div>
+            
+            <?php if (isset($showAllocation)): ?>
+                <hr class="border-status-success-200 my-4">
+                <h3 class="text-lg font-semibold mb-3">Detail Alokasi Pembayaran:</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-secondary-200 rounded-lg">
+                        <thead class="bg-secondary-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Bulan</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Jumlah Dibayar</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Total Setelah Bayar</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-secondary-200">
+                            <?php foreach ($showAllocation as $alloc): ?>
+                                <tr class="hover:bg-secondary-50">
+                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($alloc['month']) ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900">Rp <?= number_format($alloc['amount'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3 text-sm text-secondary-900">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $alloc['status'] === 'Lunas' ? 'bg-status-success-100 text-status-success-700' : 'bg-status-warning-100 text-status-warning-700' ?>">
+                                            <?= $alloc['status'] ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             <?php endif; ?>
         </div>
-    </div>
+    <?php endif; ?>
+
+    <?php if (!$success): ?>
+        <!-- Payment Form -->
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200">
+            <div class="px-6 py-4 border-b border-secondary-200">
+                <h2 class="text-xl font-semibold text-secondary-800">Form Pembayaran SPP</h2>
+                <p class="text-sm text-secondary-600 mt-1">SPP per bulan: Rp <?= number_format($sppAmount, 0, ',', '.') ?></p>
+            </div>
+            <div class="p-6">
+                <?php if (empty($allocation)): ?>
+                    <!-- Initial Form -->
+                    <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="start_month" class="block text-sm font-medium text-secondary-700 mb-2">Mulai dari Bulan</label>
+                            <select name="start_month" id="start_month" 
+                                    class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                                    required>
+                                <option value="">Pilih Bulan</option>
+                                <?php foreach ($months as $month): ?>
+                                    <option value="<?= htmlspecialchars($month) ?>" 
+                                            <?= $month === $selectedMonth ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($month) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <p class="text-xs text-secondary-500 mt-1">Pembayaran akan dialokasikan mulai dari bulan ini</p>
+                        </div>
+                        
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-secondary-700 mb-2">Jumlah Pembayaran</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-2 text-secondary-500">Rp</span>
+                                <input type="number" name="amount" id="amount" 
+                                       class="w-full pl-8 pr-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
+                                       required>
+                            </div>
+                            <p class="text-xs text-secondary-500 mt-1">
+                                Dapat lebih dari Rp <?= number_format($sppAmount, 0, ',', '.') ?> untuk pembayaran beberapa bulan sekaligus
+                            </p>
+                        </div>
+                        
+                        <div class="col-span-full">
+                            <button type="submit" 
+                                    class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                                <iconify-icon icon="solar:calculator-minimalistic-linear" class="mr-2"></iconify-icon>
+                                Hitung Alokasi
+                            </button>
+                        </div>
+                    </form>
+                <?php else: ?>
+                    <!-- Allocation Preview -->
+                    <div class="bg-accent-100 border border-accent-200 text-accent-700 px-4 py-3 rounded-lg mb-6">
+                        <h3 class="flex items-center text-lg font-semibold mb-2">
+                            <iconify-icon icon="solar:info-circle-bold" class="mr-2"></iconify-icon>
+                            Preview Alokasi Pembayaran
+                        </h3>
+                        <p>Berikut adalah alokasi pembayaran yang akan dilakukan:</p>
+                    </div>
+                    
+                    <div class="overflow-x-auto mb-6">
+                        <table class="min-w-full bg-white border border-secondary-200 rounded-lg">
+                            <thead class="bg-secondary-50">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Bulan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Sudah Dibayar</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Jumlah Cicilan</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Total Setelah Bayar</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-secondary-200">
+                                <?php foreach ($allocation as $alloc): ?>
+                                    <tr class="hover:bg-secondary-50">
+                                        <td class="px-4 py-3 text-sm font-medium text-secondary-900"><?= htmlspecialchars($alloc['month']) ?></td>
+                                        <td class="px-4 py-3 text-sm text-secondary-700">Rp <?= number_format($alloc['already_paid'], 0, ',', '.') ?></td>
+                                        <td class="px-4 py-3 text-sm text-status-success-700 font-medium">
+                                            + Rp <?= number_format($alloc['amount'], 0, ',', '.') ?>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm font-medium text-secondary-900">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
+                                        <td class="px-4 py-3">
+                                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $alloc['status'] === 'Lunas' ? 'bg-status-success-100 text-status-success-700' : 'bg-status-warning-100 text-status-warning-700' ?>">
+                                                <?= $alloc['status'] ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot class="bg-secondary-50">
+                                <tr>
+                                    <th colspan="2" class="px-4 py-3 text-sm font-medium text-secondary-700 border-t border-secondary-200">Total Pembayaran:</th>
+                                    <th colspan="3" class="px-4 py-3 text-sm font-medium text-secondary-900 border-t border-secondary-200">
+                                        Rp <?= number_format(array_sum(array_column($allocation, 'amount')), 0, ',', '.') ?>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <form method="POST" class="flex flex-col sm:flex-row gap-3">
+                        <input type="hidden" name="start_month" value="<?= htmlspecialchars($_POST['start_month']) ?>">
+                        <input type="hidden" name="amount" value="<?= htmlspecialchars($_POST['amount']) ?>">
+                        <input type="hidden" name="confirm" value="yes">
+                        
+                        <button type="submit" 
+                                class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
+                            <iconify-icon icon="solar:check-circle-bold" class="mr-2"></iconify-icon>
+                            Konfirmasi Pembayaran
+                        </button>
+                        <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?><?= $selectedMonth ? '&month=' . urlencode($selectedMonth) : '' ?>" 
+                           class="inline-flex items-center px-4 py-2 border border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-50 transition-colors">
+                            <iconify-icon icon="solar:restart-linear" class="mr-2"></iconify-icon>
+                            Ubah Jumlah
+                        </a>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script>
