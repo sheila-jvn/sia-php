@@ -31,12 +31,12 @@ if (!$id || !is_numeric($id)) {
                 JOIN tingkat t ON k.id_tingkat = t.id 
                 LEFT JOIN guru g ON k.id_guru_wali = g.id 
                 WHERE k.id = :id";
-        
+
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $kelas = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$kelas) {
             $errorMessage = "Data Kelas dengan ID " . htmlspecialchars($id) . " tidak ditemukan.";
         }
@@ -55,10 +55,10 @@ if (!$errorMessage) {
 
         $stmtTahun = $pdo->query("SELECT id, nama FROM tahun_ajaran ORDER BY nama");
         $tahunAjaran = $stmtTahun->fetchAll();
-        
+
         $stmtTingkat = $pdo->query("SELECT id, nama FROM tingkat ORDER BY nama");
         $tingkat = $stmtTingkat->fetchAll();
-        
+
         // Only show teachers not assigned as homeroom teacher, or the current one
         $stmtGuru = $pdo->prepare("SELECT id, nama FROM guru WHERE id NOT IN (SELECT id_guru_wali FROM kelas WHERE id_guru_wali IS NOT NULL AND id != :currentClassId) ORDER BY nama");
         $stmtGuru->bindParam(':currentClassId', $id, PDO::PARAM_INT);
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
                         id_tingkat = :id_tingkat, 
                         id_guru_wali = :id_guru_wali 
                     WHERE id = :id";
-            
+
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nama', $nama);
             $stmt->bindParam(':id_tahun_ajaran', $id_tahun_ajaran);
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
             $errorMessage = "Error: " . $e->getMessage();
         }
     }
-    
+
     $kelas = array_merge($kelas, [
         'nama' => $nama,
         'id_tahun_ajaran' => $id_tahun_ajaran,
@@ -117,84 +117,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
 
 ob_start();
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Edit Data Kelas</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/classes" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Kelas
-    </a>
-</div>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h1 class="text-2xl font-bold text-primary-700">Edit Data Kelas</h1>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
+           class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+            <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+            Kembali ke Daftar Kelas
+        </a>
+    </div>
 
-<div class="card p-4">
-    <?php if ($errorMessage): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($errorMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <?php endif; ?>
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+        <?php if ($errorMessage): ?>
+            <div class="flex items-center gap-2 mb-4 bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg">
+                <iconify-icon icon="cil:warning" width="22"></iconify-icon>
+                <span><?= htmlspecialchars($errorMessage) ?></span>
+            </div>
+        <?php endif; ?>
 
-    <?php if ($kelas): ?>
-    <form method="POST" action="">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($kelas['id']) ?>">
-        <div class="row g-3">
-            <div class="col-md-12">
-                <label for="nama" class="form-label">Nama Kelas <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="nama" name="nama" required 
-                       placeholder="Contoh: XII IPA 1" 
-                       value="<?= htmlspecialchars($kelas['nama'] ?? '') ?>">
-            </div>
-            
-            <div class="col-md-6">
-                <label for="id_tahun_ajaran" class="form-label">Tahun Ajaran <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_tahun_ajaran" name="id_tahun_ajaran" required>
-                    <option value="" disabled>Pilih Tahun Ajaran</option>
-                    <?php foreach ($tahunAjaran as $ta): ?>
-                        <option value="<?= $ta['id'] ?>" 
-                                <?= (isset($kelas['id_tahun_ajaran']) && $kelas['id_tahun_ajaran'] == $ta['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($ta['nama']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            
-            <div class="col-md-6">
-                <label for="id_tingkat" class="form-label">Tingkat <span class="text-danger">*</span></label>
-                <select class="form-select" id="id_tingkat" name="id_tingkat" required>
-                    <option value="" disabled>Pilih Tingkat</option>
-                    <?php foreach ($tingkat as $t): ?>
-                        <option value="<?= $t['id'] ?>" 
-                                <?= (isset($kelas['id_tingkat']) && $kelas['id_tingkat'] == $t['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($t['nama']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            
-            <div class="col-md-12">
-                <label for="id_guru_wali" class="form-label">Guru Wali Kelas</label>
-                <select class="form-select" id="id_guru_wali" name="id_guru_wali">
-                    <option value="">Pilih Guru Wali (Opsional)</option>
-                    <?php foreach ($guru as $g): ?>
-                        <option value="<?= $g['id'] ?>" 
-                                <?= (isset($kelas['id_guru_wali']) && $kelas['id_guru_wali'] == $g['id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($g['nama']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <div class="form-text">Guru wali kelas dapat dikosongkan jika belum ditentukan.</div>
-            </div>
-        </div>
-        
-        <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary me-2">
-                <i class="bi bi-save"></i> Simpan Perubahan
-            </button>
-            <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/details?id=<?= htmlspecialchars($kelas['id']) ?>" class="btn btn-outline-secondary">
-                <i class="bi bi-x"></i> Batal
-            </a>
-        </div>
-    </form>
-    <?php endif; ?>
-</div>
+        <?php if ($kelas): ?>
+            <form method="POST" action="" class="space-y-6">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($kelas['id']) ?>">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="nama" class="block font-medium text-sm mb-1">Nama Kelas <span
+                                    class="text-status-error-700">*</span></label>
+                        <input type="text"
+                               class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                               id="nama" name="nama" required placeholder="Contoh: XII IPA 1"
+                               value="<?= htmlspecialchars($kelas['nama'] ?? '') ?>">
+                    </div>
+                    <div>
+                        <label for="id_tahun_ajaran" class="block font-medium text-sm mb-1">Tahun Ajaran <span
+                                    class="text-status-error-700">*</span></label>
+                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                                id="id_tahun_ajaran" name="id_tahun_ajaran" required>
+                            <option value="" disabled>Pilih Tahun Ajaran</option>
+                            <?php foreach ($tahunAjaran as $ta): ?>
+                                <option value="<?= $ta['id'] ?>" <?= (isset($kelas['id_tahun_ajaran']) && $kelas['id_tahun_ajaran'] == $ta['id']) ? 'selected' : '' ?>><?= htmlspecialchars($ta['nama']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_tingkat" class="block font-medium text-sm mb-1">Tingkat <span
+                                    class="text-status-error-700">*</span></label>
+                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                                id="id_tingkat" name="id_tingkat" required>
+                            <option value="" disabled>Pilih Tingkat</option>
+                            <?php foreach ($tingkat as $t): ?>
+                                <option value="<?= $t['id'] ?>" <?= (isset($kelas['id_tingkat']) && $kelas['id_tingkat'] == $t['id']) ? 'selected' : '' ?>><?= htmlspecialchars($t['nama']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-span-1 md:col-span-2">
+                        <label for="id_guru_wali" class="block font-medium text-sm mb-1">Guru Wali Kelas</label>
+                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                                id="id_guru_wali" name="id_guru_wali">
+                            <option value="">Pilih Guru Wali (Opsional)</option>
+                            <?php foreach ($guru as $g): ?>
+                                <option value="<?= $g['id'] ?>" <?= (isset($kelas['id_guru_wali']) && $kelas['id_guru_wali'] == $g['id']) ? 'selected' : '' ?>><?= htmlspecialchars($g['nama']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="text-xs text-gray-500 mt-1">Guru wali kelas dapat dikosongkan jika belum
+                            ditentukan.
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-end gap-2 pt-2">
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
+                        <iconify-icon icon="cil:save" width="20"></iconify-icon>
+                        Simpan Perubahan
+                    </button>
+                    <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/details?id=<?= htmlspecialchars($kelas['id']) ?>"
+                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+                        <iconify-icon icon="cil:x" width="20"></iconify-icon>
+                        Batal
+                    </a>
+                </div>
+            </form>
+        <?php endif; ?>
+    </div>
 <?php
 $pageContent = ob_get_clean();
 $layout = 'dashboard';

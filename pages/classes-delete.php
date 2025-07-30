@@ -25,12 +25,12 @@ if (!$id || !is_numeric($id)) {
                 JOIN tingkat t ON k.id_tingkat = t.id 
                 LEFT JOIN guru g ON k.id_guru_wali = g.id 
                 WHERE k.id = :id";
-        
+
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $kelas = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$kelas) {
             $errorMessage = "Data kelas dengan ID " . htmlspecialchars($id) . " tidak ditemukan.";
         }
@@ -74,68 +74,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $kelas) {
 
 ob_start();
 ?>
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3 mb-0">Hapus Data Kelas</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/classes" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Kembali ke Daftar Kelas
-    </a>
-</div>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h1 class="text-2xl font-bold text-primary-700">Hapus Data Kelas</h1>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
+           class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+            <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+            Kembali ke Daftar Kelas
+        </a>
+    </div>
 
-<div class="card p-4">
-    <?php if ($errorMessage): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?= htmlspecialchars($errorMessage) ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <?php if ($kelas): ?>
-            <div class="d-flex justify-content-end mt-3">
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/classes" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Kembali ke Daftar Kelas
-                </a>
+    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+        <?php if ($errorMessage): ?>
+            <div class="flex items-center gap-2 mb-4 bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg">
+                <iconify-icon icon="cil:warning" width="22"></iconify-icon>
+                <span><?= htmlspecialchars($errorMessage) ?></span>
             </div>
-        <?php endif; ?>
-    <?php elseif ($kelas): ?>
-        <form method="POST" action="">
-            <input type="hidden" name="id" value="<?= htmlspecialchars($kelas['id']) ?>">
-            <div class="mb-4">
-                <h5>Apakah Anda yakin ingin menghapus data kelas berikut?</h5>
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <p><strong>Nama Kelas:</strong> <?= htmlspecialchars($kelas['nama_kelas']) ?></p>
-                                <p><strong>Tahun Ajaran:</strong> <?= htmlspecialchars($kelas['nama_tahun_ajaran']) ?></p>
+            <?php if ($kelas): ?>
+                <div class="flex justify-end mt-3">
+                    <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
+                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+                        <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+                        Kembali ke Daftar Kelas
+                    </a>
+                </div>
+            <?php endif; ?>
+        <?php elseif ($kelas): ?>
+            <form method="POST" action="" class="space-y-6">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($kelas['id']) ?>">
+                <div class="mb-4">
+                    <h2 class="text-lg font-semibold text-status-error-700 mb-2">Apakah Anda yakin ingin menghapus data
+                        kelas berikut?</h2>
+                    <div class="bg-secondary-50 rounded-lg border border-gray-200 p-4 mt-2">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <p>
+                                    <span class="font-semibold">Nama Kelas:</span> <?= htmlspecialchars($kelas['nama_kelas']) ?>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Tahun Ajaran:</span> <?= htmlspecialchars($kelas['nama_tahun_ajaran']) ?>
+                                </p>
                             </div>
-                            <div class="col-md-6">
-                                <p><strong>Tingkat:</strong> <?= htmlspecialchars($kelas['nama_tingkat']) ?></p>
-                                <p><strong>Guru Wali:</strong> 
-                                    <?= $kelas['nama_guru_wali'] ? htmlspecialchars($kelas['nama_guru_wali']) : '<em class="text-muted">Belum ditentukan</em>' ?>
+                            <div>
+                                <p>
+                                    <span class="font-semibold">Tingkat:</span> <?= htmlspecialchars($kelas['nama_tingkat']) ?>
+                                </p>
+                                <p>
+                                    <span class="font-semibold">Guru Wali:</span> <?= $kelas['nama_guru_wali'] ? htmlspecialchars($kelas['nama_guru_wali']) : '<em class=\'text-gray-400\'>Belum ditentukan</em>' ?>
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="alert alert-warning d-flex align-items-center mt-3" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>
-                        <strong>Peringatan!</strong><br>
-                        Data yang dihapus tidak dapat dikembalikan. Pastikan tidak ada siswa yang terdaftar di kelas ini sebelum menghapusnya.
+                    <div class="flex items-center gap-2 mt-4 bg-status-warning-100 border border-status-warning-200 text-status-warning-700 px-4 py-3 rounded-lg">
+                        <iconify-icon icon="cil:warning" width="22"></iconify-icon>
+                        <div>
+                            <span class="font-semibold">Peringatan!</span><br>
+                            Data yang dihapus tidak dapat dikembalikan. Pastikan tidak ada siswa yang terdaftar di kelas
+                            ini sebelum menghapusnya.
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-danger me-2">
-                    <i class="bi bi-trash"></i> Ya, Hapus Kelas
-                </button>
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/classes" class="btn btn-outline-secondary">
-                    <i class="bi bi-x"></i> Batal
-                </a>
-            </div>
-        </form>
-    <?php endif; ?>
-</div>
+                <div class="flex flex-wrap justify-end gap-2 pt-2">
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 bg-status-error-600 hover:bg-status-error-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
+                        <iconify-icon icon="cil:trash" width="20"></iconify-icon>
+                        Ya, Hapus Kelas
+                    </button>
+                    <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
+                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+                        <iconify-icon icon="cil:x" width="20"></iconify-icon>
+                        Batal
+                    </a>
+                </div>
+            </form>
+        <?php endif; ?>
+    </div>
 <?php
 $pageContent = ob_get_clean();
 $layout = 'dashboard';
