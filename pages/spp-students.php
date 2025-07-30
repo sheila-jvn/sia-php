@@ -8,14 +8,8 @@ $pdo = getDbConnection();
 
 // Get all students with their class information
 $sql = "
-    SELECT s.id, s.nis, s.nama, k.nama as kelas_nama, ta.nama as tahun_ajaran
+    SELECT s.id, s.nis, s.nama
     FROM siswa s
-    LEFT JOIN kelas k ON s.id = (
-        SELECT id_siswa FROM kehadiran 
-        WHERE id_siswa = s.id AND id_kelas = k.id 
-        LIMIT 1
-    )
-    LEFT JOIN tahun_ajaran ta ON k.id_tahun_ajaran = ta.id
     ORDER BY s.nis ASC
 ";
 
@@ -57,18 +51,14 @@ ob_start();
                                     <tr>
                                         <th>NIS</th>
                                         <th>Nama Siswa</th>
-                                        <th>Kelas</th>
-                                        <th>Aksi</th>
-                                    </tr>
+<th>Aksi</th>                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($students as $student): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($student['nis'] ?? '-') ?></td>
                                             <td><?= htmlspecialchars($student['nama']) ?></td>
-                                            <td><?= htmlspecialchars($student['kelas_nama'] ?? 'Belum ada kelas') ?></td>
-                                            <td>
-                                                <a href="spp-status?id=<?= $student['id'] ?><?= $currentYear ? '&year=' . $currentYear['id'] : '' ?>" 
+<td>                                                <a href="spp-status?id=<?= $student['id'] ?><?= $currentYear ? '&year=' . $currentYear['id'] : '' ?>" 
                                                    class="btn btn-primary btn-sm">
                                                     <i class="bi bi-cash-stack"></i> Lihat Pembayaran
                                                 </a>
