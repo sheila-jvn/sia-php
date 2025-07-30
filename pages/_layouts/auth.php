@@ -3,12 +3,10 @@ $authContent = $pageContent;
 
 ob_start();
 ?>
-<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
-                <?= $authContent ?>
-            </div>
+<div class="min-h-screen flex items-center justify-center bg-secondary-100">
+    <div class="w-full px-4">
+        <div class="mx-auto max-w-md w-full">
+            <?= $authContent ?>
         </div>
     </div>
 </div>

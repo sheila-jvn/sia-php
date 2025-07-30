@@ -40,9 +40,25 @@ Refer to `sia_php.sql` in the project root for the full database schema, table s
 
 ## UI & Frontend
 
-- **UI Framework:** Bootstrap 5 is used for all user interface components and layout. Refer to the [Bootstrap 5 documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/) for usage and customization guidelines.
-- **Bootstrap Native:** All UI should use Bootstrap classes and [Bootstrap Icons](https://icons.getbootstrap.com/) for consistency. Minimize custom CSS and avoid non-Bootstrap icon libraries. Only add custom styles if absolutely necessary for functionality or clarity.
-- **UI Principles:** Use logical button colors that match user expectations—primary for main actions, secondary for neutral actions, success for positive outcomes, warning for caution, and danger for destructive actions.
+- **UI Framework:** Tailwind CSS v4 is used for all user interface components and layout. The Tailwind configuration (theme/colors) is defined in `pages/_layouts/base.php`. Refer to the [Tailwind CSS documentation](https://tailwindcss.com/docs) for usage and customization guidelines.
+- Use the custom theme color classes defined in Tailwind config (see `pages/_layouts/base.php`), such as `bg-primary-600`, `text-primary-700`, `bg-accent-500`, `bg-secondary-100`, `text-error-600`, etc.
+- **Icons:** Use [Iconify](https://iconify.design/docs/) for all icons. Avoid other icon libraries unless absolutely necessary for functionality or clarity.
+    
+### Iconify Usage Example
+
+To use an icon with Iconify, add the `<iconify-icon>` tag with the desired icon name and optional size attributes:
+
+```html
+<iconify-icon icon="cil:locomotive" height="36"></iconify-icon>
+<iconify-icon icon="cil:paper-plane" width="36"></iconify-icon>
+<iconify-icon
+   icon="cil:truck"
+   style="font-size: 18px"
+   height="2em"
+></iconify-icon>
+```
+
+See the [Iconify documentation](https://iconify.design/docs/) for more options and icon sets.
 
 ## Centralized Config Loading
 

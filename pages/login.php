@@ -28,77 +28,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $pageTitle = "Login";
 ob_start();
 ?>
-<style>
-    :root {
-        --primary-blue: #2c5282;
-        --light-blue: #ebf8ff;
-        --text-color: #4a5568;
-        --border-color: #cbd5e0;
-        --bg-color: #f7fafc;
-    }
 
-    body {
-        background-color: var(--bg-color);
-        color: var(--text-color);
-    }
-
-    .card {
-        border-color: var(--border-color);
-    }
-
-    .btn-primary {
-        background-color: var(--primary-blue);
-        border-color: var(--primary-blue);
-        color: #fff;
-        border-radius: 0.5rem;
-        transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #2a4365;
-        border-color: #2a4365;
-    }
-
-    .form-control:focus {
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 0.25rem rgba(44, 82, 130, 0.25);
-    }
-
-    .text-decoration-none {
-        color: var(--primary-blue) !important;
-    }
-
-    .text-decoration-none:hover {
-        text-decoration: underline !important;
-    }
-</style>
-<main class="d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
-        <div class="card-body p-4">
-            <div class="text-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="var(--primary-blue)" class="mb-2" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
-                <h2 class="h4 mb-0">Login</h2>
-            </div>
-            <?php if ($error): ?>
-                <div class="alert alert-danger" role="alert">
-                    <?= htmlspecialchars($error) ?>
-                </div>
-            <?php endif; ?>
-            <form method="POST" action="<?= htmlspecialchars($urlPrefix) ?>/login" autocomplete="on" novalidate>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" required autofocus autocomplete="username" value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required autocomplete="current-password">
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-                <div class="mt-3 text-center">
-                    <a href="#" class="small text-decoration-none">Forgot password?</a>
-                </div>
-            </form>
+<main class="flex items-center justify-center min-h-screen bg-secondary-100">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <div class="text-center mb-6">
+            <iconify-icon icon="mdi:account-circle" width="48" height="48" class="text-primary-600 mb-2"></iconify-icon>
+            <h2 class="text-2xl font-bold text-primary-700 mb-0">Login</h2>
         </div>
+        <?php if ($error): ?>
+            <div class="mb-4 rounded-lg bg-error-100 text-error-700 px-4 py-3 text-sm text-center border border-error-200">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+        <form method="POST" action="<?= htmlspecialchars($urlPrefix) ?>/login" autocomplete="on" novalidate>
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-primary-700 mb-1">Username</label>
+                <input type="text" id="username" name="username" class="block w-full rounded-md border border-secondary-300 focus:border-primary-600 focus:ring focus:ring-primary-100 px-3 py-2 text-primary-900 bg-secondary-50" required autofocus autocomplete="username" value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-sm font-medium text-primary-700 mb-1">Password</label>
+                <input type="password" id="password" name="password" class="block w-full rounded-md border border-secondary-300 focus:border-primary-600 focus:ring focus:ring-primary-100 px-3 py-2 text-primary-900 bg-secondary-50" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 rounded-md transition-colors">Login</button>
+            <div class="mt-4 text-center">
+                <a href="#" class="text-sm text-primary-600 hover:underline">Forgot password?</a>
+            </div>
+        </form>
     </div>
 </main>
 <?php
