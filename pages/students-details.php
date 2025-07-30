@@ -32,87 +32,93 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 ob_start(); // Start output buffering
 ?>
 
-<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-    <h1 class="text-2xl font-bold text-primary-700">Detail Data Siswa</h1>
-    <div class="flex gap-2">
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
-            <iconify-icon icon="cil:arrow-left"></iconify-icon> Kembali ke Daftar Siswa
-        </a>
-        <?php if ($student): ?>
-            <a href="students/edit?id=<?= htmlspecialchars($student['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
-                <iconify-icon icon="cil:pencil"></iconify-icon> Edit Data
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+        <h1 class="text-2xl font-bold text-primary-700">Detail Data Siswa</h1>
+        <div class="flex gap-2">
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/students"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                <iconify-icon icon="cil:arrow-left"></iconify-icon>
+                Kembali ke Daftar Siswa
             </a>
-            <a href="students/delete?id=<?= htmlspecialchars($student['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-error-500 text-white hover:bg-error-600 transition">
-                <iconify-icon icon="cil:trash"></iconify-icon> Hapus Data
-            </a>
+            <?php if ($student): ?>
+                <a href="students/edit?id=<?= htmlspecialchars($student['id']) ?>"
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
+                    <iconify-icon icon="cil:pencil"></iconify-icon>
+                    Edit Data
+                </a>
+                <a href="students/delete?id=<?= htmlspecialchars($student['id']) ?>"
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-error-500 text-white hover:bg-error-600 transition">
+                    <iconify-icon icon="cil:trash"></iconify-icon>
+                    Hapus Data
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <?php if ($errorMessage): ?>
+            <div class="flex items-center gap-2 p-4 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200">
+                <iconify-icon icon="cil:warning"></iconify-icon>
+                <span><?= htmlspecialchars($errorMessage) ?></span>
+            </div>
+        <?php elseif ($student): ?>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">ID Siswa</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['id']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">NIS (Nomor Induk Siswa)</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nis']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">NISN (Nomor Induk Siswa Nasional)</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nisn']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Nama Lengkap</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Nomor Kartu Keluarga</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['no_kk'] ?: '-') ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Tanggal Lahir</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['tanggal_lahir']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Jenis Kelamin</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= $student['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Alamat</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200 whitespace-pre-line"><?= htmlspecialchars($student['alamat']) ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Nama Ayah</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama_ayah'] ?: '-') ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">NIK Ayah</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nik_ayah'] ?: '-') ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">Nama Ibu</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama_ibu'] ?: '-') ?></div>
+                    </div>
+                    <div>
+                        <div class="text-sm font-semibold text-primary-700 mb-1">NIK Ibu</div>
+                        <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nik_ibu'] ?: '-') ?></div>
+                    </div>
+                </div>
+            </div>
         <?php endif; ?>
     </div>
-</div>
-
-<div class="bg-white rounded-lg shadow p-6">
-    <?php if ($errorMessage): ?>
-        <div class="flex items-center gap-2 p-4 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200">
-            <iconify-icon icon="cil:warning"></iconify-icon>
-            <span><?= htmlspecialchars($errorMessage) ?></span>
-        </div>
-    <?php elseif ($student): ?>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="space-y-4">
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">ID Siswa</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['id']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">NIS (Nomor Induk Siswa)</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nis']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">NISN (Nomor Induk Siswa Nasional)</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nisn']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Nama Lengkap</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Nomor Kartu Keluarga</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['no_kk'] ?: '-') ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Tanggal Lahir</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['tanggal_lahir']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Jenis Kelamin</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= $student['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></div>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Alamat</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200 whitespace-pre-line"><?= htmlspecialchars($student['alamat']) ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Nama Ayah</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama_ayah'] ?: '-') ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">NIK Ayah</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nik_ayah'] ?: '-') ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">Nama Ibu</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama_ibu'] ?: '-') ?></div>
-                </div>
-                <div>
-                    <div class="text-sm font-semibold text-primary-700 mb-1">NIK Ibu</div>
-                    <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nik_ibu'] ?: '-') ?></div>
-                </div>
-            </div>
-        </div>
-    <?php endif; ?>
-</div>
 
 <?php
 $pageContent = ob_get_clean();

@@ -46,8 +46,10 @@ ob_start();
 ?>
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
     <h1 class="text-2xl font-bold text-primary-700">Hapus Data Siswa</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/students" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
-        <iconify-icon icon="cil:arrow-left"></iconify-icon> Kembali ke Daftar Siswa
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/students"
+       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+        <iconify-icon icon="cil:arrow-left"></iconify-icon>
+        Kembali ke Daftar Siswa
     </a>
 </div>
 
@@ -61,7 +63,8 @@ ob_start();
         <form method="POST" action="" class="space-y-6">
             <input type="hidden" name="id" value="<?= htmlspecialchars($student['id']) ?>">
             <div>
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Apakah Anda yakin ingin menghapus data siswa berikut?</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Apakah Anda yakin ingin menghapus data siswa
+                    berikut?</h2>
                 <div class="space-y-3 mb-6">
                     <div class="flex justify-between items-center p-3 rounded-lg bg-secondary-50 border border-secondary-200">
                         <span class="font-semibold text-sm">Nama:</span>
@@ -86,11 +89,15 @@ ob_start();
                 </div>
             </div>
             <div class="flex justify-end gap-2">
-                <button type="submit" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
-                    <iconify-icon icon="cil:trash"></iconify-icon> Hapus
+                <button type="submit"
+                        class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                    <iconify-icon icon="cil:trash"></iconify-icon>
+                    Hapus
                 </button>
-                <a href="<?= htmlspecialchars($urlPrefix) ?>/students/details?id=<?= htmlspecialchars($student['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
-                    <iconify-icon icon="cil:x"></iconify-icon> Batal
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/students/details?id=<?= htmlspecialchars($student['id']) ?>"
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                    <iconify-icon icon="cil:x"></iconify-icon>
+                    Batal
                 </a>
             </div>
         </form>
