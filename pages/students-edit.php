@@ -2,6 +2,7 @@
 $pageTitle = "Edit Data Siswa";
 $currentPage = 'students';
 
+require_once __DIR__ . '/../lib/config.php';
 require_once __DIR__ . '/../lib/database.php';
 
 $pdo = getDbConnection();
@@ -43,7 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
     $alamat = $_POST['alamat'] ?? '';
 
     // Basic validation
-    if (empty($nis) || empty($nisn) || empty($nama) || empty($tanggal_lahir) || empty($jenis_kelamin) || empty($alamat)) {
+    if (
+        $nis === '' ||
+        $nisn === '' ||
+        $nama === '' ||
+        $tanggal_lahir === '' ||
+        !isset($jenis_kelamin) || $jenis_kelamin === '' ||
+        $alamat === ''
+    ) {
         $errorMessage = "Harap lengkapi semua kolom wajib (NIS, NISN, Nama, Tanggal Lahir, Jenis Kelamin, Alamat).";
     } else {
         try {

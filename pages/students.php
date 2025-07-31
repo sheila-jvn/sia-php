@@ -18,7 +18,7 @@ if ($searchQuery) {
     $params[':search_alamat'] = '%' . $searchQuery . '%';
 }
 
-$sql .= ' ORDER BY nama';
+$sql .= ' ORDER BY nis';
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
