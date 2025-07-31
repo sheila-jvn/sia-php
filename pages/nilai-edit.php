@@ -169,8 +169,8 @@ ob_start();
 ?>
 <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
     <h1 class="text-2xl font-bold text-primary-700">Edit Data Nilai</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-        <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+        <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
         Kembali ke Daftar Nilai
     </a>
 </div>
@@ -257,12 +257,12 @@ ob_start();
             </div>
         </div>
         <div class="flex flex-row justify-end gap-2 pt-6">
-            <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-primary-600 hover:bg-primary-700 text-white font-semibold px-5 py-2 shadow transition">
-                <iconify-icon icon="mdi:content-save-outline" width="20" class="mr-2"></iconify-icon>
+            <button type="submit" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                <iconify-icon icon="mdi:content-save-outline" width="20" height="20"></iconify-icon>
                 Simpan Perubahan
             </button>
-            <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center justify-center rounded-lg bg-secondary-100 hover:bg-secondary-200 text-secondary-700 font-semibold px-5 py-2 shadow transition">
-                <iconify-icon icon="mdi:close" width="20" class="mr-2"></iconify-icon>
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                <iconify-icon icon="mdi:close" width="20" height="20"></iconify-icon>
                 Batal
             </a>
         </div>

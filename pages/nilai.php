@@ -135,22 +135,21 @@ ob_start();
                             <?php endif; ?>
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap flex gap-1 justify-center">
-                            <a href="nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>"
-                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
+                             <a href="nilai/details?id=<?= htmlspecialchars($nilai['id']) ?>"
+                               class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
                                title="Detail">
-                                <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+                                <iconify-icon icon="mdi:eye-outline" width="20" height="20"></iconify-icon>
                             </a>
                             <a href="nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>"
-                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
+                               class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
                                title="Edit">
-                                <iconify-icon icon="mdi:pencil-outline"></iconify-icon>
+                                <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
                             </a>
                             <a href="nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>"
                                class="inline-flex items-center justify-center p-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition"
                                title="Hapus">
-                                <iconify-icon icon="mdi:trash-can-outline"></iconify-icon>
-                            </a>
-                        </td>
+                                <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
+                            </a>                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

@@ -53,17 +53,17 @@ ob_start();
 <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
     <h1 class="text-2xl font-bold text-primary-700">Detail Data Nilai</h1>
     <div class="flex flex-row gap-2">
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-            <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Nilai
         </a>
         <?php if ($nilai): ?>
-            <a href="../nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center rounded-full bg-primary-100 text-primary-700 hover:bg-primary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-                <iconify-icon icon="mdi:pencil-outline" class="mr-2" width="20"></iconify-icon>
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/edit?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
+                <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
                 Edit Data
             </a>
-            <a href="../nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center rounded-full bg-status-error-100 text-status-error-700 hover:bg-status-error-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-                <iconify-icon icon="mdi:trash-can-outline" class="mr-2" width="20"></iconify-icon>
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/delete?id=<?= htmlspecialchars($nilai['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
                 Hapus Data
             </a>
         <?php endif; ?>

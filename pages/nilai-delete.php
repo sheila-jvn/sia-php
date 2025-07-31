@@ -66,11 +66,10 @@ ob_start();
     <div class="flex flex-col sm:flex-row items-center justify-between mb-6 gap-4">
         <h1 class="text-2xl font-bold text-primary-700">Hapus Data Nilai</h1>
         <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
-           class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-            <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Nilai
-        </a>
-    </div>
+        </a>    </div>
 
     <div class="bg-white rounded-xl shadow p-6">
         <?php if ($errorMessage): ?>
@@ -81,8 +80,8 @@ ob_start();
             <?php if ($nilai): ?>
                 <div class="flex justify-end mt-3">
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
-                       class="inline-flex items-center rounded-full bg-secondary-100 text-secondary-700 hover:bg-secondary-200 transition px-4 py-2 text-sm font-medium shadow-sm">
-                        <iconify-icon icon="mdi:arrow-left" class="mr-2" width="20"></iconify-icon>
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                        <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
                         Kembali ke Daftar Nilai
                     </a>
                 </div>
@@ -142,13 +141,13 @@ ob_start();
                 </div>
                 <div class="flex flex-row justify-end gap-2">
                     <button type="submit"
-                            class="inline-flex items-center justify-center rounded-lg bg-status-error-600 hover:bg-status-error-700 text-white font-semibold px-5 py-2 shadow transition">
-                        <iconify-icon icon="mdi:trash-can-outline" width="20" class="mr-2"></iconify-icon>
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                        <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
                         Ya, Hapus Nilai
                     </button>
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai"
-                       class="inline-flex items-center justify-center rounded-lg bg-secondary-100 hover:bg-secondary-200 text-secondary-700 font-semibold px-5 py-2 shadow transition">
-                        <iconify-icon icon="mdi:close" width="20" class="mr-2"></iconify-icon>
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                        <iconify-icon icon="mdi:close" width="20" height="20"></iconify-icon>
                         Batal
                     </a>
                 </div>
