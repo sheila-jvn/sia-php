@@ -186,6 +186,10 @@ switch ($route) {
         require __DIR__ . '/../pages/spp-reports.php';
         break;
 
+    case '/spp-print-receipt':
+        require __DIR__ . '/../pages/spp-print-receipt.php';
+        break;
+
     default:
         http_response_code(404);
         echo '<h1>404 Page Not Found</h1>';

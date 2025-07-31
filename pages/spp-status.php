@@ -202,7 +202,7 @@ ob_start();
                                         
                                         <?php if (!empty($data['payments'])): ?>
                                             <a class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg border border-accent-300 text-accent-700 bg-white hover:bg-accent-50 transition" 
-                                               href="spp-print-receipt.php?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" target="_blank">
+                                               href="spp-print-receipt?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" target="_blank">
                                                 <iconify-icon icon="solar:printer-linear" width="16" height="16"></iconify-icon>
                                                 Print
                                             </a>
