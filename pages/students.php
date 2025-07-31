@@ -36,7 +36,7 @@ ob_start();
                    placeholder="Cari data siswa..." value="<?= htmlspecialchars($searchQuery) ?>">
             <button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition"
                     type="submit">
-                <iconify-icon icon="cil:search" class="text-lg"></iconify-icon>
+                <iconify-icon icon="cil:search" width="20" height="20"></iconify-icon>
                 Cari
             </button>
             <?php if ($searchQuery): ?>
@@ -47,12 +47,12 @@ ob_start();
         <div class="flex gap-2">
             <a href="<?= htmlspecialchars($urlPrefix) ?>/students/create"
                class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
-                <iconify-icon icon="cil:plus" class="text-lg"></iconify-icon>
+                <iconify-icon icon="cil:plus" width="20" height="20"></iconify-icon>
                 Tambah Data
             </a>
             <a href="students/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>"
                class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
-                <iconify-icon icon="cil:file-export" class="text-lg"></iconify-icon>
+                <iconify-icon icon="cil:file-export" width="20" height="20"></iconify-icon>
                 Export Data
             </a>
         </div>
@@ -87,17 +87,17 @@ ob_start();
                             <a href="students/details?id=<?= htmlspecialchars($siswa['id']) ?>"
                                class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
                                title="Detail">
-                                <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+                                <iconify-icon icon="mdi:eye-outline" width="20" height="20"></iconify-icon>
                             </a>
                             <a href="students/edit?id=<?= htmlspecialchars($siswa['id']) ?>"
                                class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
                                title="Edit">
-                                <iconify-icon icon="mdi:pencil-outline"></iconify-icon>
+                                <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
                             </a>
                             <a href="students/delete?id=<?= htmlspecialchars($siswa['id']) ?>"
                                class="inline-flex items-center justify-center p-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition"
                                title="Hapus">
-                                <iconify-icon icon="mdi:trash-can-outline"></iconify-icon>
+                                <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
                             </a>
                         </td>
                     </tr>
