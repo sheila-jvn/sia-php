@@ -52,8 +52,8 @@ ob_start();
 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-2">
     <h1 class="text-2xl font-bold text-primary-700 mb-2 md:mb-0">Tambah Data Guru</h1>
     <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers"
-       class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 hover:bg-secondary-200 rounded">
-        <iconify-icon icon="mdi:arrow-left" width="20" height="20" class="mr-1"></iconify-icon>
+       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+        <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
         Kembali ke Daftar Guru
     </a>
 </div>
@@ -120,13 +120,13 @@ ob_start();
         </div>
         <div class="flex flex-row justify-end gap-2 mt-6">
             <button type="submit"
-                    class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition">
-                <iconify-icon icon="mdi:content-save-outline" width="20" height="20" class="mr-1"></iconify-icon>
+                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                <iconify-icon icon="mdi:content-save-outline" width="20" height="20"></iconify-icon>
                 Simpan Data
             </button>
             <button type="reset"
-                    class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 rounded hover:bg-secondary-200 transition">
-                <iconify-icon icon="mdi:arrow-u-left-top" width="20" height="20" class="mr-1"></iconify-icon>
+                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                <iconify-icon icon="mdi:arrow-u-left-top" width="20" height="20"></iconify-icon>
                 Reset Form
             </button>
         </div>

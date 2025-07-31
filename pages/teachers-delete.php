@@ -46,8 +46,8 @@ ob_start();
 <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-2">
     <h1 class="text-2xl font-bold text-primary-700 mb-2 md:mb-0">Hapus Data Guru</h1>
     <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers"
-       class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 hover:bg-secondary-200 rounded">
-        <iconify-icon icon="mdi:arrow-left" width="20" height="20" class="mr-1"></iconify-icon>
+       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+        <iconify-icon icon="mdi:arrow-left" width="20" height="20"></iconify-icon>
         Kembali ke Daftar Guru
     </a>
 </div>
@@ -83,13 +83,13 @@ ob_start();
             </div>
             <div class="flex flex-row justify-end gap-2 mt-6">
                 <button type="submit"
-                        class="inline-flex items-center px-4 py-2 bg-status-error-500 text-white rounded hover:bg-status-error-600 transition">
-                    <iconify-icon icon="mdi:trash-can-outline" width="20" height="20" class="mr-1"></iconify-icon>
+                        class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                    <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
                     Hapus
                 </button>
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers/details?id=<?= htmlspecialchars($teacher['id']) ?>"
-                   class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 rounded hover:bg-secondary-200 transition">
-                    <iconify-icon icon="mdi:close" width="20" height="20" class="mr-1"></iconify-icon>
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                    <iconify-icon icon="mdi:close" width="20" height="20"></iconify-icon>
                     Batal
                 </a>
             </div>

@@ -33,28 +33,28 @@ ob_start();
         <input type="text" name="search"
                class="flex-1 px-3 py-2 border border-secondary-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-primary-400"
                placeholder="Cari data guru..." value="<?= htmlspecialchars($searchQuery) ?>">
-        <button class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition"
+        <button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition"
                 type="submit">
-            <iconify-icon icon="mdi:magnify" width="20" height="20" class="mr-1"></iconify-icon>
+            <iconify-icon icon="mdi:magnify" width="20" height="20"></iconify-icon>
             Cari
         </button>
         <?php if ($searchQuery): ?>
             <a href="teachers"
-               class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 rounded hover:bg-secondary-200 transition">
-                <iconify-icon icon="mdi:close" width="20" height="20" class="mr-1"></iconify-icon>
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                <iconify-icon icon="mdi:close" width="20" height="20"></iconify-icon>
                 Reset
             </a>
         <?php endif; ?>
     </form>
     <div class="flex flex-row gap-2">
         <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers/create"
-           class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition">
-            <iconify-icon icon="mdi:plus" width="20" height="20" class="mr-1"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+            <iconify-icon icon="mdi:plus" width="20" height="20"></iconify-icon>
             Tambah Data
         </a>
         <a href="teachers/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>"
-           class="inline-flex items-center px-4 py-2 bg-accent-500 text-white rounded hover:bg-accent-600 transition">
-            <iconify-icon icon="mdi:file-arrow-up-outline" width="20" height="20" class="mr-1"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+            <iconify-icon icon="mdi:file-arrow-up-outline" width="20" height="20"></iconify-icon>
             Export Data
         </a>
     </div>
@@ -85,17 +85,17 @@ ob_start();
                     <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['no_telpon']) ?></td>
                     <td class="px-4 py-2 border-b border-secondary-100 whitespace-nowrap">
                         <a href="teachers/details?id=<?= htmlspecialchars($guru['id']) ?>"
-                           class="inline-flex items-center px-2 py-1 bg-status-info-100 text-status-info-700 hover:bg-status-info-200 rounded me-1"
+                           class="inline-flex items-center px-2 py-1 rounded border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 me-1"
                            title="Detail">
                             <iconify-icon icon="mdi:eye-outline" width="20" height="20"></iconify-icon>
                         </a>
                         <a href="teachers/edit?id=<?= htmlspecialchars($guru['id']) ?>"
-                           class="inline-flex items-center px-2 py-1 bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 rounded me-1"
+                           class="inline-flex items-center px-2 py-1 rounded border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 me-1"
                            title="Edit">
                             <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
                         </a>
                         <a href="teachers/delete?id=<?= htmlspecialchars($guru['id']) ?>"
-                           class="inline-flex items-center px-2 py-1 bg-status-error-500 text-white hover:bg-status-error-600 rounded"
+                           class="inline-flex items-center px-2 py-1 rounded bg-status-error-500 text-white hover:bg-status-error-600"
                            title="Hapus">
                             <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
                         </a>
