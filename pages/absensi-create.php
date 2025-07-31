@@ -85,7 +85,7 @@ ob_start();
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
     <h1 class="text-2xl font-bold text-primary-700">Tambah Data Absensi</h1>
-    <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="inline-flex items-center gap-1 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+    <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
         <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
         Kembali ke Daftar Absensi
     </a>
@@ -149,11 +149,11 @@ ob_start();
             </div>
         </div>
         <div class="flex flex-wrap justify-end gap-1 pt-2">
-            <button type="submit" class="inline-flex items-center gap-1 bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
+            <button type="submit" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
                 <iconify-icon icon="cil:save" width="20" height="20"></iconify-icon>
                 Simpan Data
             </button>
-            <button type="reset" class="inline-flex items-center gap-1 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+            <button type="reset" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
                 <iconify-icon icon="cil:reload" width="20" height="20"></iconify-icon>
                 Reset Form
             </button>
