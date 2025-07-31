@@ -78,7 +78,7 @@ ob_start();
         <h1 class="text-2xl font-bold text-primary-700">Hapus Data Kelas</h1>
         <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
-            <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+            <iconify-icon icon="cil:arrow-left" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Kelas
         </a>
     </div>

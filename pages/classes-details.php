@@ -53,13 +53,13 @@ ob_start();
                 Kembali ke Daftar Kelas
             </a>
             <?php if ($kelas): ?>
-                <a href="../classes/edit?id=<?= htmlspecialchars($kelas['id']) ?>"
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/edit?id=<?= htmlspecialchars($kelas['id']) ?>"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
                     <iconify-icon icon="cil:pencil" width="20" height="20"></iconify-icon>
                     Edit Data
                 </a>
-                <a href="../classes/delete?id=<?= htmlspecialchars($kelas['id']) ?>"
-                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-100 text-status-error-700 border border-status-error-200 hover:bg-status-error-200 transition">
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/delete?id=<?= htmlspecialchars($kelas['id']) ?>"
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
                     <iconify-icon icon="cil:trash" width="20" height="20"></iconify-icon>
                     Hapus Data
                 </a>
