@@ -169,10 +169,10 @@ ob_start();
         <div class="px-6 py-4 border-b border-secondary-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 class="text-xl font-semibold text-secondary-800">Riwayat Pembayaran</h2>
             <?php if (!empty($payments)): ?>
-                <a href="spp-history-export.php?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
+                <a href="spp-history/export?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
                     <iconify-icon icon="solar:download-linear" width="20" height="20"></iconify-icon>
-                    Export Excel
+                    Export CSV
                 </a>
             <?php endif; ?>
         </div>
@@ -225,12 +225,6 @@ ob_start();
         </div>
     </div>
 </div>
-
-<script>
-function exportData() {
-    alert('Export data ke Excel (fitur export akan dikembangkan)');
-}
-</script>
 
 <?php
 $pageContent = ob_get_clean();

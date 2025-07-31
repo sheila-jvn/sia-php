@@ -182,6 +182,10 @@ switch ($route) {
         require __DIR__ . '/../pages/spp-history.php';
         break;
 
+    case '/spp-history/export':
+        require __DIR__ . '/../pages/spp-history-export.php';
+        break;
+
     case '/spp-reports':
         require __DIR__ . '/../pages/spp-reports.php';
         break;
