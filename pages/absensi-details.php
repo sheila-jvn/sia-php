@@ -49,18 +49,18 @@ ob_start();
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
     <h1 class="text-2xl font-bold text-primary-700">Detail Data Absensi</h1>
-    <div class="flex gap-2">
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
-            <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+    <div class="flex gap-1">
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/absensi" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="cil:arrow-left" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Absensi
         </a>
         <?php if ($absensi): ?>
-            <a href="../absensi/edit?id=<?= htmlspecialchars($absensi['id']) ?>" class="inline-flex items-center gap-2 bg-primary-50 hover:bg-primary-100 text-primary-700 border border-primary-200 px-4 py-2 rounded-lg font-medium transition-colors">
-                <iconify-icon icon="cil:pencil" width="20"></iconify-icon>
+            <a href="../absensi/edit?id=<?= htmlspecialchars($absensi['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
+                <iconify-icon icon="cil:pencil" width="20" height="20"></iconify-icon>
                 Edit Data
             </a>
-            <a href="../absensi/delete?id=<?= htmlspecialchars($absensi['id']) ?>" class="inline-flex items-center gap-2 bg-status-error-100 hover:bg-status-error-200 text-status-error-700 border border-status-error-200 px-4 py-2 rounded-lg font-medium transition-colors">
-                <iconify-icon icon="cil:trash" width="20"></iconify-icon>
+            <a href="../absensi/delete?id=<?= htmlspecialchars($absensi['id']) ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                <iconify-icon icon="cil:trash" width="20" height="20"></iconify-icon>
                 Hapus Data
             </a>
         <?php endif; ?>
