@@ -48,28 +48,27 @@ ob_start();
             <?php else: ?>
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
-                        <thead class="bg-secondary-800 text-white">
+                        <thead class="bg-primary-100 text-primary-700">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">NIS</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Siswa</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
+                                <th class="px-4 py-2 font-semibold">NIS</th>
+                                <th class="px-4 py-2 font-semibold">Nama Siswa</th>
+                                <th class="px-4 py-2 font-semibold">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-secondary-200">
+                         <tbody class="bg-white divide-y divide-secondary-200">
                             <?php foreach ($students as $student): ?>
-                                <tr class="hover:bg-secondary-50">
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($student['nis'] ?? '-') ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($student['nama']) ?></td>
-                                    <td class="px-4 py-3">
+                                <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($student['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($student['nama']) ?></td>
+                                    <td class="px-4 py-3 align-middle">
                                         <a href="spp-status?id=<?= $student['id'] ?><?= $currentYear ? '&year=' . $currentYear['id'] : '' ?>" 
-                                           class="inline-flex items-center px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm">
-                                            <iconify-icon icon="solar:cash-out-linear" class="mr-2"></iconify-icon>
+                                           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                                            <iconify-icon icon="solar:cash-out-linear" width="20" height="20"></iconify-icon>
                                             Lihat Pembayaran
                                         </a>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
+                            <?php endforeach; ?>                        </tbody>
                     </table>
                 </div>
             <?php endif; ?>

@@ -153,8 +153,8 @@ ob_start();
             <p class="text-sm text-secondary-500">Tahun Ajaran: <?= htmlspecialchars($year['nama']) ?></p>
         </div>
         <a href="spp-status?id=<?= $studentId ?>&year=<?= $yearId ?>" 
-           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
-            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="solar:arrow-left-linear" width="20" height="20"></iconify-icon>
             Kembali
         </a>
     </div>
@@ -190,11 +190,11 @@ ob_start();
                         </thead>
                         <tbody class="divide-y divide-secondary-200">
                             <?php foreach ($showAllocation as $alloc): ?>
-                                <tr class="hover:bg-secondary-50">
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($alloc['month']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900">Rp <?= number_format($alloc['amount'], 0, ',', '.') ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
-                                    <td class="px-4 py-3">
+                                <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($alloc['month']) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle">Rp <?= number_format($alloc['amount'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3 align-middle">
                                         <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $alloc['status'] === 'Lunas' ? 'bg-status-success-100 text-status-success-700' : 'bg-status-warning-100 text-status-warning-700' ?>">
                                             <?= $alloc['status'] ?>
                                         </span>
@@ -250,8 +250,8 @@ ob_start();
                         
                         <div class="col-span-full">
                             <button type="submit" 
-                                    class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                                <iconify-icon icon="solar:calculator-minimalistic-linear" class="mr-2"></iconify-icon>
+                                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                                <iconify-icon icon="solar:calculator-minimalistic-linear" width="20" height="20"></iconify-icon>
                                 Hitung Alokasi
                             </button>
                         </div>
@@ -279,14 +279,14 @@ ob_start();
                             </thead>
                             <tbody class="divide-y divide-secondary-200">
                                 <?php foreach ($allocation as $alloc): ?>
-                                    <tr class="hover:bg-secondary-50">
-                                        <td class="px-4 py-3 text-sm font-medium text-secondary-900"><?= htmlspecialchars($alloc['month']) ?></td>
-                                        <td class="px-4 py-3 text-sm text-secondary-700">Rp <?= number_format($alloc['already_paid'], 0, ',', '.') ?></td>
-                                        <td class="px-4 py-3 text-sm text-status-success-700 font-medium">
+                                    <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                        <td class="px-4 py-3 font-medium text-secondary-900 align-middle"><?= htmlspecialchars($alloc['month']) ?></td>
+                                        <td class="px-4 py-3 text-secondary-700 align-middle">Rp <?= number_format($alloc['already_paid'], 0, ',', '.') ?></td>
+                                        <td class="px-4 py-3 text-status-success-700 font-medium align-middle">
                                             + Rp <?= number_format($alloc['amount'], 0, ',', '.') ?>
                                         </td>
-                                        <td class="px-4 py-3 text-sm font-medium text-secondary-900">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
-                                        <td class="px-4 py-3">
+                                        <td class="px-4 py-3 font-medium text-secondary-900 align-middle">Rp <?= number_format($alloc['new_total'], 0, ',', '.') ?></td>
+                                        <td class="px-4 py-3 align-middle">
                                             <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full <?= $alloc['status'] === 'Lunas' ? 'bg-status-success-100 text-status-success-700' : 'bg-status-warning-100 text-status-warning-700' ?>">
                                                 <?= $alloc['status'] ?>
                                             </span>
@@ -311,13 +311,13 @@ ob_start();
                         <input type="hidden" name="confirm" value="yes">
                         
                         <button type="submit" 
-                                class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
-                            <iconify-icon icon="solar:check-circle-bold" class="mr-2"></iconify-icon>
+                                class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-success-600 text-white hover:bg-status-success-700 transition">
+                            <iconify-icon icon="solar:check-circle-bold" width="20" height="20"></iconify-icon>
                             Konfirmasi Pembayaran
                         </button>
                         <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?><?= $selectedMonth ? '&month=' . urlencode($selectedMonth) : '' ?>" 
-                           class="inline-flex items-center px-4 py-2 border border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-50 transition-colors">
-                            <iconify-icon icon="solar:restart-linear" class="mr-2"></iconify-icon>
+                           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                            <iconify-icon icon="solar:restart-linear" width="20" height="20"></iconify-icon>
                             Ubah Jumlah
                         </a>
                     </form>

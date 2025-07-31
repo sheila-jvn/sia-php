@@ -41,8 +41,8 @@ ob_start();
     <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 gap-4">
         <h1 class="text-3xl font-bold text-primary-800">Laporan & Export SPP</h1>
         <a href="spp-students" 
-           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
-            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="solar:arrow-left-linear" width="20" height="20"></iconify-icon>
             Kembali
         </a>
     </div>
@@ -85,10 +85,10 @@ ob_start();
             </div>
             <div class="p-6">
                 <p class="text-secondary-600 mb-4">Export ringkasan pembayaran SPP per siswa per bulan</p>
-                <a href="spp-export-summary.php" class="w-full inline-flex items-center justify-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
-    <iconify-icon icon="solar:file-smile-linear" class="mr-2 text-lg"></iconify-icon>
-    Download Summary CSV
-</a>
+                <a href="spp-export-summary.php" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                    <iconify-icon icon="solar:file-smile-linear" width="20" height="20"></iconify-icon>
+                    Download Summary CSV
+                </a>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-secondary-200">
@@ -97,10 +97,10 @@ ob_start();
             </div>
             <div class="p-6">
                 <p class="text-secondary-600 mb-4">Export semua transaksi pembayaran SPP secara detail</p>
-                <a href="spp-export-detail.php" class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-    <iconify-icon icon="solar:file-text-linear" class="mr-2 text-lg"></iconify-icon>
-    Download Detail CSV
-</a>
+                <a href="spp-export-detail.php" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                    <iconify-icon icon="solar:file-text-linear" width="20" height="20"></iconify-icon>
+                    Download Detail CSV
+                </a>
             </div>
         </div>
     </div>
@@ -152,27 +152,27 @@ ob_start();
             <?php else: ?>
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
-                        <thead class="bg-secondary-50">
+                        <thead class="bg-primary-100 text-primary-700">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Tanggal</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">NIS</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Nama Siswa</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Tahun Ajaran</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Bulan</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">Jumlah</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-secondary-700 uppercase tracking-wider border-b border-secondary-200">ID</th>
+                                <th class="px-4 py-2 font-semibold">Tanggal</th>
+                                <th class="px-4 py-2 font-semibold">NIS</th>
+                                <th class="px-4 py-2 font-semibold">Nama Siswa</th>
+                                <th class="px-4 py-2 font-semibold">Tahun Ajaran</th>
+                                <th class="px-4 py-2 font-semibold">Bulan</th>
+                                <th class="px-4 py-2 font-semibold">Jumlah</th>
+                                <th class="px-4 py-2 font-semibold">ID</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-secondary-200">
                             <?php foreach ($recentPayments as $payment): ?>
-                                <tr class="hover:bg-secondary-50">
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['bulan']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-right font-medium text-secondary-900">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></td>
-                                    <td class="px-4 py-3 text-sm">
+                                <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['bulan']) ?></td>
+                                    <td class="px-4 py-3 text-right font-medium text-secondary-900 align-middle">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></td>
+                                    <td class="px-4 py-3 align-middle">
                                         <code class="bg-secondary-100 text-secondary-800 px-2 py-1 rounded text-xs">
                                             #<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?>
                                         </code>
@@ -184,7 +184,8 @@ ob_start();
                 </div>
                 <div class="text-center mt-6">
                     <a href="spp-history" 
-                       class="inline-flex items-center px-4 py-2 border border-primary-300 text-primary-700 rounded-lg hover:bg-primary-50 transition-colors">
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
+                        <iconify-icon icon="solar:eye-linear" width="20" height="20"></iconify-icon>
                         Lihat Semua Riwayat
                     </a>
                 </div>

@@ -95,8 +95,8 @@ ob_start();
             <h2 class="text-xl text-secondary-600"><?= htmlspecialchars($student['nama']) ?> (NIS: <?= htmlspecialchars($student['nis'] ?? '-') ?>)</h2>
         </div>
         <a href="spp-students" 
-           class="inline-flex items-center px-4 py-2 bg-secondary-600 text-white rounded-lg hover:bg-secondary-700 transition-colors">
-            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="solar:arrow-left-linear" width="20" height="20"></iconify-icon>
             Kembali
         </a>
     </div>
@@ -131,29 +131,29 @@ ob_start();
         <div class="p-6">
             <div class="overflow-x-auto">
                 <table class="min-w-full">
-                    <thead class="bg-secondary-800 text-white">
+                    <thead class="bg-primary-100 text-primary-700">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Bulan</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Riwayat Cicilan</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Total Dibayar</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Sisa</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
+                            <th class="px-4 py-2 font-semibold">Bulan</th>
+                            <th class="px-4 py-2 font-semibold">Riwayat Cicilan</th>
+                            <th class="px-4 py-2 font-semibold">Total Dibayar</th>
+                            <th class="px-4 py-2 font-semibold">Sisa</th>
+                            <th class="px-4 py-2 font-semibold">Status</th>
+                            <th class="px-4 py-2 font-semibold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-secondary-200">
                         <?php foreach ($months as $month): 
                             $data = $monthlyData[$month];
                         ?>
-                            <tr class="hover:bg-secondary-50">
-                                <td class="px-4 py-3 text-sm font-medium text-secondary-900"><?= htmlspecialchars($month) ?></td>
-                                <td class="px-4 py-3">
+                            <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                <td class="px-4 py-3 font-medium text-secondary-900 align-middle"><?= htmlspecialchars($month) ?></td>
+                                <td class="px-4 py-3 align-middle">
                                     <?php if (empty($data['payments'])): ?>
-                                        <span class="text-sm text-secondary-500">Belum ada pembayaran</span>
+                                        <span class="text-secondary-500">Belum ada pembayaran</span>
                                     <?php else: ?>
                                         <div class="space-y-1">
                                             <?php foreach ($data['payments'] as $payment): ?>
-                                                <div class="text-xs text-secondary-700">
+                                                <div class="text-sm text-secondary-700">
                                                     <?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?>: 
                                                     <span class="font-medium">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></span>
                                                 </div>
@@ -161,10 +161,10 @@ ob_start();
                                         </div>
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-4 py-3 text-sm font-medium text-secondary-900">
+                                <td class="px-4 py-3 font-medium text-secondary-900 align-middle">
                                     Rp <?= number_format($data['total_paid'], 0, ',', '.') ?>
                                 </td>
-                                <td class="px-4 py-3 text-sm">
+                                <td class="px-4 py-3 align-middle">
                                     <?php if ($data['outstanding'] > 0): ?>
                                         <span class="text-status-error-600 font-medium">
                                             Rp <?= number_format($data['outstanding'], 0, ',', '.') ?>
@@ -173,7 +173,7 @@ ob_start();
                                         <span class="text-status-success-600 font-medium">-</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 align-middle">
                                     <?php if ($data['status'] === 'Lunas'): ?>
                                         <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-status-success-100 text-status-success-700">
                                             Lunas
@@ -184,28 +184,29 @@ ob_start();
                                         </span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-4 py-3 align-middle">
                                     <div class="flex flex-col sm:flex-row gap-2">
                                         <?php if ($data['outstanding'] > 0): ?>
                                             <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" 
-                                               class="inline-flex items-center px-3 py-1 text-xs bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                                                <iconify-icon icon="solar:add-circle-linear" class="mr-1"></iconify-icon>
+                                               class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                                                <iconify-icon icon="solar:add-circle-linear" width="16" height="16"></iconify-icon>
                                                 Bayar Cicil
                                             </a>
                                         <?php else: ?>
-                                            <button class="inline-flex items-center px-3 py-1 text-xs border border-secondary-300 text-secondary-500 rounded-lg cursor-not-allowed" 
+                                            <button class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg border border-secondary-300 text-secondary-500 cursor-not-allowed" 
                                                     disabled>
-                                                <iconify-icon icon="solar:check-circle-bold" class="mr-1"></iconify-icon>
+                                                <iconify-icon icon="solar:check-circle-bold" width="16" height="16"></iconify-icon>
                                                 Lunas
                                             </button>
                                         <?php endif; ?>
                                         
                                         <?php if (!empty($data['payments'])): ?>
-<a class="inline-flex items-center px-3 py-1 text-xs border border-accent-300 text-accent-700 rounded-lg hover:bg-accent-50 transition-colors" 
-    href="spp-print-receipt.php?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" target="_blank">
-    <iconify-icon icon="solar:printer-linear" class="mr-1"></iconify-icon>
-    Print
-</a>                                        <?php endif; ?>
+                                            <a class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg border border-accent-300 text-accent-700 bg-white hover:bg-accent-50 transition" 
+                                               href="spp-print-receipt.php?student_id=<?= $studentId ?>&year_id=<?= $yearId ?>&month=<?= urlencode($month) ?>" target="_blank">
+                                                <iconify-icon icon="solar:printer-linear" width="16" height="16"></iconify-icon>
+                                                Print
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>

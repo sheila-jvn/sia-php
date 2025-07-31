@@ -73,8 +73,8 @@ ob_start();
     <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-6 gap-4">
         <h1 class="text-3xl font-bold text-primary-800">Riwayat Cicilan SPP</h1>
         <a href="spp-students" 
-           class="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-            <iconify-icon icon="solar:arrow-left-linear" class="mr-2"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="solar:arrow-left-linear" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Siswa
         </a>
     </div>
@@ -127,8 +127,8 @@ ob_start();
                 
                 <div class="flex items-end">
                     <button type="submit" 
-                            class="w-full inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                        <iconify-icon icon="solar:magnifer-linear" class="mr-2"></iconify-icon>
+                            class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                        <iconify-icon icon="solar:magnifer-linear" width="20" height="20"></iconify-icon>
                         Filter
                     </button>
                 </div>
@@ -136,8 +136,8 @@ ob_start();
                 <?php if ($filterStudent || $filterYear || $filterMonth): ?>
                     <div class="col-span-full">
                         <a href="spp-history" 
-                           class="inline-flex items-center px-3 py-2 border border-secondary-300 text-secondary-700 rounded-lg hover:bg-secondary-50 transition-colors text-sm">
-                            <iconify-icon icon="solar:close-circle-linear" class="mr-2"></iconify-icon>
+                           class="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition text-sm">
+                            <iconify-icon icon="solar:close-circle-linear" width="20" height="20"></iconify-icon>
                             Reset Filter
                         </a>
                     </div>
@@ -170,10 +170,10 @@ ob_start();
             <h2 class="text-xl font-semibold text-secondary-800">Riwayat Pembayaran</h2>
             <?php if (!empty($payments)): ?>
                 <a href="spp-history-export.php?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
-    class="inline-flex items-center px-4 py-2 bg-status-success-600 text-white rounded-lg hover:bg-status-success-700 transition-colors">
-    <iconify-icon icon="solar:download-linear" class="mr-2"></iconify-icon>
-    Export Excel
-</a>
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                    <iconify-icon icon="solar:download-linear" width="20" height="20"></iconify-icon>
+                    Export Excel
+                </a>
             <?php endif; ?>
         </div>
         <div class="p-6">
@@ -187,31 +187,31 @@ ob_start();
             <?php else: ?>
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
-                        <thead class="bg-secondary-800 text-white">
+                        <thead class="bg-primary-100 text-primary-700">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">No</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Tanggal Bayar</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">NIS</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Nama Siswa</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Tahun Ajaran</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Bulan</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Jumlah Bayar</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">ID Transaksi</th>
+                                <th class="px-4 py-2 font-semibold">No</th>
+                                <th class="px-4 py-2 font-semibold">Tanggal Bayar</th>
+                                <th class="px-4 py-2 font-semibold">NIS</th>
+                                <th class="px-4 py-2 font-semibold">Nama Siswa</th>
+                                <th class="px-4 py-2 font-semibold">Tahun Ajaran</th>
+                                <th class="px-4 py-2 font-semibold">Bulan</th>
+                                <th class="px-4 py-2 font-semibold">Jumlah Bayar</th>
+                                <th class="px-4 py-2 font-semibold">ID Transaksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-secondary-200">
                             <?php foreach ($payments as $index => $payment): ?>
-                                <tr class="hover:bg-secondary-50">
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= $index + 1 ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-secondary-900"><?= htmlspecialchars($payment['bulan']) ?></td>
-                                    <td class="px-4 py-3 text-sm text-right font-medium text-secondary-900">
+                                <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= $index + 1 ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['nis'] ?? '-') ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['nama_siswa']) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['tahun_ajaran']) ?></td>
+                                    <td class="px-4 py-3 text-secondary-900 align-middle"><?= htmlspecialchars($payment['bulan']) ?></td>
+                                    <td class="px-4 py-3 text-right font-medium text-secondary-900 align-middle">
                                         Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?>
                                     </td>
-                                    <td class="px-4 py-3 text-sm">
+                                    <td class="px-4 py-3 align-middle">
                                         <code class="bg-secondary-100 text-secondary-800 px-2 py-1 rounded text-xs">
                                             #<?= str_pad($payment['id'], 6, '0', STR_PAD_LEFT) ?>
                                         </code>
