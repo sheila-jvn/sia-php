@@ -33,18 +33,18 @@ ob_start();
     <h1 class="text-2xl font-bold text-primary-700 mb-2 md:mb-0">Detail Data Guru</h1>
     <div class="flex flex-row gap-2">
         <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers"
-           class="inline-flex items-center px-4 py-2 bg-secondary-100 text-secondary-700 hover:bg-secondary-200 rounded">
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
             <iconify-icon icon="mdi:arrow-left" width="20" height="20" class="mr-1"></iconify-icon>
             Kembali ke Daftar Guru
         </a>
         <?php if ($teacher): ?>
-            <a href="teachers/edit?id=<?= htmlspecialchars($teacher['id']) ?>"
-               class="inline-flex items-center px-4 py-2 bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 rounded">
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers/edit?id=<?= htmlspecialchars($teacher['id']) ?>"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
                 <iconify-icon icon="mdi:pencil-outline" width="20" height="20" class="mr-1"></iconify-icon>
                 Edit Data
             </a>
-            <a href="teachers/delete?id=<?= htmlspecialchars($teacher['id']) ?>"
-               class="inline-flex items-center px-4 py-2 bg-status-error-500 text-white hover:bg-status-error-600 rounded">
+            <a href="<?= htmlspecialchars($urlPrefix) ?>/teachers/delete?id=<?= htmlspecialchars($teacher['id']) ?>"
+               class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
                 <iconify-icon icon="mdi:trash-can-outline" width="20" height="20" class="mr-1"></iconify-icon>
                 Hapus Data
             </a>
