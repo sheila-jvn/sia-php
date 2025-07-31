@@ -85,12 +85,12 @@ ob_start();
                         <td class="px-4 py-2"><?= htmlspecialchars($siswa['alamat']) ?></td>
                         <td class="px-4 py-2 whitespace-nowrap flex gap-1">
                             <a href="students/details?id=<?= htmlspecialchars($siswa['id']) ?>"
-                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
+                               class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
                                title="Detail">
                                 <iconify-icon icon="mdi:eye-outline" width="20" height="20"></iconify-icon>
                             </a>
                             <a href="students/edit?id=<?= htmlspecialchars($siswa['id']) ?>"
-                               class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
+                               class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
                                title="Edit">
                                 <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
                             </a>
