@@ -15,8 +15,8 @@ ob_start();
                class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-8 rounded shadow transition text-lg">Login</a>
         </div>
         <div class="w-full md:w-1/2 flex items-center justify-center p-8">
-            <img src="https://files.catbox.moe/obe2a7.jpg" alt="Logo SMA IT Darussolihin"
-                 class="max-w-xs w-40 h-40 md:w-56 md:h-56 object-cover rounded-full mx-auto shadow">
+            <img src="https://files.catbox.moe/z5o2td.png" alt="Logo SMA IT Darussolihin"
+                 class="max-w-xs w-40 h-40 md:w-56 md:h-56 mx-auto shadow">
         </div>
     </div>
     </body>
