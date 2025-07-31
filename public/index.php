@@ -190,8 +190,24 @@ switch ($route) {
         require __DIR__ . '/../pages/spp-reports.php';
         break;
 
+    case '/spp-export-summary':
+        require __DIR__ . '/../pages/spp-export-summary.php';
+        break;
+
+    case '/spp-export-detail':
+        require __DIR__ . '/../pages/spp-export-detail.php';
+        break;
+
     case '/spp-print-receipt':
         require __DIR__ . '/../pages/spp-print-receipt.php';
+        break;
+
+    case '/spp-print-monthly':
+        require __DIR__ . '/../pages/spp-print-monthly.php';
+        break;
+
+    case '/spp-print-yearly':
+        require __DIR__ . '/../pages/spp-print-yearly.php';
         break;
 
     default:

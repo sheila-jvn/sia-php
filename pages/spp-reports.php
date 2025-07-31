@@ -84,10 +84,10 @@ ob_start();
                 <h2 class="text-xl font-semibold text-secondary-800">Export Data Summary</h2>
             </div>
             <div class="p-6">
-                <p class="text-secondary-600 mb-4">Export ringkasan pembayaran SPP per siswa per bulan</p>
-                <a href="spp-export-summary.php" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                <p class="text-secondary-600 mb-4">Export ringkasan transaksi pembayaran SPP yang telah dilakukan</p>
+                <a href="<?= $urlPrefix ?>/spp-export-summary" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
                     <iconify-icon icon="solar:file-smile-linear" width="20" height="20"></iconify-icon>
-                    Download Summary CSV
+                    Download Transaksi CSV
                 </a>
             </div>
         </div>
@@ -96,10 +96,10 @@ ob_start();
                 <h2 class="text-xl font-semibold text-secondary-800">Export Data Detail</h2>
             </div>
             <div class="p-6">
-                <p class="text-secondary-600 mb-4">Export semua transaksi pembayaran SPP secara detail</p>
-                <a href="spp-export-detail.php" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                <p class="text-secondary-600 mb-4">Export detail lengkap status pembayaran SPP per siswa per bulan</p>
+                <a href="<?= $urlPrefix ?>/spp-export-detail" class="w-full inline-flex items-center justify-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
                     <iconify-icon icon="solar:file-text-linear" width="20" height="20"></iconify-icon>
-                    Download Detail CSV
+                    Download Status Detail CSV
                 </a>
             </div>
         </div>
@@ -122,12 +122,12 @@ ob_start();
                     <iconify-icon icon="solar:history-linear" class="text-3xl text-accent-600 mb-2"></iconify-icon>
                     <span class="text-sm font-medium text-secondary-700">Riwayat Cicilan</span>
                 </a>
-                <a href="spp-print-monthly.php?month=<?= urlencode((new DateTime())->format('F')) ?>&year=<?= date('Y') ?>" target="_blank"
+                <a href="<?= $urlPrefix ?>/spp-print-monthly?month=<?= urlencode((new DateTime())->format('F')) ?>&year=<?= date('Y') ?>" target="_blank"
     class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-success-50 hover:border-status-success-300 transition-colors text-center">
     <iconify-icon icon="solar:printer-linear" class="text-3xl text-status-success-600 mb-2"></iconify-icon>
     <span class="text-sm font-medium text-secondary-700">Laporan Bulanan</span>
 </a>
-                <a href="spp-print-yearly.php?year=<?= date('Y') ?>" target="_blank"
+                <a href="<?= $urlPrefix ?>/spp-print-yearly?year=<?= date('Y') ?>" target="_blank"
     class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-status-warning-50 hover:border-status-warning-300 transition-colors text-center">
     <iconify-icon icon="solar:document-text-linear" class="text-3xl text-status-warning-600 mb-2"></iconify-icon>
     <span class="text-sm font-medium text-secondary-700">Laporan Tahunan</span>
@@ -194,26 +194,7 @@ ob_start();
     </div>
 </div>
 
-<script>
-function exportSummary() {
-    alert('Export summary CSV (fitur export akan dikembangkan)');
-}
 
-function exportDetail() {
-    alert('Export detail CSV (fitur export akan dikembangkan)');
-}
-
-function printMonthlyReport() {
-    const month = new Date().toLocaleString('id-ID', { month: 'long' });
-    const year = new Date().getFullYear();
-    alert('Print laporan bulanan untuk ' + month + ' ' + year + ' (fitur print akan dikembangkan)');
-}
-
-function printYearlyReport() {
-    const year = new Date().getFullYear();
-    alert('Print laporan tahunan untuk tahun ' + year + ' (fitur print akan dikembangkan)');
-}
-</script>
 
 <?php
 $pageContent = ob_get_clean();
