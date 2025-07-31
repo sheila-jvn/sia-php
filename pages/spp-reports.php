@@ -22,6 +22,19 @@ $stmt = $pdo->prepare("SELECT COUNT(*) as total, SUM(jumlah_bayar) as amount FRO
 $stmt->execute();
 $thisYear = $stmt->fetch();
 
+// Students with unpaid SPP (students who haven't paid any SPP this year)
+$stmt = $pdo->prepare("
+    SELECT COUNT(*) as unpaid 
+    FROM siswa s 
+    WHERE NOT EXISTS (
+        SELECT 1 FROM pembayaran_spp ps 
+        WHERE ps.id_siswa = s.id 
+        AND YEAR(ps.tanggal_bayar) = YEAR(CURDATE())
+    )
+");
+$stmt->execute();
+$unpaidStudents = $stmt->fetchColumn();
+
 // Recent payments (last 10)
 $stmt = $pdo->prepare("
     SELECT ps.*, s.nis, s.nama as nama_siswa, ta.nama as tahun_ajaran
@@ -71,7 +84,7 @@ ob_start();
         </div>
         <div class="bg-gradient-to-r from-status-warning-500 to-status-warning-600 text-white rounded-lg shadow-md">
             <div class="p-6 text-center">
-                <div class="text-3xl font-bold">-</div>
+                <div class="text-3xl font-bold"><?= number_format($unpaidStudents, 0, ',', '.') ?></div>
                 <p class="text-status-warning-100 mt-2">Belum Lunas</p>
             </div>
         </div>
