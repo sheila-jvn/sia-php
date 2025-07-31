@@ -1,4 +1,8 @@
 <?php
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ' . $urlPrefix . '/login');
+    exit();
+}
 global $urlPrefix, $currentPage;
 $dashboardContent = $pageContent;
 

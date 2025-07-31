@@ -41,13 +41,13 @@ ob_start(); // Start output buffering
                 Kembali ke Daftar Siswa
             </a>
             <?php if ($student): ?>
-                <a href="students/edit?id=<?= htmlspecialchars($student['id']) ?>"
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/students/edit?id=<?= htmlspecialchars($student['id']) ?>"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
                     <iconify-icon icon="cil:pencil"></iconify-icon>
                     Edit Data
                 </a>
-                <a href="students/delete?id=<?= htmlspecialchars($student['id']) ?>"
-                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-error-500 text-white hover:bg-error-600 transition">
+                <a href="<?= htmlspecialchars($urlPrefix) ?>/students/delete?id=<?= htmlspecialchars($student['id']) ?>"
+                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
                     <iconify-icon icon="cil:trash"></iconify-icon>
                     Hapus Data
                 </a>

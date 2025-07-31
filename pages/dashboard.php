@@ -1,9 +1,6 @@
 <?php
 require_once __DIR__ . '/../lib/database.php';
-if (!isset($_SESSION['user_id'])) {
-    header('Location: ' . $urlPrefix . '/login');
-    exit();
-}
+
 $pageTitle = "Dashboard";
 $currentPage = 'dashboard';
 $pdo = getDbConnection();
