@@ -77,13 +77,13 @@ ob_start();
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 class="text-2xl font-bold text-primary-700">Hapus Data Kelas</h1>
         <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
-           class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
             <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
             Kembali ke Daftar Kelas
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+    <div class="bg-white rounded-lg shadow p-6 border border-secondary-200">
         <?php if ($errorMessage): ?>
             <div class="flex items-center gap-2 mb-4 bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg">
                 <iconify-icon icon="cil:warning" width="22"></iconify-icon>
@@ -92,9 +92,8 @@ ob_start();
             <?php if ($kelas): ?>
                 <div class="flex justify-end mt-3">
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
-                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
-                        <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
-                        Kembali ke Daftar Kelas
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+<iconify-icon icon="cil:arrow-left" width="20" height="20"></iconify-icon>                        Kembali ke Daftar Kelas
                     </a>
                 </div>
             <?php endif; ?>
@@ -104,7 +103,7 @@ ob_start();
                 <div class="mb-4">
                     <h2 class="text-lg font-semibold text-status-error-700 mb-2">Apakah Anda yakin ingin menghapus data
                         kelas berikut?</h2>
-                    <div class="bg-secondary-50 rounded-lg border border-gray-200 p-4 mt-2">
+                    <div class="bg-secondary-50 rounded-lg border border-secondary-200 p-4 mt-2">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p>
@@ -125,8 +124,7 @@ ob_start();
                         </div>
                     </div>
                     <div class="flex items-center gap-2 mt-4 bg-status-warning-100 border border-status-warning-200 text-status-warning-700 px-4 py-3 rounded-lg">
-                        <iconify-icon icon="cil:warning" width="22"></iconify-icon>
-                        <div>
+<iconify-icon icon="cil:warning" width="20" height="20"></iconify-icon>                        <div>
                             <span class="font-semibold">Peringatan!</span><br>
                             Data yang dihapus tidak dapat dikembalikan. Pastikan tidak ada siswa yang terdaftar di kelas
                             ini sebelum menghapusnya.
@@ -135,13 +133,13 @@ ob_start();
                 </div>
                 <div class="flex flex-wrap justify-end gap-2 pt-2">
                     <button type="submit"
-                            class="inline-flex items-center gap-2 bg-status-error-600 hover:bg-status-error-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
-                        <iconify-icon icon="cil:trash" width="20"></iconify-icon>
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition">
+                        <iconify-icon icon="cil:trash" width="20" height="20"></iconify-icon>
                         Ya, Hapus Kelas
                     </button>
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
-                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
-                        <iconify-icon icon="cil:x" width="20"></iconify-icon>
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                        <iconify-icon icon="cil:x" width="20" height="20"></iconify-icon>
                         Batal
                     </a>
                 </div>

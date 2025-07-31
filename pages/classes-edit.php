@@ -120,13 +120,13 @@ ob_start();
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 class="text-2xl font-bold text-primary-700">Edit Data Kelas</h1>
         <a href="<?= htmlspecialchars($urlPrefix) ?>/classes"
-           class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
-            <iconify-icon icon="cil:arrow-left" width="20"></iconify-icon>
+           class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+            <iconify-icon icon="cil:arrow-left" width="20" height="20"></iconify-icon>
             Kembali ke Daftar Kelas
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow p-6 border border-gray-200">
+    <div class="bg-white rounded-lg shadow p-6 border border-secondary-200">
         <?php if ($errorMessage): ?>
             <div class="flex items-center gap-2 mb-4 bg-status-error-100 border border-status-error-200 text-status-error-700 px-4 py-3 rounded-lg">
                 <iconify-icon icon="cil:warning" width="22"></iconify-icon>
@@ -142,14 +142,14 @@ ob_start();
                         <label for="nama" class="block font-medium text-sm mb-1">Nama Kelas <span
                                     class="text-status-error-700">*</span></label>
                         <input type="text"
-                               class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                               class="w-full rounded-lg border border-secondary-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
                                id="nama" name="nama" required placeholder="Contoh: XII IPA 1"
                                value="<?= htmlspecialchars($kelas['nama'] ?? '') ?>">
                     </div>
                     <div>
                         <label for="id_tahun_ajaran" class="block font-medium text-sm mb-1">Tahun Ajaran <span
                                     class="text-status-error-700">*</span></label>
-                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                        <select class="w-full rounded-lg border border-secondary-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
                                 id="id_tahun_ajaran" name="id_tahun_ajaran" required>
                             <option value="" disabled>Pilih Tahun Ajaran</option>
                             <?php foreach ($tahunAjaran as $ta): ?>
@@ -160,7 +160,7 @@ ob_start();
                     <div>
                         <label for="id_tingkat" class="block font-medium text-sm mb-1">Tingkat <span
                                     class="text-status-error-700">*</span></label>
-                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                        <select class="w-full rounded-lg border border-secondary-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
                                 id="id_tingkat" name="id_tingkat" required>
                             <option value="" disabled>Pilih Tingkat</option>
                             <?php foreach ($tingkat as $t): ?>
@@ -170,7 +170,7 @@ ob_start();
                     </div>
                     <div class="col-span-1 md:col-span-2">
                         <label for="id_guru_wali" class="block font-medium text-sm mb-1">Guru Wali Kelas</label>
-                        <select class="w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
+                        <select class="w-full rounded-lg border border-secondary-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm"
                                 id="id_guru_wali" name="id_guru_wali">
                             <option value="">Pilih Guru Wali (Opsional)</option>
                             <?php foreach ($guru as $g): ?>
@@ -184,13 +184,13 @@ ob_start();
                 </div>
                 <div class="flex flex-wrap justify-end gap-2 pt-2">
                     <button type="submit"
-                            class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg transition-colors">
-                        <iconify-icon icon="cil:save" width="20"></iconify-icon>
+                            class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                        <iconify-icon icon="cil:save" width="20" height="20"></iconify-icon>
                         Simpan Perubahan
                     </button>
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/details?id=<?= htmlspecialchars($kelas['id']) ?>"
-                       class="inline-flex items-center gap-2 bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium transition-colors">
-                        <iconify-icon icon="cil:x" width="20"></iconify-icon>
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
+                        <iconify-icon icon="cil:x" width="20" height="20"></iconify-icon>
                         Batal
                     </a>
                 </div>

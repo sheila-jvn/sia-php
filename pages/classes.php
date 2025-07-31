@@ -39,29 +39,29 @@ ob_start();
 
 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
     <form action="" method="GET" class="flex flex-1 gap-2">
-        <input type="text" name="search" class="flex-1 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" placeholder="Cari data kelas..." value="<?= htmlspecialchars($searchQuery) ?>">
-        <button class="bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors" type="submit">
-            <iconify-icon icon="cil:search" width="20"></iconify-icon>
+        <input type="text" name="search" class="flex-1 rounded-lg border border-secondary-300 focus:ring-2 focus:ring-primary-400 px-3 py-2 text-sm" placeholder="Cari data kelas..." value="<?= htmlspecialchars($searchQuery) ?>">
+        <button class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition" type="submit">
+            <iconify-icon icon="cil:search" width="20" height="20"></iconify-icon>
             Cari
         </button>
         <?php if ($searchQuery): ?>
-            <a href="classes" class="bg-secondary-100 hover:bg-secondary-200 text-secondary-700 border border-secondary-300 px-4 py-2 rounded-lg font-medium ml-2 transition-colors">Reset</a>
+            <a href="classes" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition ml-2">Reset</a>
         <?php endif; ?>
     </form>
     <div class="flex gap-2">
-        <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/create" class="bg-primary-600 hover:bg-primary-700 text-white font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-            <iconify-icon icon="cil:plus" width="20"></iconify-icon>
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/classes/create" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+            <iconify-icon icon="cil:plus" width="20" height="20"></iconify-icon>
             Tambah Data
         </a>
-        <a href="classes/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="bg-accent-500 hover:bg-accent-600 text-white font-medium px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
-            <iconify-icon icon="cil:file-export" width="20"></iconify-icon>
+        <a href="classes/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+            <iconify-icon icon="cil:file-export" width="20" height="20"></iconify-icon>
             Export Data
         </a>
     </div>
 </div>
 
-<div class="overflow-x-auto rounded-lg border border-gray-200 bg-white">
-    <table class="min-w-full divide-y divide-gray-200">
+<div class="overflow-x-auto rounded-lg border border-secondary-200 bg-white">
+    <table class="min-w-full divide-y divide-secondary-200">
         <thead class="bg-primary-100">
             <tr>
                 <th class="px-4 py-3 text-left text-xs font-semibold text-primary-700">ID</th>
@@ -72,7 +72,7 @@ ob_start();
                 <th class="px-4 py-3 text-center text-xs font-semibold text-primary-700">Action</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100">
+        <tbody class="divide-y divide-secondary-100">
             <?php if (count($classes) > 0): ?>
                 <?php foreach ($classes as $kelas): ?>
                     <tr class="hover:bg-secondary-50">
@@ -81,28 +81,28 @@ ob_start();
                         <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($kelas['nama_tahun_ajaran']) ?></td>
                         <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($kelas['nama_guru_wali']) ?></td>
                         <td class="px-4 py-2 text-sm text-gray-800"><?= htmlspecialchars($kelas['nama_tingkat']) ?></td>
-                        <td class="px-4 py-2 whitespace-nowrap flex gap-1 justify-center">
+                        <td class="px-4 py-2 whitespace-nowrap flex justify-center gap-1">
     <a href="classes/details?id=<?= htmlspecialchars($kelas['id']) ?>"
-       class="inline-flex items-center justify-center p-2 rounded-lg bg-status-info-100 text-status-info-700 hover:bg-status-info-200 transition"
+       class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
        title="Detail">
-        <iconify-icon icon="mdi:eye-outline"></iconify-icon>
+        <iconify-icon icon="mdi:eye-outline" width="20" height="20"></iconify-icon>
     </a>
     <a href="classes/edit?id=<?= htmlspecialchars($kelas['id']) ?>"
-       class="inline-flex items-center justify-center p-2 rounded-lg bg-status-warning-100 text-status-warning-700 hover:bg-status-warning-200 transition"
+       class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
        title="Edit">
-        <iconify-icon icon="mdi:pencil-outline"></iconify-icon>
+        <iconify-icon icon="mdi:pencil-outline" width="20" height="20"></iconify-icon>
     </a>
     <a href="classes/delete?id=<?= htmlspecialchars($kelas['id']) ?>"
        class="inline-flex items-center justify-center p-2 rounded-lg bg-status-error-500 text-white hover:bg-status-error-600 transition"
        title="Hapus">
-        <iconify-icon icon="mdi:trash-can-outline"></iconify-icon>
+        <iconify-icon icon="mdi:trash-can-outline" width="20" height="20"></iconify-icon>
     </a>
 </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="6" class="text-center py-8 text-gray-500">Tidak ada data kelas ditemukan.</td>
+                    <td colspan="6" class="text-center py-8 text-secondary-500">Tidak ada data kelas ditemukan.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
