@@ -84,61 +84,63 @@ ob_start();
             </h5>
         </div>
         <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">ID Nilai</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['id']) ?> </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Nama Siswa</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700">
-                            <?= htmlspecialchars($nilai['nama_siswa']) ?>
-                            <?php if ($nilai['nis_siswa']): ?>
-                                <span class="block text-xs text-gray-500 mt-1">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Mata Pelajaran</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?> </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Kelas</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_kelas']) ?> </div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">ID Nilai</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= htmlspecialchars($nilai['id']) ?></div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Nama Siswa</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900">
+                        <?= htmlspecialchars($nilai['nama_siswa']) ?>
+                        <?php if ($nilai['nis_siswa']): ?>
+                            <span class="block text-sm text-secondary-500 mt-1">NIS: <?= htmlspecialchars($nilai['nis_siswa']) ?></span>
+                        <?php endif; ?>
                     </div>
                 </div>
+                
                 <div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Tahun Ajaran</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?> </div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Kelas</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= htmlspecialchars($nilai['nama_kelas']) ?></div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Mata Pelajaran</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= htmlspecialchars($nilai['nama_mata_pelajaran']) ?></div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Jenis Nilai</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= htmlspecialchars($nilai['jenis_nilai']) ?></div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Nilai</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200">
+                        <?php 
+                            $nilaiNum = (float)$nilai['nilai'];
+                            $nilaiColor = $nilaiNum >= 80 ? 'text-status-success-600' : ($nilaiNum >= 70 ? 'text-status-warning-600' : 'text-status-error-600');
+                        ?>
+                        <span class="font-bold text-xl <?= $nilaiColor ?>"><?= htmlspecialchars($nilai['nilai']) ?></span>
                     </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Jenis Nilai</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                            <span class="inline-block rounded px-2 py-1 text-xs font-semibold bg-accent-100 text-accent-700"> <?= htmlspecialchars($nilai['jenis_nilai']) ?> </span>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Nilai</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200">
-                            <?php 
-                                $nilaiNum = (float)$nilai['nilai'];
-                                $nilaiColor = $nilaiNum >= 80 ? 'text-status-success-700' : ($nilaiNum >= 70 ? 'text-status-warning-700' : 'text-status-error-700');
-                            ?>
-                            <span class="font-bold text-2xl <?= $nilaiColor ?>"> <?= htmlspecialchars($nilai['nilai']) ?> </span>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-semibold text-primary-700 mb-1">Tanggal Penilaian</label>
-                        <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700"> <?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?> </div>
-                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Tahun Ajaran</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= htmlspecialchars($nilai['nama_tahun_ajaran']) ?></div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Tanggal Penilaian</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900"><?= date('d/m/Y', strtotime($nilai['tanggal_penilaian'])) ?></div>
                 </div>
             </div>
+            
             <?php if ($nilai['keterangan']): ?>
                 <div class="mt-6">
-                    <label class="block font-semibold text-primary-700 mb-1">Keterangan</label>
-                    <div class="bg-gray-50 rounded-lg px-3 py-2 border border-gray-200 text-gray-700 min-h-[80px]">
+                    <label class="block text-sm font-medium text-secondary-600 mb-2">Keterangan</label>
+                    <div class="bg-secondary-50 rounded-lg px-4 py-3 border border-secondary-200 text-secondary-900 min-h-[80px]">
                         <?= nl2br(htmlspecialchars($nilai['keterangan'])) ?>
                     </div>
                 </div>
