@@ -11,17 +11,25 @@ $errorMessage = '';
 $successMessage = '';
 $student = null;
 
-// Get student ID from GET or POST
+// Ambil ID siswa dari GET (load halaman awal) atau POST (pengiriman form)
+// Pendekatan ganda ini memungkinkan script yang sama menangani tampilan dan pemrosesan form
 $id = $_GET['id'] ?? $_POST['id'] ?? null;
+
+// Validasi bahwa kita memiliki ID numerik sebelum melanjutkan
+// Ini mencegah error SQL dan potensi masalah keamanan
 if (!$id || !is_numeric($id)) {
     $errorMessage = "ID siswa tidak valid atau tidak diberikan.";
 } else {
-    // Fetch student data for GET or for repopulating after failed POST
+    // Ambil data siswa untuk permintaan GET dan POST
+    // Untuk GET: isi form dengan data yang ada
+    // Untuk POST: pastikan kita masih memiliki struktur data tersedia setelah error validasi
     try {
         $stmt = $pdo->prepare("SELECT * FROM siswa WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Periksa apakah siswa ada di database
         if (!$student) {
             $errorMessage = "Data siswa dengan ID " . htmlspecialchars($id) . " tidak ditemukan.";
         }
@@ -30,7 +38,9 @@ if (!$id || !is_numeric($id)) {
     }
 }
 
+// Proses pengiriman form hanya jika kita memiliki data siswa yang valid
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
+    // Ekstrak data form menggunakan null coalescing untuk keamanan
     $nis = $_POST['nis'] ?? '';
     $nisn = $_POST['nisn'] ?? '';
     $nama = $_POST['nama'] ?? '';
@@ -43,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
     $nik_ibu = $_POST['nik_ibu'] ?? '';
     $alamat = $_POST['alamat'] ?? '';
 
-    // Basic validation
+    // Validasi field wajib menggunakan kondisi yang lebih eksplisit
+    // Ini lebih mudah dibaca daripada pendekatan halaman create
     if (
         $nis === '' ||
         $nisn === '' ||
@@ -55,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
         $errorMessage = "Harap lengkapi semua kolom wajib (NIS, NISN, Nama, Tanggal Lahir, Jenis Kelamin, Alamat).";
     } else {
         try {
+            // Query UPDATE menggunakan prepared statement untuk keamanan
             $sql = "UPDATE siswa SET nis = :nis, nisn = :nisn, nama = :nama, no_kk = :no_kk, tanggal_lahir = :tanggal_lahir, jenis_kelamin = :jenis_kelamin, nama_ayah = :nama_ayah, nama_ibu = :nama_ibu, nik_ayah = :nik_ayah, nik_ibu = :nik_ibu, alamat = :alamat WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':nis', $nis);
@@ -71,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
             if ($stmt->execute()) {
+                // Redirect kembali ke daftar siswa setelah update berhasil
                 header('Location: ' . htmlspecialchars($urlPrefix) . '/students');
                 exit;
             } else {
@@ -80,7 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $student) {
             $errorMessage = "Error: " . $e->getMessage();
         }
     }
-    // Repopulate $student for form after failed POST
+    
+    // Peningkatan UX kritis: Isi ulang form dengan data yang dikirim setelah error validasi
+    // Ini mencegah pengguna kehilangan perubahan mereka ketika validasi gagal
+    // Kita gabungkan data POST dengan record siswa asli
     $student = array_merge($student, [
         'nis' => $nis,
         'nisn' => $nisn,
@@ -117,6 +133,8 @@ ob_start();
 
     <?php if ($student): ?>
         <form method="POST" action="" class="space-y-6">
+            <!-- Field tersembunyi untuk mempertahankan ID siswa selama pengiriman form -->
+            <!-- Ini memastikan permintaan POST tahu siswa mana yang akan diupdate -->
             <input type="hidden" name="id" value="<?= htmlspecialchars($student['id']) ?>">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -207,6 +225,9 @@ ob_start();
                     <iconify-icon icon="cil:save"></iconify-icon>
                     Simpan Perubahan
                 </button>
+                <!-- Tombol batal mengarahkan ke halaman detail alih-alih daftar siswa -->
+                <!-- Ini memberikan alur navigasi yang lebih baik: Edit -> Batal -> Kembali melihat record -->
+                <!-- Pengguna kemudian dapat navigasi kembali ke daftar dari halaman detail jika diperlukan -->
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/students/details?id=<?= htmlspecialchars($student['id']) ?>"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">
                     <iconify-icon icon="cil:x"></iconify-icon>

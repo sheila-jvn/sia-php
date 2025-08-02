@@ -6,24 +6,42 @@ require_once __DIR__ . '/../lib/database.php';
 
 $pdo = getDbConnection();
 
+// Ambil query pencarian dari parameter GET menggunakan null coalescing operator untuk keamanan
+// Ini memastikan kita mendapat string kosong jika tidak ada parameter pencarian yang diberikan
 $searchQuery = $_GET['search'] ?? '';
+
+// Mulai dengan query SQL dasar untuk mengambil semua siswa
 $sql = 'SELECT * FROM siswa';
 $params = [];
 
+// Bangun klausa WHERE dinamis untuk fitur pencarian
+// Hanya tambahkan kondisi pencarian jika istilah pencarian diberikan
 if ($searchQuery) {
+    // Cari di beberapa field menggunakan LIKE dengan wildcard untuk pencarian parsial
+    // Ini memungkinkan pengguna menemukan siswa berdasarkan nama, NIS, NISN, atau alamat
+    // Setiap field mendapat parameter bernama sendiri untuk mencegah SQL injection
     $sql .= ' WHERE nama LIKE :search_nama OR nis LIKE :search_nis OR nisn LIKE :search_nisn OR alamat LIKE :search_alamat';
+    
+    // Bungkus istilah pencarian dengan wildcard (%) untuk pencocokan parsial
+    // Menggunakan istilah pencarian yang sama untuk semua field tapi dengan nama parameter yang berbeda
+    // Ini diperlukan karena PDO tidak mengizinkan penggunaan ulang nama parameter yang sama
     $params[':search_nama'] = '%' . $searchQuery . '%';
     $params[':search_nis'] = '%' . $searchQuery . '%';
     $params[':search_nisn'] = '%' . $searchQuery . '%';
     $params[':search_alamat'] = '%' . $searchQuery . '%';
 }
 
+// Selalu tambahkan klausa ORDER BY untuk memastikan urutan hasil yang konsisten
+// Mengurutkan berdasarkan NIS (nomor induk siswa) memberikan urutan yang logis dan dapat diprediksi
 $sql .= ' ORDER BY nis';
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $students = $stmt->fetchAll();
 
+// Mulai output buffering untuk menangkap semua konten HTML
+// Ini memungkinkan kita membangun seluruh konten halaman terlebih dahulu, lalu meneruskannya ke sistem layout
+// Sistem layout mengharapkan variabel $pageContent berisi konten utama
 ob_start();
 
 ?>
@@ -40,6 +58,8 @@ ob_start();
                 Cari
             </button>
             <?php if ($searchQuery): ?>
+                <!-- Tampilkan tombol reset hanya ketika pencarian aktif -->
+                <!-- Ini memberikan UX yang jelas untuk kembali ke daftar lengkap -->
                 <a href="students"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-secondary-300 text-secondary-700 bg-white hover:bg-secondary-100 transition">Reset</a>
             <?php endif; ?>
@@ -50,6 +70,9 @@ ob_start();
                 <iconify-icon icon="cil:plus" width="20" height="20"></iconify-icon>
                 Tambah Data
             </a>
+            <!-- Link export mempertahankan status pencarian saat ini -->
+            <!-- Jika pengguna sedang melihat hasil yang difilter, export akan berisi hanya hasil tersebut -->
+            <!-- Menggunakan urlencode() untuk meneruskan query pencarian sebagai parameter URL dengan aman -->
             <a href="students/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>"
                class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
                 <iconify-icon icon="cil:file-export" width="20" height="20"></iconify-icon>
@@ -81,8 +104,14 @@ ob_start();
                         <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($siswa['nisn']) ?></td>
                         <td class="px-4 py-2"><?= htmlspecialchars($siswa['nama']) ?></td>
                         <td class="px-4 py-2 whitespace-nowrap"><?= htmlspecialchars($siswa['tanggal_lahir']) ?></td>
+                        <!-- Konversi nilai jenis kelamin database (1/0) ke teks yang dapat dibaca -->
+                        <!-- Database menyimpan: 1 = Laki-laki, 0 = Perempuan -->
+                        <!-- Ini memberikan UX yang lebih baik daripada menampilkan angka mentah -->
                         <td class="px-4 py-2 whitespace-nowrap"><?= $siswa['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
                         <td class="px-4 py-2"><?= htmlspecialchars($siswa['alamat']) ?></td>
+                        <!-- Tombol aksi dengan konstruksi URL yang tepat -->
+                        <!-- Setiap aksi meneruskan ID siswa sebagai parameter query -->
+                        <!-- htmlspecialchars() mencegah serangan XSS pada parameter ID -->
                         <td class="px-4 py-2 whitespace-nowrap flex gap-1">
                             <a href="students/details?id=<?= htmlspecialchars($siswa['id']) ?>"
                                class="inline-flex items-center justify-center p-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition"
@@ -112,7 +141,14 @@ ob_start();
     </div>
 
 <?php
+// Tangkap semua output yang dibuffer ke dalam variabel $pageContent
+// Konten ini akan diinjeksi ke template layout dashboard
 $pageContent = ob_get_clean();
+
+// Tentukan template layout mana yang akan digunakan
+// Sistem layout akan membungkus konten kita dengan header, navigasi, dll.
 $layout = 'dashboard';
+
+// Sertakan sistem layout, yang akan merender halaman final
 require __DIR__ . '/_layout.php';
 ?>

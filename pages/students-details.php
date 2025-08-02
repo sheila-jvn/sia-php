@@ -9,23 +9,29 @@ $pdo = getDbConnection();
 $student = null;
 $errorMessage = '';
 
+// Validasi ID siswa dari parameter URL
+// Harus ada dan numerik untuk mencegah error SQL dan masalah keamanan
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
 
     try {
+        // Ambil record siswa tunggal menggunakan prepared statement
         $sql = "SELECT * FROM siswa WHERE id = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Periksa apakah siswa ditemukan di database
         if (!$student) {
             $errorMessage = "Data siswa dengan ID " . htmlspecialchars($id) . " tidak ditemukan.";
         }
     } catch (PDOException $e) {
+        // Tangani error koneksi database atau query
         $errorMessage = "Terjadi kesalahan saat mengambil data: " . $e->getMessage();
     }
 } else {
+    // Tangani parameter ID yang hilang atau tidak valid
     $errorMessage = "ID siswa tidak valid atau tidak diberikan.";
 }
 
@@ -41,6 +47,8 @@ ob_start(); // Start output buffering
                 Kembali ke Daftar Siswa
             </a>
             <?php if ($student): ?>
+                <!-- Tombol aksi hanya ditampilkan jika data siswa ada -->
+                <!-- Tombol Edit dan Delete mempertahankan alur kerja saat ini -->
                 <a href="<?= htmlspecialchars($urlPrefix) ?>/students/edit?id=<?= htmlspecialchars($student['id']) ?>"
                    class="inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 transition">
                     <iconify-icon icon="cil:pencil"></iconify-icon>
@@ -81,6 +89,9 @@ ob_start(); // Start output buffering
                         <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['nama']) ?></div>
                     </div>
                     <div>
+                        <!-- Tampilkan field opsional dengan fallback untuk nilai kosong -->
+                        <!-- Menggunakan null coalescing dan operator ternary untuk menampilkan '-' untuk field kosong -->
+                        <!-- Ini memberikan UX yang lebih baik daripada menampilkan kotak kosong -->
                         <div class="text-sm font-semibold text-primary-700 mb-1">Nomor Kartu Keluarga</div>
                         <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['no_kk'] ?: '-') ?></div>
                     </div>
@@ -89,6 +100,8 @@ ob_start(); // Start output buffering
                         <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= htmlspecialchars($student['tanggal_lahir']) ?></div>
                     </div>
                     <div>
+                        <!-- Konversi nilai jenis kelamin database ke teks yang dapat dibaca untuk tampilan -->
+                        <!-- Logika yang sama seperti di halaman daftar siswa utama -->
                         <div class="text-sm font-semibold text-primary-700 mb-1">Jenis Kelamin</div>
                         <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200"><?= $student['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></div>
                     </div>
@@ -96,6 +109,8 @@ ob_start(); // Start output buffering
 
                 <div class="space-y-4">
                     <div>
+                        <!-- Field alamat menggunakan whitespace-pre-line untuk mempertahankan line break -->
+                        <!-- Ini memungkinkan alamat multi-baris ditampilkan dengan benar -->
                         <div class="text-sm font-semibold text-primary-700 mb-1">Alamat</div>
                         <div class="p-3 rounded-lg bg-secondary-50 border border-secondary-200 whitespace-pre-line"><?= htmlspecialchars($student['alamat']) ?></div>
                     </div>

@@ -6,9 +6,13 @@ require_once __DIR__ . '/../lib/database.php';
 
 $pdo = getDbConnection();
 
+// Inisialisasi variabel pesan error untuk feedback validasi form
 $errorMessage = '';
 
+// Proses pengiriman form ketika permintaan POST diterima
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ekstrak semua field form menggunakan null coalescing operator untuk keamanan
+    // Ini memastikan kita mendapat string kosong alih-alih error undefined index
     $nis = $_POST['nis'] ?? '';
     $nisn = $_POST['nisn'] ?? '';
     $nama = $_POST['nama'] ?? '';
@@ -21,14 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nik_ibu = $_POST['nik_ibu'] ?? '';
     $alamat = $_POST['alamat'] ?? '';
 
-    // Basic validation
+    // Validasi field wajib sebelum mencoba insert ke database
+    // Menggunakan empty() untuk memeriksa nilai null dan string kosong
+    // Field ini ditandai sebagai wajib di UI form dengan tanda bintang
     if (empty($nis) || empty($nisn) || empty($nama) || empty($tanggal_lahir) || empty($jenis_kelamin) || empty($alamat)) {
         $errorMessage = "Harap lengkapi semua kolom wajib (NIS, NISN, Nama, Tanggal Lahir, Jenis Kelamin, Alamat).";
     } else {
         try {
+            // Gunakan prepared statement untuk mencegah serangan SQL injection
+            // Semua input pengguna di-bind sebagai parameter, tidak digabungkan ke dalam SQL
             $sql = "INSERT INTO siswa (nis, nisn, nama, no_kk, tanggal_lahir, jenis_kelamin, nama_ayah, nama_ibu, nik_ayah, nik_ibu, alamat)
                     VALUES (:nis, :nisn, :nama, :no_kk, :tanggal_lahir, :jenis_kelamin, :nama_ayah, :nama_ibu, :nik_ayah, :nik_ibu, :alamat)";
             $stmt = $pdo->prepare($sql);
+            
+            // Bind setiap parameter secara eksplisit untuk kejelasan dan keamanan
+            // Pendekatan ini lebih verbose tapi lebih jelas daripada bindValue() dengan array
             $stmt->bindParam(':nis', $nis);
             $stmt->bindParam(':nisn', $nisn);
             $stmt->bindParam(':nama', $nama);
@@ -41,13 +52,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':nik_ibu', $nik_ibu);
             $stmt->bindParam(':alamat', $alamat);
 
+            // Eksekusi insert dan periksa apakah berhasil
             if ($stmt->execute()) {
+                // Redirect ke halaman daftar siswa jika berhasil
+                // Menggunakan htmlspecialchars untuk mencegah XSS di prefix URL
+                // exit() sangat penting untuk mencegah eksekusi kode lebih lanjut
                 header('Location: ' . htmlspecialchars($urlPrefix) . '/students');
                 exit;
             } else {
+                // Pesan error generik jika execute() mengembalikan false
+                // Error database spesifik ditangkap di blok catch di bawah
                 $errorMessage = "Gagal menambahkan data siswa. Silakan coba lagi.";
             }
         } catch (PDOException $e) {
+            // Tangkap error spesifik database (constraint, masalah koneksi, dll.)
+            // Di production, Anda mungkin ingin log error lengkap dan tampilkan pesan generik
             $errorMessage = "Error: " . $e->getMessage();
         }
     }
@@ -78,6 +97,9 @@ ob_start();
                 <div>
                     <label for="nis" class="block font-medium text-sm mb-1">NIS <span
                                 class="text-status-error-600">*</span></label>
+                    <!-- Nilai field form dipertahankan setelah error validasi -->
+                    <!-- Ini memberikan UX yang lebih baik dengan tidak memaksa pengguna memasukkan ulang semua data -->
+                    <!-- Menggunakan htmlspecialchars() untuk mencegah serangan XSS melalui data form -->
                     <input type="text"
                            class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm"
                            id="nis" name="nis" required value="<?= htmlspecialchars($_POST['nis'] ?? '') ?>">
@@ -113,6 +135,9 @@ ob_start();
                 <div>
                     <label for="jenis_kelamin" class="block font-medium text-sm mb-1">Jenis Kelamin <span
                                 class="text-status-error-600">*</span></label>
+                    <!-- Dropdown jenis kelamin dengan mempertahankan nilai yang tepat -->
+                    <!-- Database menyimpan jenis kelamin sebagai: 1 = Laki-laki, 0 = Perempuan -->
+                    <!-- Form mempertahankan nilai yang dipilih setelah error validasi -->
                     <select class="w-full rounded-lg border border-secondary-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 bg-white text-sm"
                             id="jenis_kelamin" name="jenis_kelamin" required>
                         <option value="" disabled selected>Pilih Jenis Kelamin</option>
