@@ -16,7 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Warning: This is a direct comparison for demonstration purposes ONLY.
         // In a real application, you must use password_verify() with hashed passwords.
         if ($user && $password === $user['password']) {
-            session_start(); // Make sure session is started before setting session variables
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             $_SESSION['user_id'] = $user['id'];
             header('Location: ' . $urlPrefix . '/dashboard');
             exit();
