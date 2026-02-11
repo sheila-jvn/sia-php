@@ -238,6 +238,10 @@ switch ($route) {
         require __DIR__ . '/../pages/spp-print-yearly.php';
         break;
 
+    case '/spp-print-yearly-class':
+        require __DIR__ . '/../pages/spp-print-yearly-class.php';
+        break;
+
     default:
         http_response_code(404);
         echo '<h1>404 Page Not Found</h1>';

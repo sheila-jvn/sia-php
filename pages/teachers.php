@@ -77,12 +77,12 @@ ob_start();
         <?php if (count($teachers) > 0): ?>
             <?php foreach ($teachers as $guru): ?>
                 <tr class="even:bg-secondary-50 hover:bg-secondary-100 transition">
-                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['id']) ?></td>
-                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['nip']) ?></td>
-                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['nama']) ?></td>
-                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['tanggal_lahir']) ?></td>
+                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['id'] ?? '') ?></td>
+                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['nip'] ?? '') ?></td>
+                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['nama'] ?? '') ?></td>
+                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['tanggal_lahir'] ?? '') ?></td>
                     <td class="px-4 py-2 border-b border-secondary-100"><?= $guru['jenis_kelamin'] == '1' ? 'Laki-laki' : 'Perempuan' ?></td>
-                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['no_telpon']) ?></td>
+                    <td class="px-4 py-2 border-b border-secondary-100"><?= htmlspecialchars($guru['no_telpon'] ?? '') ?></td>
                     <td class="px-4 py-2 border-b border-secondary-100 whitespace-nowrap">
                         <a href="teachers/details?id=<?= htmlspecialchars($guru['id']) ?>"
                            class="inline-flex items-center px-2 py-1 rounded border border-primary-300 text-primary-700 bg-white hover:bg-primary-50 me-1"

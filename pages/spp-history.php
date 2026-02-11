@@ -169,11 +169,19 @@ ob_start();
         <div class="px-6 py-4 border-b border-secondary-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h2 class="text-xl font-semibold text-secondary-800">Riwayat Pembayaran</h2>
             <?php if (!empty($payments)): ?>
-                <a href="spp-history/export?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
-                   class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
-                    <iconify-icon icon="solar:download-linear" width="20" height="20"></iconify-icon>
-                    Export CSV
-                </a>
+                <div class="flex gap-2">
+                    <a href="spp-history/export?student=<?= $filterStudent ?>&year=<?= $filterYear ?>&month=<?= urlencode($filterMonth) ?>"
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                        <iconify-icon icon="solar:download-linear" width="20" height="20"></iconify-icon>
+                        Export CSV
+                    </a>
+                    <a href="spp-print-yearly-class?year_id=<?= $filterYear ?>"
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition"
+                       target="_blank">
+                        <iconify-icon icon="solar:printer-linear" width="20" height="20"></iconify-icon>
+                        Print Rekap
+                    </a>
+                </div>
             <?php endif; ?>
         </div>
         <div class="p-6">

@@ -145,6 +145,11 @@ ob_start();
     <iconify-icon icon="solar:document-text-linear" class="text-3xl text-status-warning-600 mb-2"></iconify-icon>
     <span class="text-sm font-medium text-secondary-700">Laporan Tahunan</span>
 </a>
+                <a href="<?= $urlPrefix ?>/spp-print-yearly-class" target="_blank"
+    class="flex flex-col items-center p-4 border border-secondary-200 rounded-lg hover:bg-primary-50 hover:border-primary-300 transition-colors text-center">
+    <iconify-icon icon="solar:users-group-rounded-linear" class="text-3xl text-primary-600 mb-2"></iconify-icon>
+    <span class="text-sm font-medium text-secondary-700">Rekap per Kelas</span>
+</a>
             </div>
         </div>
     </div>

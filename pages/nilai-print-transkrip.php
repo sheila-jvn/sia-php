@@ -61,21 +61,25 @@ if (!$errorMessage) {
 
 if (!$errorMessage) {
     $stmt = $pdo->prepare('SELECT mp.nama AS mata_pelajaran,
-            MAX(CASE WHEN n.id_tahun_ajaran = :ganjil_id AND nj.nama = "UTS" THEN n.nilai END) AS uts_ganjil,
-            MAX(CASE WHEN n.id_tahun_ajaran = :ganjil_id AND nj.nama = "UAS" THEN n.nilai END) AS uas_ganjil,
-            MAX(CASE WHEN n.id_tahun_ajaran = :genap_id AND nj.nama = "UTS" THEN n.nilai END) AS uts_genap,
-            MAX(CASE WHEN n.id_tahun_ajaran = :genap_id AND nj.nama = "UAS" THEN n.nilai END) AS uas_genap
+            MAX(CASE WHEN n.id_tahun_ajaran = :ganjil_id_1 AND nj.nama = "UTS" THEN n.nilai END) AS uts_ganjil,
+            MAX(CASE WHEN n.id_tahun_ajaran = :ganjil_id_2 AND nj.nama = "UAS" THEN n.nilai END) AS uas_ganjil,
+            MAX(CASE WHEN n.id_tahun_ajaran = :genap_id_1 AND nj.nama = "UTS" THEN n.nilai END) AS uts_genap,
+            MAX(CASE WHEN n.id_tahun_ajaran = :genap_id_2 AND nj.nama = "UAS" THEN n.nilai END) AS uas_genap
         FROM nilai n
         JOIN mata_pelajaran mp ON n.id_mata_pelajaran = mp.id
         JOIN nilai_jenis nj ON n.id_jenis_nilai = nj.id
         WHERE n.id_siswa = :student_id
-          AND (n.id_tahun_ajaran = :ganjil_id OR n.id_tahun_ajaran = :genap_id)
+          AND (n.id_tahun_ajaran = :ganjil_id_3 OR n.id_tahun_ajaran = :genap_id_3)
         GROUP BY mp.nama
         ORDER BY mp.nama');
     $stmt->execute([
         ':student_id' => $studentId,
-        ':ganjil_id' => $ganjilId,
-        ':genap_id' => $genapId,
+        ':ganjil_id_1' => $ganjilId,
+        ':ganjil_id_2' => $ganjilId,
+        ':ganjil_id_3' => $ganjilId,
+        ':genap_id_1' => $genapId,
+        ':genap_id_2' => $genapId,
+        ':genap_id_3' => $genapId,
     ]);
     $nilaiList = $stmt->fetchAll();
 
@@ -83,12 +87,12 @@ if (!$errorMessage) {
         FROM nilai n
         JOIN kelas k ON n.id_kelas = k.id
         WHERE n.id_siswa = :student_id
-          AND (n.id_tahun_ajaran = :ganjil_id OR n.id_tahun_ajaran = :genap_id)
+          AND (n.id_tahun_ajaran = :ganjil_id_4 OR n.id_tahun_ajaran = :genap_id_4)
         ORDER BY k.nama');
     $stmt->execute([
         ':student_id' => $studentId,
-        ':ganjil_id' => $ganjilId,
-        ':genap_id' => $genapId,
+        ':ganjil_id_4' => $ganjilId,
+        ':genap_id_4' => $genapId,
     ]);
     $classNames = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
