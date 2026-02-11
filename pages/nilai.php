@@ -72,9 +72,9 @@ ob_start();
             <iconify-icon icon="cil:plus" class="text-lg"></iconify-icon>
             Tambah Nilai
         </a>
-        <a href="nilai/export<?= $searchQuery ? ('?search=' . urlencode($searchQuery)) : '' ?>" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
-            <iconify-icon icon="cil:file-export" class="text-lg"></iconify-icon>
-            Export Data
+        <a href="<?= htmlspecialchars($urlPrefix) ?>/nilai/reports" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+            <iconify-icon icon="solar:file-text-linear" class="text-lg"></iconify-icon>
+            Export PDF
         </a>
     </div>
 </div>

@@ -118,6 +118,34 @@ switch ($route) {
         require __DIR__ . '/../pages/nilai-export.php';
         break;
 
+    case '/nilai/reports':
+        require __DIR__ . '/../pages/nilai-reports.php';
+        break;
+
+    case '/nilai/print-uts':
+        require __DIR__ . '/../pages/nilai-print-uts.php';
+        break;
+
+    case '/nilai/print-uts-class':
+        require __DIR__ . '/../pages/nilai-print-uts-class.php';
+        break;
+
+    case '/nilai/print-uas':
+        require __DIR__ . '/../pages/nilai-print-uas.php';
+        break;
+
+    case '/nilai/print-uas-class':
+        require __DIR__ . '/../pages/nilai-print-uas-class.php';
+        break;
+
+    case '/nilai/print-transkrip':
+        require __DIR__ . '/../pages/nilai-print-transkrip.php';
+        break;
+
+    case '/nilai/print-transkrip-class':
+        require __DIR__ . '/../pages/nilai-print-transkrip-class.php';
+        break;
+
     case '/classes':
         require __DIR__ . '/../pages/classes.php';
         break;
