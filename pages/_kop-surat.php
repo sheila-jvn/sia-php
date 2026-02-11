@@ -1,9 +1,9 @@
 <?php
 $schoolProfile = $schoolProfile ?? [
-    'name' => 'SMA IT Darussolihin',
-    'address' => 'Alamat sekolah',
-    'phone' => 'Telp: -',
-    'email' => 'Email: -',
+    'name' => 'SMA IT Daarussolihin',
+    'address' => 'Jln. Jembatan Hitam Kp. Cijujung RT 04 RW 10 Desa Cijujung Kecamatan Sukaraja Kabupaten Bogor Provinsi Jawa Barat',
+    'phone' => 'Telp: 0857 9577 2030 / 0816 1748 5306',
+    'email' => 'Email: daarussolihinibs@gmail.com ',
     'logo' => 'https://files.catbox.moe/z5o2td.png',
 ];
 ?>
@@ -16,7 +16,7 @@ $schoolProfile = $schoolProfile ?? [
         <div class="text-lg font-semibold tracking-wide text-secondary-900 uppercase">
             <?= htmlspecialchars($schoolProfile['name']) ?>
         </div>
-        <div class="text-sm text-secondary-700">Alamat: <?= htmlspecialchars($schoolProfile['address']) ?></div>
+        <div class="text-sm text-secondary-700"> <?= htmlspecialchars($schoolProfile['address']) ?></div>
         <div class="text-sm text-secondary-700">
             <?= htmlspecialchars($schoolProfile['phone']) ?> | <?= htmlspecialchars($schoolProfile['email']) ?>
         </div>

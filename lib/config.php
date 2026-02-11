@@ -7,7 +7,7 @@ $config = [
     'host' => '127.0.0.1',
     'dbname' => 'sia_php',
     'user' => 'root',
-    'password' => 'root',
+    'password' => '',
 ];
 
 // Set this to the part of the URL path that comes before your routes.
