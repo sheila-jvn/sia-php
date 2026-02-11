@@ -44,7 +44,7 @@ ob_start();
                 <li>
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/spp-students"
                        class="block px-4 py-2 rounded-md transition font-medium <?= $currentPage === 'spp-students' ? 'bg-primary-600 text-white' : 'text-primary-700 hover:bg-primary-50' ?>">Daftar
-                        Siswa SPP</a>
+                        SPP Siswa</a>
                 </li>
                 <li>
                     <a href="<?= htmlspecialchars($urlPrefix) ?>/spp-history"
