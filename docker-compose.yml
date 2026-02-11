@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    working_dir: /var/www/html
+    command: php -S 0.0.0.0:8000 -t public
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      - ./docker/config/lib/config.php:/var/www/html/lib/config.php:ro
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=sia_php
+      - DB_USER=root
+      - DB_PASSWORD=root
+    depends_on:
+      - mariadb
+    networks:
+      - sia-network
+  
+  mariadb:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sia_php
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./sia_php.sql:/docker-entrypoint-initdb.d/sia_php.sql:ro
+    ports:
+      - "3306:3306"
+    networks:
+      - sia-network
+
+volumes:
+  mysql-data:
+
+networks:
+  sia-network:
