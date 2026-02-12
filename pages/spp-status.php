@@ -8,7 +8,8 @@ $pdo = getDbConnection();
 
 // Get student ID and year from query parameters
 $studentId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$yearId = isset($_GET['year']) ? (int)$_GET['year'] : 0;
+$yearId = isset($_GET['year']) ? $_GET['year'] : 0;
+$viewAllYears = ($yearId === 'all');
 
 if (!$studentId) {
     header("Location: spp-students");
@@ -26,7 +27,11 @@ if (!$student) {
 }
 
 // Get academic year information
-if ($yearId) {
+if ($viewAllYears) {
+    $year = null;
+    $yearId = 'all';
+} elseif ($yearId && $yearId !== 'all') {
+    $yearId = (int)$yearId;
     $stmt = $pdo->prepare("SELECT * FROM tahun_ajaran WHERE id = ?");
     $stmt->execute([$yearId]);
     $year = $stmt->fetch();
@@ -38,24 +43,31 @@ if ($yearId) {
     $yearId = $year['id'];
 }
 
-if (!$year) {
-    header("Location: spp-students");
-    exit();
-}
-
 // Get all academic years for dropdown
 $stmt = $pdo->prepare("SELECT * FROM tahun_ajaran ORDER BY tahun_mulai DESC");
 $stmt->execute();
 $allYears = $stmt->fetchAll();
 
-// Get all payments for this student and year
-$stmt = $pdo->prepare("
-    SELECT * FROM pembayaran_spp 
-    WHERE id_siswa = ? AND id_tahun_ajaran = ? 
-    ORDER BY bulan, tanggal_bayar
-");
-$stmt->execute([$studentId, $yearId]);
-$payments = $stmt->fetchAll();
+// Get all payments for this student and year(s)
+if ($viewAllYears) {
+    $stmt = $pdo->prepare("
+        SELECT ps.*, ta.nama as tahun_ajaran_nama, ta.id as tahun_ajaran_id 
+        FROM pembayaran_spp ps
+        JOIN tahun_ajaran ta ON ps.id_tahun_ajaran = ta.id
+        WHERE ps.id_siswa = ? 
+        ORDER BY ta.tahun_mulai DESC, ps.bulan, ps.tanggal_bayar
+    ");
+    $stmt->execute([$studentId]);
+    $payments = $stmt->fetchAll();
+} else {
+    $stmt = $pdo->prepare("
+        SELECT * FROM pembayaran_spp 
+        WHERE id_siswa = ? AND id_tahun_ajaran = ? 
+        ORDER BY bulan, tanggal_bayar
+    ");
+    $stmt->execute([$studentId, $yearId]);
+    $payments = $stmt->fetchAll();
+}
 
 // Define months in order
 $months = [
@@ -66,23 +78,52 @@ $months = [
 // Fixed SPP amount per month
 $sppAmount = 650000;
 
-// Group payments by month and calculate totals
-$monthlyData = [];
-foreach ($months as $month) {
-    $monthPayments = array_filter($payments, function($p) use ($month) {
-        return $p['bulan'] === $month;
-    });
-    
-    $totalPaid = array_sum(array_column($monthPayments, 'jumlah_bayar'));
-    $outstanding = max(0, $sppAmount - $totalPaid);
-    $status = $outstanding > 0 ? 'Belum Lunas' : 'Lunas';
-    
-    $monthlyData[$month] = [
-        'payments' => $monthPayments,
-        'total_paid' => $totalPaid,
-        'outstanding' => $outstanding,
-        'status' => $status
-    ];
+// Group payments by year and month
+if ($viewAllYears) {
+    // Group by year first, then by month
+    $yearlyData = [];
+    foreach ($allYears as $y) {
+        $yearIdKey = $y['id'];
+        $yearlyData[$yearIdKey] = [
+            'year_name' => $y['nama'],
+            'months' => []
+        ];
+        foreach ($months as $month) {
+            $monthPayments = array_filter($payments, function($p) use ($month, $yearIdKey) {
+                return $p['bulan'] === $month && $p['tahun_ajaran_id'] == $yearIdKey;
+            });
+            
+            $totalPaid = array_sum(array_column($monthPayments, 'jumlah_bayar'));
+            $outstanding = max(0, $sppAmount - $totalPaid);
+            $status = $outstanding > 0 ? 'Belum Lunas' : 'Lunas';
+            
+            $yearlyData[$yearIdKey]['months'][$month] = [
+                'payments' => $monthPayments,
+                'total_paid' => $totalPaid,
+                'outstanding' => $outstanding,
+                'status' => $status
+            ];
+        }
+    }
+} else {
+    // Single year view - group by month only
+    $monthlyData = [];
+    foreach ($months as $month) {
+        $monthPayments = array_filter($payments, function($p) use ($month) {
+            return $p['bulan'] === $month;
+        });
+        
+        $totalPaid = array_sum(array_column($monthPayments, 'jumlah_bayar'));
+        $outstanding = max(0, $sppAmount - $totalPaid);
+        $status = $outstanding > 0 ? 'Belum Lunas' : 'Lunas';
+        
+        $monthlyData[$month] = [
+            'payments' => $monthPayments,
+            'total_paid' => $totalPaid,
+            'outstanding' => $outstanding,
+            'status' => $status
+        ];
+    }
 }
 
 ob_start();
@@ -111,6 +152,7 @@ ob_start();
                     <select name="year" id="year" 
                             class="w-full px-3 py-2 border border-secondary-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500" 
                             onchange="this.form.submit()">
+                        <option value="all" <?= $yearId === 'all' ? 'selected' : '' ?>>Semua Tahun Ajaran</option>
                         <?php foreach ($allYears as $y): ?>
                             <option value="<?= $y['id'] ?>" <?= $y['id'] == $yearId ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($y['nama']) ?>
@@ -118,11 +160,115 @@ ob_start();
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="flex items-end">
+                    <a href="spp-status-print?id=<?= $studentId ?>&year=<?= urlencode((string)$yearId) ?>" target="_blank"
+                       class="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-accent-500 text-white hover:bg-accent-600 transition">
+                        <iconify-icon icon="solar:printer-linear" width="20" height="20"></iconify-icon>
+                        Cetak PDF
+                    </a>
+                </div>
             </form>
         </div>
     </div>
 
     <!-- Monthly Payment Status -->
+    <?php if ($viewAllYears): ?>
+        <?php foreach ($yearlyData as $yId => $yearData): ?>
+        <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
+            <div class="px-6 py-4 border-b border-secondary-200">
+                <h2 class="text-xl font-semibold text-secondary-800">Status Pembayaran SPP - <?= htmlspecialchars($yearData['year_name']) ?></h2>
+                <p class="text-sm text-secondary-600 mt-1">SPP per bulan: Rp <?= number_format($sppAmount, 0, ',', '.') ?></p>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-primary-100 text-primary-700">
+                            <tr>
+                                <th class="px-4 py-2 font-semibold">Bulan</th>
+                                <th class="px-4 py-2 font-semibold">Riwayat Cicilan</th>
+                                <th class="px-4 py-2 font-semibold">Total Dibayar</th>
+                                <th class="px-4 py-2 font-semibold">Sisa</th>
+                                <th class="px-4 py-2 font-semibold">Status</th>
+                                <th class="px-4 py-2 font-semibold">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-secondary-200">
+                            <?php foreach ($months as $month): 
+                                $data = $yearData['months'][$month];
+                            ?>
+                                <tr class="even:bg-secondary-50 hover:bg-secondary-100">
+                                    <td class="px-4 py-3 font-medium text-secondary-900 align-middle"><?= htmlspecialchars($month) ?></td>
+                                    <td class="px-4 py-3 align-middle">
+                                        <?php if (empty($data['payments'])): ?>
+                                            <span class="text-secondary-500">Belum ada pembayaran</span>
+                                        <?php else: ?>
+                                            <div class="space-y-1">
+                                                <?php foreach ($data['payments'] as $payment): ?>
+                                                    <div class="text-sm text-secondary-700">
+                                                        <?= date('d/m/Y', strtotime($payment['tanggal_bayar'])) ?>: 
+                                                        <span class="font-medium">Rp <?= number_format($payment['jumlah_bayar'], 0, ',', '.') ?></span>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="px-4 py-3 font-medium text-secondary-900 align-middle">
+                                        Rp <?= number_format($data['total_paid'], 0, ',', '.') ?>
+                                    </td>
+                                    <td class="px-4 py-3 align-middle">
+                                        <?php if ($data['outstanding'] > 0): ?>
+                                            <span class="text-status-error-600 font-medium">
+                                                Rp <?= number_format($data['outstanding'], 0, ',', '.') ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="text-status-success-600 font-medium">-</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="px-4 py-3 align-middle">
+                                        <?php if ($data['status'] === 'Lunas'): ?>
+                                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-status-success-100 text-status-success-700">
+                                                Lunas
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-status-warning-100 text-status-warning-700">
+                                                Belum Lunas
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="px-4 py-3 align-middle">
+                                        <div class="flex flex-col sm:flex-row gap-2">
+                                            <?php if ($data['outstanding'] > 0): ?>
+                                                <a href="spp-pay?student_id=<?= $studentId ?>&year_id=<?= $yId ?>&month=<?= urlencode($month) ?>" 
+                                                   class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition">
+                                                    <iconify-icon icon="solar:add-circle-linear" width="16" height="16"></iconify-icon>
+                                                    Bayar Cicil
+                                                </a>
+                                            <?php else: ?>
+                                                <button class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg border border-secondary-300 text-secondary-500 cursor-not-allowed" 
+                                                        disabled>
+                                                    <iconify-icon icon="solar:check-circle-bold" width="16" height="16"></iconify-icon>
+                                                    Lunas
+                                                </button>
+                                            <?php endif; ?>
+                                            
+                                            <?php if (!empty($data['payments'])): ?>
+                                                <a class="inline-flex items-center gap-1 px-3 py-1 text-xs rounded-lg border border-accent-300 text-accent-700 bg-white hover:bg-accent-50 transition" 
+                                                   href="spp-print-receipt?student_id=<?= $studentId ?>&year_id=<?= $yId ?>&month=<?= urlencode($month) ?>" target="_blank">
+                                                    <iconify-icon icon="solar:printer-linear" width="16" height="16"></iconify-icon>
+                                                    Print
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    <?php else: ?>
     <div class="bg-white rounded-lg shadow-md border border-secondary-200 mb-6">
         <div class="px-6 py-4 border-b border-secondary-200">
             <h2 class="text-xl font-semibold text-secondary-800">Status Pembayaran SPP - <?= htmlspecialchars($year['nama']) ?></h2>
@@ -217,9 +363,27 @@ ob_start();
             
             <!-- Summary -->
             <?php 
-            $totalPaidAllMonths = array_sum(array_column($monthlyData, 'total_paid'));
-            $totalOutstandingAllMonths = array_sum(array_column($monthlyData, 'outstanding'));
-            $lunasBulan = count(array_filter($monthlyData, function($data) { return $data['status'] === 'Lunas'; }));
+            if ($viewAllYears) {
+                // Calculate totals across all years
+                $totalPaidAllMonths = 0;
+                $totalOutstandingAllMonths = 0;
+                $totalLunasBulan = 0;
+                $totalBulan = count($allYears) * 12;
+                foreach ($yearlyData as $yData) {
+                    foreach ($yData['months'] as $mData) {
+                        $totalPaidAllMonths += $mData['total_paid'];
+                        $totalOutstandingAllMonths += $mData['outstanding'];
+                        if ($mData['status'] === 'Lunas') {
+                            $totalLunasBulan++;
+                        }
+                    }
+                }
+            } else {
+                $totalPaidAllMonths = array_sum(array_column($monthlyData, 'total_paid'));
+                $totalOutstandingAllMonths = array_sum(array_column($monthlyData, 'outstanding'));
+                $totalLunasBulan = count(array_filter($monthlyData, function($data) { return $data['status'] === 'Lunas'; }));
+                $totalBulan = 12;
+            }
             ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
                 <div class="bg-secondary-50 rounded-lg p-4 text-center">
@@ -232,15 +396,16 @@ ob_start();
                 </div>
                 <div class="bg-secondary-50 rounded-lg p-4 text-center">
                     <h3 class="text-lg font-semibold text-secondary-700 mb-2">Bulan Lunas</h3>
-                    <div class="text-2xl font-bold text-accent-600"><?= $lunasBulan ?> / 12</div>
+                    <div class="text-2xl font-bold text-accent-600"><?= $totalLunasBulan ?> / <?= $totalBulan ?></div>
                 </div>
                 <div class="bg-secondary-50 rounded-lg p-4 text-center">
                     <h3 class="text-lg font-semibold text-secondary-700 mb-2">Progress</h3>
-                    <div class="text-2xl font-bold text-primary-600"><?= number_format(($lunasBulan / 12) * 100, 1) ?>%</div>
+                    <div class="text-2xl font-bold text-primary-600"><?= number_format(($totalLunasBulan / $totalBulan) * 100, 1) ?>%</div>
                 </div>
             </div>
         </div>
     </div>
+    <?php endif; ?>
 </div>
 
 <script>

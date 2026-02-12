@@ -202,6 +202,10 @@ switch ($route) {
         require __DIR__ . '/../pages/spp-status.php';
         break;
 
+    case '/spp-status-print':
+        require __DIR__ . '/../pages/spp-status-print.php';
+        break;
+
     case '/spp-pay':
         require __DIR__ . '/../pages/spp-pay.php';
         break;
