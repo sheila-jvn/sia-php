@@ -16,7 +16,7 @@ $bulanIndonesia = [
 
 $hariIni = $hariIndonesia[date('l')] ?? date('l');
 $tanggalIni = date('d') . ' ' . $bulanIndonesia[(int)date('n')] . ' ' . date('Y');
-$lokasi = $lokasi ?? 'Bogor';
+$lokasi = $lokasi ?? 'Jakarta';
 ?>
 
 <div class="mt-8">
