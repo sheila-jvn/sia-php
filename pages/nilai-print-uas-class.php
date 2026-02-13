@@ -183,6 +183,8 @@ ob_start();
                 </table>
             </div>
 
+            <?php require __DIR__ . '/_ttd-footer.php'; ?>
+
             <div class="text-right text-xs text-secondary-500">
                 Dicetak pada <?= date('d/m/Y H:i') ?>
             </div>

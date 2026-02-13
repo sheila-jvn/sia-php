@@ -349,37 +349,7 @@ ob_start();
                 </table>
             </div>
 
-            <!-- Signature Section -->
-            <div class="flex justify-between mt-8 px-8 no-print">
-                <div class="text-center">
-                    <p class="text-sm text-secondary-700">Pemimpin Yayasan</p>
-                    <div class="mt-12 border-b border-secondary-400 w-48"></div>
-                    <p class="text-sm text-secondary-600 mt-1">(_________________)</p>
-                </div>
-                <div class="text-center">
-                    <p class="text-sm text-secondary-700">Bogor, <?= date('d F Y') ?></p>
-                    <p class="text-sm text-secondary-700">Mengetahui</p>
-                    <div class="mt-12 border-b border-secondary-400 w-48"></div>
-                    <p class="text-sm text-secondary-600 mt-1">(_________________)</p>
-                </div>
-            </div>
-
-            <!-- Print-only signature (visible when printing) -->
-            <div class="hidden print:block">
-                <div class="flex justify-between mt-8 px-8">
-                    <div class="text-center">
-                        <p class="text-sm text-secondary-700">Pemimpin Yayasan</p>
-                        <div class="mt-12 border-b border-secondary-400 w-48"></div>
-                        <p class="text-sm text-secondary-600 mt-1">(_________________)</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-secondary-700">Bogor, <?= date('d F Y') ?></p>
-                        <p class="text-sm text-secondary-700">Mengetahui</p>
-                        <div class="mt-12 border-b border-secondary-400 w-48"></div>
-                        <p class="text-sm text-secondary-600 mt-1">(_________________)</p>
-                    </div>
-                </div>
-            </div>
+            <?php require __DIR__ . '/_ttd-footer.php'; ?>
 
             <div class="text-right text-xs text-secondary-500 mt-4">
                 Dicetak pada <?= date('d/m/Y H:i') ?>
