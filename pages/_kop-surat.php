@@ -1,9 +1,9 @@
 <?php
 $schoolProfile = $schoolProfile ?? [
-    'name' => 'SMPS IT DARUS SHOLIHIN',
-    'address' => 'JL.H.SULAEMAN, BEDAHAN, KEC. SAWANGAN, KOTA DEPOK, PROV. JAWA BARAT',
-    'phone' => 'Telp: 02122779667',
-    'email' => 'smpit.darussholihin.depok@gmail.com',
+    'name' => 'SMA IT Daarussolihin',
+    'address' => 'Jln. Jembatan Hitam Kp. Cijujung RT 04 RW 10 Desa Cijujung Kecamatan Sukaraja Kabupaten Bogor Provinsi Jawa Barat',
+    'phone' => 'Telp: 0857 9577 2030 / 0816 1748 5306',
+    'email' => 'Email: daarussolihinibs@gmail.com ',
     'logo' => 'https://files.catbox.moe/z5o2td.png',
 ];
 ?>
