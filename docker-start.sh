@@ -1,7 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env fish
 # Start Docker environment for sia-php
-
-set -e
 
 echo "Starting sia-php Docker environment..."
 
@@ -9,7 +7,7 @@ echo "Starting sia-php Docker environment..."
 mkdir -p docker/config/lib
 
 # Start Docker environment
-docker-compose up -d
+docker compose up -d
 
 echo ""
 echo "✓ Application: http://localhost:8000"
