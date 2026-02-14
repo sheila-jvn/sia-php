@@ -20,15 +20,20 @@ $lokasi = $lokasi ?? 'Jakarta';
 ?>
 
 <div class="mt-8">
-    <div class="flex justify-between px-8">
-        <div class="text-center w-48">
-            <p class="text-sm font-medium text-secondary-700">Ketua Yayasan</p>
-            <div class="mt-12 border-b border-secondary-400 w-full"></div>
-        </div>
-        <div class="text-center w-48">
+    <div class="grid grid-cols-2 gap-8 px-8">
+        <div></div>
+        <div class="text-center w-48 justify-self-center">
             <p class="text-sm text-secondary-700"><?= htmlspecialchars($lokasi) ?>, <?= htmlspecialchars($hariIni) ?>, <?= htmlspecialchars($tanggalIni) ?></p>
-            <p class="text-sm font-medium text-secondary-700 mt-1">Mengetahui</p>
+        </div>
+        <div class="text-center w-48 justify-self-center">
+            <p class="text-sm font-medium text-secondary-700">Pimpinan Yayasan</p>
             <div class="mt-12 border-b border-secondary-400 w-full"></div>
+            <p class="text-sm font-medium text-secondary-700 mt-2">Hasan Basri S.Pd</p>
+        </div>
+        <div class="text-center w-48 justify-self-center">
+            <p class="text-sm font-medium text-secondary-700">Mengetahui Staff TU</p>
+            <div class="mt-12 border-b border-secondary-400 w-full"></div>
+            <p class="text-sm font-medium text-secondary-700 mt-2">Sasqi</p>
         </div>
     </div>
 </div>
